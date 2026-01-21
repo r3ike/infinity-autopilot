@@ -1,5 +1,8 @@
-#include <Arduino.h>
-#include <Arduino_FreeRTOS.h>
+#ifdef HAL_TEENSY
+    #include <Arduino.h>
+#elif defined(HAL_SITL)
+
+#endif
 
 #include <FlightController.hpp>
 FlightController fc;
