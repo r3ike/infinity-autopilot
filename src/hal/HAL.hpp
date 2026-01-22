@@ -1,10 +1,10 @@
 #pragma once
 
-#ifdef HAL_TEENSY
-    #include <hal/teensy/HAL_Teensy.hpp>
-#elif defined(HAL_SITL)
-    #include <hal/SITL/HAL_sitl.hpp>
-#endif
+#include <utils/Vector3f.h>
+#include <drivers/imu/Imu.h>
+#include <drivers/gps/Gps.hpp>
+#include <drivers/lidar/Lidar.hpp>
+#include <Arduino.h>
 
 struct HALState{
     bool imu_state;
@@ -16,24 +16,7 @@ struct HALState{
     bool loger_state;
 };
 
-class HAL{
-public:
-    HAL();
-    ~HAL();
 
-    HALState init();
-
-    HAL_IMU* imu;
-    HAL_GPS* gps;
-    HAL_LIDAR* lidar;
-    HAL_MAG* mag;
-    HAL_MOTOR* motor;
-    HAL_Telemetry* telemetry;
-    HAL_Logging* logger;
-    HAL_Time* time;
-};
-
-HAL createHAL();
 
 /*---------------------------------
     CLASSI INTERFACE PER HAL
@@ -95,3 +78,30 @@ class HAL_Time {
 public:
     virtual unsigned long long micros() = 0;
 };
+
+
+class HAL{
+public:
+    HAL();
+    ~HAL();
+
+    HALState init();
+
+    HAL_IMU* imu;
+    HAL_GPS* gps;
+    HAL_LIDAR* lidar;
+    HAL_MAG* mag;
+    HAL_MOTOR* motor;
+    HAL_Telemetry* telemetry;
+    HAL_Logging* logger;
+    HAL_Time* time;
+};
+
+HAL createHAL();
+
+// Include delle implementazioni concrete DOPO le definizioni delle interfacce
+#ifdef HAL_TEENSY
+    #include <hal/teensy/HAL_Teensy.hpp>
+#elif defined(HAL_SITL)
+    #include <hal/SITL/HAL_sitl.hpp>
+#endif

@@ -6,7 +6,7 @@
 -------------------------------*/
 
 #include <Wire.h>
-#include <../lib/BMI088/BMI088.h>
+#include <./hal/teensy/lib/BMI088/BMI088.h>
 
 #include <utils/Vector3f.h>
 #include <utils/Quaternion.h>

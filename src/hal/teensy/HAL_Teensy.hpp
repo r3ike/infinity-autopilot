@@ -1,5 +1,6 @@
 #pragma once
 #include <hal/HAL.hpp>
+#include <Arduino.h>
 
 #include <drivers/imu/Imu.h>
 #include <drivers/lidar/Lidar.hpp>
@@ -19,7 +20,7 @@ public:
     HAL_IMU_Teensy();
     ~HAL_IMU_Teensy();
 
-    bool init();
+    bool init() override;
 
     void calib() override;
 

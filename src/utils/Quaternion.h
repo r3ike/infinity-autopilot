@@ -57,6 +57,6 @@ struct Quaternion
     }
 
     Vector3f rotateVecFromBodyToENU (const Vector3f& v){
-        
+        return {0,0,0};
     }
 };

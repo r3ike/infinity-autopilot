@@ -4,7 +4,7 @@
 #include <hal/HAL.hpp>
 
 #ifdef HAL_TEENSY
-    #include <Arduino_FreeRTOS.h>
+
 #elif defined(HAL_SITL)
     
 #endif

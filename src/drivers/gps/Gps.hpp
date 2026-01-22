@@ -1,5 +1,5 @@
 #pragma once
-#include <../lib/TinyGPSPlus/TinyGPSPlus.h>
+#include <./hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
 
 // ---------- UBX COMMANDS ----------
 

@@ -27,7 +27,7 @@
     THE SOFTWARE.
 */
 
-#include "BMI088.h"
+#include "./hal/teensy/lib/BMI088/BMI088.h"
 
 BMI088::BMI088( unsigned short acc_addr = BMI088_ACC_ADDRESS, unsigned short gyro_addr = BMI088_GYRO_ADDRESS ){ 
     devAddrAcc = acc_addr; 

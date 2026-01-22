@@ -5,13 +5,13 @@ HAL_IMU_SITL::HAL_IMU_SITL()
 {
 }
 
-void HAL_IMU_SITL::readGyro()
+Vector3f HAL_IMU_SITL::readGyro()
 {
-
+    return {0,0,0};
 }
 
-void HAL_IMU_SITL::readAccel(){
-
+Vector3f HAL_IMU_SITL::readAccel(){
+    return {0,0,0};
 }
 
 

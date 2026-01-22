@@ -1,4 +1,4 @@
-#include <HMC5883l.h>
+#include <./hal/teensy/lib/HMC5883l/HMC5883l.h>
 
 
 HMC5883l::HMC5883l(){}

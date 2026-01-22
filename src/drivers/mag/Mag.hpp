@@ -1,7 +1,7 @@
 #pragma once
 #include <utils/Vector3f.h>
 
-#include <../lib/HMC5883l/HMC5883l.h>
+#include <./hal/teensy/lib/HMC5883l/HMC5883l.h>
 
 #include <config/parameters.h>
 #include <config/board_configs.h>

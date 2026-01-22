@@ -82,7 +82,7 @@
  *
  */
 
-#include <TFMPlus.h>
+#include <./hal/teensy/lib/TFMPlus/TFMPlus.h>
 //#include <Wire.h>          //  Future I2C Implementation
 
 // Constructor

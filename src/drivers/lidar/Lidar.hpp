@@ -1,7 +1,7 @@
 #pragma once 
 
 #include <utils/Vector3f.h>
-#include <../lib/TFMPlus/TFMPlus.h>
+#include <./hal/teensy/lib/TFMPlus/TFMPlus.h>
 #include <config/parameters.h>
 
 struct LidarData
