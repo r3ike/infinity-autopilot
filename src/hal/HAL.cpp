@@ -12,7 +12,7 @@ HAL createHAL(){
         //hal.time = new HAL_Time_Teensy();
     #elif defined(HAL_SITL)
         hal.imu = new HAL_IMU_SITL();
-        hal.pwm = new HAL_MOTOR_Teensy();
+        //hal.pwm = new HAL_MOTOR_SITL();
         //hal.telemetry = new HAL_Telemetry_SITL();
         //hal.logging = new HAL_Logging_SITL();
         //hal.time = new HAL_Time_SITL();
@@ -34,7 +34,7 @@ HAL::HAL()
         //time = new HAL_Time_Teensy();
     #elif defined(HAL_SITL)
         imu = new HAL_IMU_SITL();
-        pwm = new HAL_MOTOR_Teensy();
+        //pwm = new HAL_MOTOR_SITL();
         //telemetry = new HAL_Telemetry_SITL();
         //logging = new HAL_Logging_SITL();
         //time = new HAL_Time_SITL();

@@ -1,8 +1,8 @@
 #pragma once
 #include <hal/HAL.hpp>
 
-class HAL_IMU_SITL : public HAL_IMU
-{
+
+class HAL_IMU_SITL : public HAL_IMU{
 private:
     /* data */
 public:
