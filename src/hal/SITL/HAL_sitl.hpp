@@ -7,7 +7,7 @@ private:
     /* data */
 public:
     HAL_IMU_SITL();
-    ~HAL_IMU_SITL();
+    ~HAL_IMU_SITL() = default;
 
     virtual bool init() override;
     virtual void calib() override;
@@ -22,6 +22,7 @@ private:
     /* data */
 public:
     HAL_MOTOR_SITL();
+    ~HAL_MOTOR_SITL() = default;
 
     void write(float m1, float m2, float m3, float m4) override;
 };

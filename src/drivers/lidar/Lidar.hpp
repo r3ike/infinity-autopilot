@@ -3,14 +3,7 @@
 #include <utils/Vector3f.h>
 #include <./hal/teensy/lib/TFMPlus/TFMPlus.h>
 #include <config/parameters.h>
-
-struct LidarData
-{
-    int16_t altitude;       //
-    int16_t tfFlux;         // Qualità del segnale di ritorno
-    int16_t tfTemp;         //temperatura del sensore
-};
-
+#include <utils/uav_data.hpp>
 
 class Lidar
 {

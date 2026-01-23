@@ -12,13 +12,7 @@
 #include <utils/Quaternion.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
-
-struct ImuData
-{
-    Vector3f gyro;
-    Vector3f acc;
-    int16_t temp;
-};
+#include <utils/uav_data.hpp>
 
 
 class Imu

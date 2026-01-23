@@ -1,11 +1,11 @@
 #pragma once
 
 #include <utils/Vector3f.h>
-#include <drivers/imu/Imu.h>
-#include <drivers/gps/Gps.hpp>
-#include <drivers/lidar/Lidar.hpp>
-#include <Arduino.h>
+#ifdef HAL_TEENSY
+    #include <Arduino.h>
+#endif
 
+#include <utils/uav_data.hpp>
 struct HALState{
     bool imu_state;
     bool motor_state;
@@ -32,7 +32,9 @@ public:
 
 class HAL_GPS {
 public:
+#ifdef HAL_TEENSY
     virtual bool init(Stream *serialPtr) = 0;
+#endif
     virtual bool init() = 0;
     virtual GpsData read() = 0;
 };
@@ -50,7 +52,9 @@ public:
 
 class HAL_LIDAR {
 public:
+#ifdef HAL_TEENSY
     virtual bool init(Stream *serialPtr) = 0;
+#endif
     virtual bool init() = 0;
     virtual void calib() = 0;
     virtual LidarData read() = 0;

@@ -1,6 +1,6 @@
 #pragma once
 #include <./hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
-
+#include <utils/uav_data.hpp>
 // ---------- UBX COMMANDS ----------
 
 // Set rate = 10Hz
@@ -16,19 +16,6 @@ const uint8_t UBX_DISABLE_GLL[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x0
 const uint8_t UBX_DISABLE_GSA[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x02, 0x00, 0xFC, 0x13};
 const uint8_t UBX_DISABLE_GSV[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x03, 0x00, 0xFD, 0x15};
 const uint8_t UBX_DISABLE_VTG[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x05, 0x00, 0xFF, 0x19};
-
-struct GpsData
-{
-    double latitude;
-    double longitude;
-    double altitude;
-    double course;
-    double groundSpeed;
-    uint32_t sat;
-    double hdop;
-    uint8_t time[7];        //GG MM YY H M S centisecond
-    uint32_t fixAge;
-};
 
 
 class Gps
