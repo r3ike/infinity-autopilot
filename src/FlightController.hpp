@@ -2,12 +2,8 @@
 #include <config/parameters.h>
 
 #include <hal/HAL.hpp>
+#include <scheduler/TTCEScheduler.hpp>
 
-#ifdef HAL_TEENSY
-
-#elif defined(HAL_SITL)
-    
-#endif
 
 //HAL* hal;
 
@@ -15,12 +11,16 @@ class FlightController
 {
 private:
     HAL hal;
+    TTCEScheduler* scheduler;
+
+    void hardLoopTasks();
 public:
     FlightController(/* args */);
     ~FlightController();
     
     void init();
-    static void TaskAttitudeEstimation(void *pvParameters);
+    
+    void run();
 
 };
 

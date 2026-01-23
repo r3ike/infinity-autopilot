@@ -23,4 +23,8 @@
     #define BUILTIN_SDCARD 254
     #endif
 
+
+    #define GPS_SERIAL Serial4
+    #define LIDAR_SERIAL Serial2
+
 #endif

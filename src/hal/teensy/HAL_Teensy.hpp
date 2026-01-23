@@ -93,3 +93,18 @@ public:
     void calib() override;
     LidarData read() override;
 };
+
+/*--------------------------
+        HAL TIME
+---------------------------*/
+
+class HAL_TIME_Teensy : public HAL_Time{
+    private:
+
+    public:
+        HAL_TIME_Teensy();
+        ~HAL_TIME_Teensy() = default;
+        unsigned long long micros() override;
+
+
+};

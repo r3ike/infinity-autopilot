@@ -1,11 +1,14 @@
 #pragma once
 
-#include <utils/Vector3f.h>
+
 #ifdef HAL_TEENSY
     #include <Arduino.h>
 #endif
 
 #include <utils/uav_data.hpp>
+#include <utils/Vector3f.h>
+#include <config/board_configs.h>
+
 struct HALState{
     bool imu_state;
     bool motor_state;

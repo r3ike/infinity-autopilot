@@ -1,6 +1,7 @@
 #include "./hal/HAL.hpp"
 #include "HAL.hpp"
 
+/*
 HAL createHAL(){
     HAL hal;
 
@@ -20,7 +21,7 @@ HAL createHAL(){
 
     return hal;
 }
-
+*/
 HAL::HAL()
 {
     #ifdef HAL_TEENSY
@@ -31,13 +32,13 @@ HAL::HAL()
         mag = new HAL_MAG_Teensy();
         //telemetry = new HAL_Telemetry_Teensy();
         //logging = new HAL_Logging_Teensy();
-        //time = new HAL_Time_Teensy();
+        time = new HAL_TIME_Teensy();
     #elif defined(HAL_SITL)
         imu = new HAL_IMU_SITL();
         //pwm = new HAL_MOTOR_SITL();
         //telemetry = new HAL_Telemetry_SITL();
         //logging = new HAL_Logging_SITL();
-        //time = new HAL_Time_SITL();
+        //time = new HAL_TIME_SITL();
     #endif
 }
 HAL::~HAL(){}
@@ -46,11 +47,11 @@ HALState HAL::init()
 {
     HALState states;
     #ifdef HAL_TEENSY
-        Serial4.begin(9600);
-        Serial2.begin(9600);
+        GPS_SERIAL.begin(9600);
+        LIDAR_SERIAL.begin(9600);
         states.imu_state = imu->init();
-        states.gps_state = gps->init(&Serial4);
-        states.lidar_state = lidar->init(&Serial2);
+        states.gps_state = gps->init(&GPS_SERIAL);
+        states.lidar_state = lidar->init(&LIDAR_SERIAL);
 
     #elif defined(HAL_SITL)
 

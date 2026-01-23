@@ -1,13 +1,26 @@
 #include <FlightController.hpp>
 
-FlightController::FlightController(){}
+
+
+FlightController::FlightController() {}
 FlightController::~FlightController(){}
 
 void FlightController::init()
 {
     // Fase di init
+    hal.init();
+    scheduler = new TTCEScheduler(&hal);
+    
+    scheduler->addHardTasks();
 
-    // Fase di calibration
+}
+
+void hardLoopTasks()
+{
+    //Tasks dell'hard loop
+}
+
+void run(){
 
 }
 

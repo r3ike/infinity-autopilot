@@ -1,4 +1,5 @@
 #include <hal/teensy/HAL_Teensy.hpp>
+#include "HAL_Teensy.hpp"
 
 /*--------------------------
         HAL IMU
@@ -120,3 +121,9 @@ void HAL_MAG_Teensy::read()
     // TODO: Implementare lettura magnetometro
 }
 
+HAL_TIME_Teensy::HAL_TIME_Teensy(){}
+
+unsigned long long HAL_TIME_Teensy::micros()
+{
+    return micros();
+}

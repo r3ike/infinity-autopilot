@@ -3,6 +3,8 @@
 #include <utils/Timer.h>
 
 /*
+Time-Triggered Cooperative scheduler
+
 Struct per le task, ogni task è caratterizzata da una funzione di callback che viene chiamata qunado 
 è ora di eseguire il task, da un intervallo in microsecondi che definisce la frequenza di esecuzione 
 e un timer che viene creato per ogni task.
@@ -15,7 +17,7 @@ struct Task
 };
 
 
-class TaskSchedulerSoft
+class TTCScheduler
 {
 private:
     uint8_t _numTask;
@@ -23,7 +25,7 @@ private:
     Task _tasks[_NUM_MAX_TASKS];
 
 public:
-    TaskSchedulerSoft() : _numTask(0) {};
+    TTCScheduler() : _numTask(0) {};
 
     void addTask(void (*callback)(), uint32_t interval_us){
         if (_numTask < _NUM_MAX_TASKS)
