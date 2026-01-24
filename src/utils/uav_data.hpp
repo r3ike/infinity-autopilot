@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <./utils/Vector3f.h>
+#include <cstring>
 
 struct GpsData
 {

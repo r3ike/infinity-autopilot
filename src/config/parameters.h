@@ -16,10 +16,8 @@
     -------------------------*/
     #define NOMINAL_TICK_RATE 1000
 
-    #define LOOP_RATE_IMU 1000
+    #define LOOP_RATE_HARD_LOOP 500
     #define LOOP_RATE_GPS 1000
-    #define LOOP_RATE_ESTIMATION 1000
-    #define LOOP_RATE_CONTROL 500
     #define LOOP_RATE_LOGGING 50
     #define LOOP_RATE_TELEMETRY 20
 
@@ -46,5 +44,16 @@
     #define ACC_CUTOFF_FREQ 80
     #define GYRO_CUTOFF_FREQ 200
     #define MAG_CUTOFF_FREQ 5
+
+    /*-----------------------
+        LOGS FLAGS
+    -------------------------*/
+    #define BUFFER_SIZE_KB 32
+    #define LOG_IMU_FLAG true
+    #define LOG_EKF_FLAG true
+    #define LOG_TASK_TRACE_FLAG true
+    #define LOG_SYS_INFO_FLAG true
+    #define LOG_CONTROL_FLAG true
+    #define LOG_STATE_CHANGES_FLAG true
 
 #endif
