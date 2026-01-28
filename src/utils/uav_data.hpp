@@ -3,6 +3,8 @@
 #include <./utils/Vector3f.h>
 #include <cstring>
 
+#pragma pack(push, 1)
+
 struct GpsData
 {
     double latitude;
@@ -29,3 +31,5 @@ struct LidarData
     int16_t tfFlux;         // Qualità del segnale di ritorno
     int16_t tfTemp;         //temperatura del sensore
 };
+
+#pragma pack(pop)
