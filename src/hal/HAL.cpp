@@ -32,13 +32,13 @@ HAL::HAL()
         mag = new HAL_MAG_Teensy();
         //telemetry = new HAL_Telemetry_Teensy();
         //logging = new HAL_Logging_Teensy();
-        time = new HAL_TIME_Teensy();
+        time = new HAL_TIME_INTERRUPTS_Teensy();
     #elif defined(HAL_SITL)
         imu = new HAL_IMU_SITL();
         //pwm = new HAL_MOTOR_SITL();
         //telemetry = new HAL_Telemetry_SITL();
         //logging = new HAL_Logging_SITL();
-        //time = new HAL_TIME_SITL();
+        time = new HAL_TIME_INTERRUPTS_SITL();
     #endif
 }
 HAL::~HAL(){}

@@ -121,9 +121,19 @@ void HAL_MAG_Teensy::read()
     // TODO: Implementare lettura magnetometro
 }
 
-HAL_TIME_Teensy::HAL_TIME_Teensy(){}
+/*------------------------------------
+        HAL TIME AND INTERRUPTS
+------------------------------------*/
 
-unsigned long long HAL_TIME_Teensy::micros()
+HAL_TIME_INTERRUPTS_Teensy::HAL_TIME_INTERRUPTS_Teensy(){}
+
+unsigned long long HAL_TIME_INTERRUPTS_Teensy::micros()
 {
     return micros();
+}
+
+void HAL_TIME_INTERRUPTS_Teensy::startHardLoop(uint32_t frequency, void (*callback)())
+{
+    unsigned long period_us = (unsigned long)(1000000.0f / frequency);
+    _timer.begin(callback, period_us);
 }

@@ -16,7 +16,7 @@ public:
     ~Logger() = default;
 
     void logImu(uint32_t timestamp, ImuData imu_raw, ImuData imu_filtered);
-    void logTask();
+    
     void LogTasksTrace();
     
 };

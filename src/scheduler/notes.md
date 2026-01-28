@@ -366,3 +366,76 @@ Se:
 
 👉 allora stai progettando come un ingegnere avionico, non come un programmatore qualsiasi.
 
+# Approccio Super Loop con Slack Time con Time Budgeting
+
+```cpp
+void FlightController::run()
+{
+    // --- 1. HARD LOOP (Critico - Deve girare a X kHz costanti) ---
+    uint32_t frame_start = hal.time->micros();
+
+    ImuData imuData = hal.imu->read();
+    // ... PID, Mixer, Output Motori ...
+    
+    // Logga nel buffer RAM (Velocissimo, pochi microsecondi)
+    logger.bufferData(imuData, pidOutput); 
+
+
+    // --- 2. SOFT LOOP (Best Effort - Riempie il tempo vuoto) ---
+    const uint32_t loop_period_us = hz_to_us(LOOP_RATE_HARD_LOOP);
+    
+    // Definiamo una stima di quanto tempo serve a ogni task (Safe Margins)
+    const uint32_t TELEMETRY_COST_US = 200; 
+    const uint32_t GPS_COST_US       = 100;
+    const uint32_t LED_COST_US       = 10;
+    
+    // Indice per fare Round-Robin (girare i task)
+    static uint8_t task_index = 0;
+
+    while (hal.time->micros() - frame_start < loop_period_us)
+    {
+        uint32_t time_used = hal.time->micros() - frame_start;
+        uint32_t time_left = (time_used < loop_period_us) ? (loop_period_us - time_used) : 0;
+
+        // Se rimane troppo poco tempo (es. < 50us), usciamo subito per non rischiare
+        if (time_left < 50) break;
+
+        // Eseguiamo un solo soft task alla volta per iterazione del while,
+        // oppure uno specifico in base a una logica a stati.
+        switch (task_index) {
+            case 0: // Telemetria
+                if (time_left > TELEMETRY_COST_US) {
+                    telemetry.update(); 
+                }
+                break;
+                
+            case 1: // GPS (Parsing seriale)
+                if (time_left > GPS_COST_US) {
+                    gps.update();
+                }
+                break;
+
+            case 2: // Logging su SD (IL PROBLEMA)
+                // Vedi sotto per la spiegazione specifica
+                logger.processSD(time_left); 
+                break;
+                
+            case 3: // LED e Utility
+                if (time_left > LED_COST_US) {
+                    led.update();
+                }
+                break;
+        }
+
+        // Passa al prossimo task per il prossimo giro del while (o del prossimo frame)
+        task_index++;
+        if (task_index > 3) task_index = 0;
+    }
+    
+    // --- 3. FRAME SYNC ---
+    // Aspettiamo attivamente che finisca il periodo per garantire frequenza stabile
+    while (hal.time->micros() - frame_start < loop_period_us) {
+        // Busy wait (o _WFI() se il timer gestisce il wake-up)
+    }
+}
+```

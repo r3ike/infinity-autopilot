@@ -81,9 +81,17 @@ public:
     virtual unsigned long long micros() = 0;
 };
 
-class HAL_Time {
+/**
+ * HAL che gestisce il time e le interrupts
+ */
+class HAL_Time_Interrupts {
 public:
     virtual unsigned long long micros() = 0;
+
+    virtual void enterCritical() = 0;
+    virtual void exitCritical() = 0;
+
+    virtual void startHardLoop(uint32_t frequency, void (*callback)()) = 0;
 };
 
 
@@ -101,7 +109,7 @@ public:
     HAL_MOTOR* motor;
     HAL_Telemetry* telemetry;
     HAL_Logging* logger;
-    HAL_Time* time;
+    HAL_Time_Interrupts* time;
 };
 
 HAL createHAL();

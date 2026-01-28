@@ -98,13 +98,19 @@ public:
         HAL TIME
 ---------------------------*/
 
-class HAL_TIME_Teensy : public HAL_Time{
+class HAL_TIME_INTERRUPTS_Teensy : public HAL_Time_Interrupts{
     private:
-
+        IntervalTimer _timer;
     public:
-        HAL_TIME_Teensy();
-        ~HAL_TIME_Teensy() = default;
+        HAL_TIME_INTERRUPTS_Teensy();
+        ~HAL_TIME_INTERRUPTS_Teensy() = default;
+
         unsigned long long micros() override;
+
+        void enterCritical() override { noInterrupts(); }
+        void exitCritical() override { interrupts(); }
+
+        void startHardLoop(uint32_t frequency, void (*callback)()) override;
 
 
 };
