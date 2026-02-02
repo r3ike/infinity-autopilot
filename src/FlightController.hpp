@@ -5,8 +5,6 @@
 #include <utils/uav_data.hpp>
 
 
-//HAL* hal;
-
 class FlightController
 {
 private:
