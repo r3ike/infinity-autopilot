@@ -112,7 +112,6 @@ public:
     HAL_Time_Interrupts* time;
 };
 
-HAL createHAL();
 
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
 #ifdef HAL_TEENSY
