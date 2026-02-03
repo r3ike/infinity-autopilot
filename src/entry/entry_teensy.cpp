@@ -3,12 +3,15 @@
 
 #include <FlightController.hpp>
 
-FlightController fc;
+
 
 void setup() {
-    fc.init();
+    FlightController& fc_instance = FlightController::getInstance();
+
+    fc_instance.init();
 }
 
 void loop() {
-    
+    FlightController& fc_instance = FlightController::getInstance();
+    fc_instance.runSoftLoop();
 }

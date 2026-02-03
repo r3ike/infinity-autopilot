@@ -2,11 +2,11 @@
 #include <hal/HAL.hpp>
 #include <Arduino.h>
 
-#include <drivers/imu/Imu.h>
-#include <drivers/lidar/Lidar.hpp>
-#include <drivers/motor/Motor.hpp>
-#include <drivers/gps/Gps.hpp>
-#include <drivers/mag/Mag.hpp>
+#include <hal/teensy/drivers/imu/Imu.h>
+#include <hal/teensy/drivers/lidar/Lidar.hpp>
+#include <hal/teensy/drivers/motor/Motor.hpp>
+#include <hal/teensy/drivers/gps/Gps.hpp>
+#include <hal/teensy/drivers/mag/Mag.hpp>
 
 
 /*--------------------------
@@ -15,7 +15,7 @@
 class HAL_IMU_Teensy : public HAL_IMU
 {
 private:
-    Imu imu;
+    Imu _imu;
 public:
     HAL_IMU_Teensy();
     ~HAL_IMU_Teensy();
@@ -35,7 +35,7 @@ public:
 class HAL_MOTOR_Teensy : public HAL_MOTOR
 {
 private:
-    Motor motors;
+    Motor _motors;
 public:
     HAL_MOTOR_Teensy();
     ~HAL_MOTOR_Teensy();
@@ -52,7 +52,7 @@ public:
 class HAL_MAG_Teensy : public HAL_MAG
 {
 private:
-    Mag mag;
+    Mag _mag;
 public:
     HAL_MAG_Teensy();
     ~HAL_MAG_Teensy();
@@ -67,7 +67,7 @@ public:
 class HAL_GPS_Teensy : public HAL_GPS
 {
 private:
-    Gps gps;
+    Gps _gps;
 public:
     HAL_GPS_Teensy();
     ~HAL_GPS_Teensy();
@@ -76,14 +76,14 @@ public:
     bool init() override;
     GpsData read() override;
 };
+
 /*--------------------------
         HAL LIDAR
 ---------------------------*/
-
 class HAL_LIDAR_Teensy : public HAL_LIDAR
 {
 private:
-    Lidar lidar;
+    Lidar _lidar;
 public:
     HAL_LIDAR_Teensy();
     ~HAL_LIDAR_Teensy();
@@ -97,7 +97,6 @@ public:
 /*--------------------------
         HAL TIME
 ---------------------------*/
-
 class HAL_TIME_INTERRUPTS_Teensy : public HAL_Time_Interrupts{
     private:
         IntervalTimer _timer;

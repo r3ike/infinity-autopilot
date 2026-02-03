@@ -28,29 +28,3 @@ void Motor::write(int fl, int fr, int bl, int br){
     _motor_BL.writeMicroseconds(std::clamp(bl, MOTOR_MIN, MOTOR_MAX));
     _motor_BR.writeMicroseconds(std::clamp(br, MOTOR_MIN, MOTOR_MAX));
 }
-
-void Motor::test(){
-    /*
-        Metodo per testare i motori
-    */
-
-    _motor_FL.writeMicroseconds(MOTOR_MIN);
-    delay(2000); 
-    _motor_FL.writeMicroseconds(MOTOR_STOP);
-    delay(1000);
-
-    _motor_FR.writeMicroseconds(MOTOR_MIN);
-    delay(2000); 
-    _motor_FR.writeMicroseconds(MOTOR_STOP);
-    delay(1000);
-
-    _motor_BL.writeMicroseconds(MOTOR_MIN);
-    delay(2000); 
-    _motor_BL.writeMicroseconds(MOTOR_STOP);
-    delay(1000); 
-
-    _motor_BR.writeMicroseconds(MOTOR_MIN);
-    delay(2000); 
-    _motor_BR.writeMicroseconds(MOTOR_STOP);
-    delay(1000); 
-}

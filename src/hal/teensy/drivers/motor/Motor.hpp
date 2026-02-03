@@ -20,7 +20,7 @@ public:
     void init();
     void write(int fl, int fr, int bl, int br);
     void stop();
-    void test();
+    
 };
 
 
