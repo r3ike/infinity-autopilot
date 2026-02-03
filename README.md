@@ -1,5 +1,5 @@
 # **Infinity autopilot**
-Infinity è un firmware avanzato totalmente open-source per UAV , inoltre permette compatibilità tra vari sistemi grazie ad un **Hardware Abstraction Layer** il quale permette attraverso vari environment diversi di essere compilato per vari sistemi e inoltre permetta testing in **SITL**.
+Infinity è un autopilot avanzato totalmente open-source per UAV , inoltre permette compatibilità tra vari sistemi grazie ad un **Hardware Abstraction Layer** il quale permette attraverso vari environment diversi di essere compilato per vari sistemi e inoltre permetta testing in **SITL**.
 
 
 > [!WARNING]
