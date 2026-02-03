@@ -16,18 +16,18 @@
     -------------------------*/
     #define NOMINAL_TICK_RATE 1000
 
-    #define LOOP_RATE_HARD_LOOP 500
-    #define LOOP_RATE_GPS 1000
-    #define LOOP_RATE_LOGGING 50
-    #define LOOP_RATE_TELEMETRY 20
+    #define LOOP_RATE_HARD_LOOP 500         // Frequenza di esecuzione dell'hard-loop
+    #define LOOP_RATE_GPS 1000              // Frequenza di interrogazione al GPS
+    #define LOOP_RATE_LOGGING_SD 50         // Frequenza di logging su SD   
+    #define LOOP_RATE_TELEMETRY 20          // Frequenza con cui vengono inviati messaggi di TLM
 
 
     /*-----------------------
         MOTOR CONSTRAINS [hz]
     -------------------------*/
     #define MOTOR_STOP 1000
-    #define MOTOR_MIN 1000              //Per il minimo del motore (Da calcolare)
-    #define MOTOR_MAX 1800             //Massimo del motore
+    #define MOTOR_MIN 1000                  //Per il minimo del motore (Da calcolare).
+    #define MOTOR_MAX 1800                  //Massimo del motore.
 
     /*-----------------------
         CALIBRATION PARAMETERS
@@ -41,19 +41,23 @@
     /*-----------------------
         LPF PARAMETERS
     -------------------------*/
-    #define ACC_CUTOFF_FREQ 80
-    #define GYRO_CUTOFF_FREQ 200
-    #define MAG_CUTOFF_FREQ 5
+    #define ACC_CUTOFF_FREQ 80              // Cut-Off Frequency per l' LPF dell'accelerometro
+    #define GYRO_CUTOFF_FREQ 200            // Cut-Off Frequency per l' LPF del giroscopio
+    #define MAG_CUTOFF_FREQ 5               // Cut-Off Frequency per l' LPF del magnetometro
 
     /*-----------------------
         LOGS FLAGS
     -------------------------*/
-    #define BUFFER_SIZE_KB 32
-    #define LOG_IMU_FLAG true
-    #define LOG_EKF_FLAG true
-    #define LOG_TASK_TRACE_FLAG true
-    #define LOG_SYS_INFO_FLAG true
-    #define LOG_CONTROL_FLAG true
-    #define LOG_STATE_CHANGES_FLAG true
+    #define BUFFER_SIZE_KB 32               // Dimensione in KB del buffer circolare usato per salvare i log in attesa che vengano salvati su SD.
+    #define LOG_IMU_FLAG true               // Flag per indicare se si vuole loggare i dati che arrivano dalla IMU.
+    #define LOG_MAG_FLAG true               // Flag per indicare se si vuole loggare i dati che arrivano dal MAG.
+    #define LOG_GPS_FLAG true               // Flag per indicare se si vuole loggare i dati che arrivano dal GPS.
+    #define LOG_LIDAR_FLAG true             // Flag per indicare se si vuole loggare i dati che arrivano dal LIDAR.
+
+    #define LOG_EKF_FLAG true               // Flag per indicare se si vuole loggare le metriche riguardante l'EKF.
+    #define LOG_TASK_TRACE_FLAG true        // Flag per indicare se si vuole loggare le metriche riguardanti i tempi delle Task.
+    #define LOG_SYS_INFO_FLAG true          // Flag per indicare se si vuole loggare le informazioni generali del sistema.
+    #define LOG_CONTROL_FLAG true           // Flag per indicare se si vuole loggare i dati relativi al controller.
+    #define LOG_STATE_CHANGES_FLAG true     // Flag per indicare se si vuole loggare i cambi di stato del sistema.
 
 #endif

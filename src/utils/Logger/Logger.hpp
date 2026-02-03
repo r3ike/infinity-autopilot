@@ -2,6 +2,15 @@
 #include <utils/Logger/LoggerMsgs.hpp>
 #include <config/parameters.h>
 
+
+/**
+ * La classe Logger si occupa di salvare in un buffer circolare in RAM i messagi di log (definiti in LoggerMsgs.hpp).
+ * 
+ * La dimensione può essere modificata dal file parameters.h.
+ * Tale buffer sarà scritto su sd ogni volta che il driver della SD ritiene che sia necessario.
+ * 
+ * La classe Logger è implementata attraverso un Meyers Singleton.
+ */
 class Logger
 {
 private:
