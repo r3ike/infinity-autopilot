@@ -33,9 +33,17 @@ void FlightController::init()
 
 void FlightController::hardLoop()
 {
-    // Hard loop tasks
+    uint32_t hardloop_start = hal.time->micros();
+    Logger& logger = Logger::getInstance();
 
+    // Hard loop tasks
+    
     ImuData imuData = hal.imu->read();
+
+    ImuData imuFiltered = {};
+
+    logger.logImu(hardloop_start, imuData, imuFiltered);
+    
 }
 
 void FlightController::runSoftLoop()

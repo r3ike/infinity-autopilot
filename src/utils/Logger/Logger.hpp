@@ -2,6 +2,7 @@
 #include <utils/Logger/LoggerMsgs.hpp>
 #include <config/parameters.h>
 
+#define MAGIC_CHECK_BYTE 0xA5
 
 /**
  * La classe Logger si occupa di salvare in un buffer circolare in RAM i messagi di log (definiti in LoggerMsgs.hpp).
@@ -33,7 +34,7 @@ public:
 
     void logImu(uint32_t timestamp, ImuData imu_raw, ImuData imu_filtered);
     
-    void LogTasksTrace();
+    void LogTasksTrace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished);
     
 };
 

@@ -4,6 +4,8 @@
 #include <hal/HAL.hpp>
 #include <utils/uav_data.hpp>
 
+#include <utils/Logger/Logger.hpp>
+
 
 class FlightController
 {

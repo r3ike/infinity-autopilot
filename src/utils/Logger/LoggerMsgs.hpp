@@ -12,7 +12,9 @@ enum LogMsgID
     LOG_ID_TASK_TRACE,  // Log  per lo scheduler
     LOG_ID_IMU,
     LOG_ID_GPS,
-    LOG_ID_EKF,
+    LOG_ID_EKF_STATE,
+    LOG_ID_EKF_INNOV,
+    LOG_ID_EKF_COV,
     LOG_ID_CONTROL,
     LOG_ID_STATE_CHANGES
 };

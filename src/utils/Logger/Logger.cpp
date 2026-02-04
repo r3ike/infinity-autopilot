@@ -42,9 +42,19 @@ void Logger::logImu(uint32_t timestamp, ImuData imu_raw, ImuData imu_filtered)
 {
     if (LOG_IMU_FLAG)
     {
-        LogImuMsg imu_msg = {0xA5, LOG_ID_IMU, timestamp, imu_raw, imu_filtered};
+        LogImuMsg imu_msg = {MAGIC_CHECK_BYTE, LOG_ID_IMU, timestamp, imu_raw, imu_filtered};
 
         writeToBuffer(&imu_msg, sizeof(LogImuMsg));
     }
     
 }
+
+void Logger::LogTasksTrace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished){
+    if (LOG_TASK_TRACE_FLAG)
+    {
+        LogTasksTraceMsg tasks_msg = {MAGIC_CHECK_BYTE, LOG_ID_TASK_TRACE, frame_start, hard_loop_finished, soft_loop_started, soft_loop_finished};
+
+        writeToBuffer(&tasks_msg, sizeof(LogTasksTraceMsg));
+    }
+    
+};
