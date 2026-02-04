@@ -1,4 +1,4 @@
-#include <drivers/motor/Motor.hpp>
+#include <hal/teensy/drivers/motor/Motor.hpp>
 #include "Motor.hpp"
 
 Motor::Motor(){}

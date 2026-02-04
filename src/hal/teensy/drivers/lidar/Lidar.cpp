@@ -1,4 +1,4 @@
-#include <drivers/lidar/Lidar.hpp>
+#include <hal/teensy/drivers/lidar/Lidar.hpp>
 #include "Lidar.hpp"
 
 // Costructor

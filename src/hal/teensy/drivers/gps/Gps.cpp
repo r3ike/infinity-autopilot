@@ -1,4 +1,4 @@
-#include <drivers/gps/Gps.hpp>
+#include <hal/teensy/drivers/gps/Gps.hpp>
 #include "Gps.hpp"
 
 Gps::Gps() {}

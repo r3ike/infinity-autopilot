@@ -1,16 +1,18 @@
 #pragma once 
 #include <config/parameters.h>
 #include <utils/Convertions.hpp>
-#include <hal/HAL.hpp>
 #include <utils/uav_data.hpp>
-
 #include <utils/Logger/Logger.hpp>
 
+#include <hal/HAL.hpp>
+#include <filters/ImuLpfFilter.hpp>
 
 class FlightController
 {
 private:
     HAL hal;
+
+    ImuLpfFilter _imu_lpf_filter;
     
     FlightController(/* args */);
     ~FlightController();

@@ -23,10 +23,17 @@ void FlightController::hardLoopWrapper()
 
 void FlightController::init()
 {
-    // Fase di init
+    Logger& logger = Logger::getInstance();    
+
     hal.init();
 
     hal.time->startHardLoop(LOOP_RATE_HARD_LOOP, FlightController::hardLoopWrapper);
+
+    /**
+     * LPF initialization 
+     */
+    _imu_lpf_filter.init_lpf_acc(LOOP_RATE_HARD_LOOP, ACC_CUTOFF_FREQ);
+    _imu_lpf_filter.init_lpf_gyro(LOOP_RATE_HARD_LOOP, GYRO_CUTOFF_FREQ);
 
 }
 
@@ -40,7 +47,7 @@ void FlightController::hardLoop()
     
     ImuData imuData = hal.imu->read();
 
-    ImuData imuFiltered = {};
+    ImuData imuFiltered = _imu_lpf_filter.apply(imuData);
 
     logger.logImu(hardloop_start, imuData, imuFiltered);
     
@@ -50,7 +57,6 @@ void FlightController::runSoftLoop()
 {
     uint32_t frame_start = hal.time->micros();
 
-    
 
     // Soft loop tasks => il resto del frame usato per i soft tasks
     const uint32_t loop_period_us = hz_to_us(LOOP_RATE_HARD_LOOP);  //Conversione da hz a microsecondi

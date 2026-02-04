@@ -1,4 +1,4 @@
-#include <drivers/mag/Mag.hpp>
+#include <hal/teensy/drivers/mag/Mag.hpp>
 #include "Mag.hpp"
 
 Mag::Mag(){}

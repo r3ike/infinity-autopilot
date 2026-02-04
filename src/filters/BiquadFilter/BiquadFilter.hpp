@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 
+
 /*------------------------------
     Implementazione filtro LPF
     del secondo ordine biquad 
@@ -39,5 +40,8 @@ struct BiquadFilter {
         return y;
     }
 };
+
+
+
 
 
