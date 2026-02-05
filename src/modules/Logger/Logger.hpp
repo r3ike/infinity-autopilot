@@ -1,5 +1,5 @@
 #pragma once
-#include <utils/Logger/LoggerMsgs.hpp>
+#include <modules/Logger/LoggerMsgs.hpp>
 #include <config/parameters.h>
 
 #define MAGIC_CHECK_BYTE 0xA5

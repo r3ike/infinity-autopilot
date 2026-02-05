@@ -2,7 +2,7 @@
 #include <config/parameters.h>
 #include <utils/Convertions.hpp>
 #include <utils/uav_data.hpp>
-#include <utils/Logger/Logger.hpp>
+#include <modules/Logger/Logger.hpp>
 
 #include <hal/HAL.hpp>
 #include <filters/ImuLpfFilter.hpp>
