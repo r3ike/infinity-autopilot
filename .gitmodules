@@ -1,0 +1,3 @@
+[submodule "src/modules/SRIMB"]
+	path = src/modules/SRIMB
+	url = https://github.com/r3ike/SRIMB.git
