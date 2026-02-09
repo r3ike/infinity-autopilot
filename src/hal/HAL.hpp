@@ -8,6 +8,7 @@
 #include <utils/uav_data.hpp>
 #include <utils/Vector3f.h>
 #include <config/board_configs.h>
+#include <config/parameters.h>
 
 struct HALState{
     bool imu_state;
@@ -102,14 +103,21 @@ public:
 
     HALState init();
 
-    HAL_IMU* imu;
-    HAL_GPS* gps;
-    HAL_LIDAR* lidar;
-    HAL_MAG* mag;
+    bool registerImu(HAL_IMU* imu_instance);
+    HAL_IMU* getImuInstance(uint8_t idx);
+
     HAL_MOTOR* motor;
     HAL_Telemetry* telemetry;
     HAL_Logging* logger;
     HAL_Time_Interrupts* time;
+
+private:
+    HAL_IMU* _imus[IMU_INSTANCES];
+    HAL_GPS* _gps[GPS_INSTANCES];
+    HAL_LIDAR* _lidars[LIDAR_INSTANCES];
+    HAL_MAG* _mags[MAG_INSTANCES];
+    HAL_BARO* _baros[BARO_INSTANCES];
+
 };
 
 
