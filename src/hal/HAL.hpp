@@ -11,13 +11,17 @@
 #include <config/parameters.h>
 
 struct HALState{
-    bool imu_state;
+    bool imu_state[IMU_INSTANCES];
+    bool mag_state[MAG_INSTANCES];
+    bool lidar_state[LIDAR_INSTANCES];
+    bool gps_state[GPS_INSTANCES];
+    bool baro_state[BARO_INSTANCES];
     bool motor_state;
-    bool mag_state;
-    bool lidar_state;
-    bool gps_state;
     bool tlm_state;
-    bool loger_state;
+    bool logger_state;
+
+    //HALState():
+
 };
 
 
@@ -103,8 +107,20 @@ public:
 
     HALState init();
 
-    bool registerImu(HAL_IMU* imu_instance);
-    HAL_IMU* getImuInstance(uint8_t idx);
+    bool registerImu(HAL_IMU* imu_instance);        // Metodo per registare una nuova  IMU
+    HAL_IMU* getImuInstance(uint8_t idx);           // Metodo per prendere l'instanza di una IMU
+
+    bool registerGps(HAL_GPS* gps_instance);
+    HAL_GPS* getGpsInstance(uint8_t idx);
+
+    bool registerLidar(HAL_LIDAR* lidar_instance);
+    HAL_LIDAR* getLidarInstance(uint8_t idx);
+
+    bool registerMag(HAL_MAG* mag_instance);
+    HAL_MAG* getMagInstance(uint8_t idx);
+
+    bool registerBaro(HAL_BARO* baro_instance);
+    HAL_BARO* getBaroInstance(uint8_t idx);
 
     HAL_MOTOR* motor;
     HAL_Telemetry* telemetry;
@@ -112,11 +128,22 @@ public:
     HAL_Time_Interrupts* time;
 
 private:
-    HAL_IMU* _imus[IMU_INSTANCES];
-    HAL_GPS* _gps[GPS_INSTANCES];
-    HAL_LIDAR* _lidars[LIDAR_INSTANCES];
-    HAL_MAG* _mags[MAG_INSTANCES];
-    HAL_BARO* _baros[BARO_INSTANCES];
+    HAL_IMU* _imu_instances[IMU_INSTANCES];         // Buffer per le instanze delle IMU
+    uint8_t _imu_count;                             // Contatore per le imu aggiunte
+
+    HAL_GPS* _gps_instances[GPS_INSTANCES];         // Buffer per le instanze del GPS
+    uint8_t _gps_count;                             // Contatore per il numero di gps aggiunti
+
+    HAL_LIDAR* _lidar_instances[LIDAR_INSTANCES];   // Buffer per le instanze dei lidar
+    uint8_t _lidar_count;                           // Contatore per il numero di lidar
+
+    HAL_MAG* _mag_instances[MAG_INSTANCES];
+    uint8_t _mag_count;
+
+    HAL_BARO* _baro_instances[BARO_INSTANCES];
+    uint8_t _baro_count;
+
+    void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 
 };
 
@@ -126,4 +153,4 @@ private:
     #include <hal/teensy/HAL_Teensy.hpp>
 #elif defined(HAL_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
-#endif
+#endif;
