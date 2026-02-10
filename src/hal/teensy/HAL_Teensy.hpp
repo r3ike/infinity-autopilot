@@ -2,7 +2,7 @@
 #include <hal/HAL.hpp>
 #include <Arduino.h>
 
-#include <hal/teensy/drivers/imu/Imu.h>
+//#include <hal/teensy/drivers/imu/Imu.h>
 #include <hal/teensy/drivers/lidar/Lidar.hpp>
 #include <hal/teensy/drivers/motor/Motor.hpp>
 #include <hal/teensy/drivers/gps/Gps.hpp>
@@ -12,13 +12,14 @@
 /*--------------------------
         HAL IMU
 ---------------------------*/
+/*
 class HAL_IMU_Teensy : public HAL_IMU
 {
 private:
     Imu _imu;
 public:
     HAL_IMU_Teensy();
-    ~HAL_IMU_Teensy();
+    ~HAL_IMU_Teensy() = default;
 
     bool init() override;
 
@@ -28,6 +29,7 @@ public:
     Vector3f readAccel() override;
     ImuData read() override;
 };
+*/
 
 /*--------------------------
         HAL PWM

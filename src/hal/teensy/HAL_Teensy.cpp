@@ -4,6 +4,7 @@
 /*--------------------------
         HAL IMU
 ---------------------------*/
+/*
 HAL_IMU_Teensy::HAL_IMU_Teensy(){}
 HAL_IMU_Teensy::~HAL_IMU_Teensy(){}
 
@@ -31,6 +32,7 @@ ImuData HAL_IMU_Teensy::read()
 {
     return _imu.getRawImu();
 }
+*/
 
 /*--------------------------
         HAL MOTOR

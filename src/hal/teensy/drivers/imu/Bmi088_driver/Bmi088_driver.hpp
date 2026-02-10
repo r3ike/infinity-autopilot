@@ -5,8 +5,10 @@
     WRAPPER PER LA IMU
 -------------------------------*/
 
+#include <Arduino.h>
 #include <Wire.h>
 #include <./hal/teensy/lib/BMI088/BMI088.h>
+#include <hal/HAL.hpp>
 
 #include <utils/Vector3f.h>
 #include <utils/Quaternion.h>
@@ -15,26 +17,28 @@
 #include <utils/uav_data.hpp>
 
 
-class Imu
+class Bmi088_driver : public HAL_IMU
 {
 private:
     Vector3f _gyro_rate_calib;
     BMI088 _bmi088 = BMI088(BMI088_ACC_ADDRESS, BMI088_GYRO_ADDRESS);
 
-    bool connect();
+    bool _connect();
+
+    int16_t _getImuTemp(); 
     
 public:
-    Imu();
-    ~Imu();
+    Bmi088_driver();
+    ~Bmi088_driver() = default;
 
-    bool init();
-    void calib();
+    bool init() override;
+    void calib() override;
 
-    Vector3f getRawGyro();
-    Vector3f getRawAccel();
-    ImuData getRawImu();
+    Vector3f getRawGyro() override;
+    Vector3f getRawAccel() override;
+    ImuData getRawImu() override;
 
-    int16_t getImuTemp();
+    
 };
 
 #endif

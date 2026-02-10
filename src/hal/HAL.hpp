@@ -33,9 +33,9 @@ class HAL_IMU {
 public:
     virtual bool init() = 0;
     virtual void calib() = 0;
-    virtual Vector3f readGyro() = 0;
-    virtual Vector3f readAccel() = 0;
-    virtual ImuData read() = 0;
+    virtual Vector3f getRawGyro() = 0;
+    virtual Vector3f getRawAccel() = 0;
+    virtual ImuData getRawImu() = 0;
 };
 
 class HAL_GPS {
@@ -151,6 +151,12 @@ private:
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
 #ifdef HAL_TEENSY
     #include <hal/teensy/HAL_Teensy.hpp>
+
+    #include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
+    #include <hal/teensy/drivers/lidar/Lidar.hpp>
+    #include <hal/teensy/drivers/motor/Motor.hpp>
+    #include <hal/teensy/drivers/gps/Gps.hpp>
+    #include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(HAL_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
 #endif;

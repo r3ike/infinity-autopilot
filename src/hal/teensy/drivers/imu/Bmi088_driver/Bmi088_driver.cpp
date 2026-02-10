@@ -1,19 +1,19 @@
-#include <hal/teensy/drivers/imu/Imu.h>
-#include "Imu.h"
+#include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
+#include "Bmi088_driver.hpp"
 
 
-Imu::Imu() {}
-Imu::~Imu(){}
+Bmi088_driver::Bmi088_driver() {}
+Bmi088_driver::~Bmi088_driver(){}
 
-bool Imu::init() {
+bool Bmi088_driver::init() {
     _gyro_rate_calib = {0,0,0};
 
-    bool res = connect();
+    bool res = _connect();
 
     return res;
 }
 
-bool Imu::connect()
+bool Bmi088_driver::_connect()
 {
     bool success_flag = false;
 
@@ -25,7 +25,7 @@ bool Imu::connect()
     return success_flag;
 }
 
-void Imu::calib(){
+void Bmi088_driver::calib(){
     _gyro_rate_calib = {0,0,0};
     for (int i = 0; i < IMU_CALIBRATION_STEP; i++)
     {
@@ -36,7 +36,7 @@ void Imu::calib(){
     
 }
 
-Vector3f Imu::getRawGyro(){
+Vector3f Bmi088_driver::getRawGyro(){
     float gyro[3];
 
     _bmi088.getGyroscope(&gyro[0], &gyro[1], &gyro[2]);
@@ -44,7 +44,7 @@ Vector3f Imu::getRawGyro(){
     return {gyro[0] - _gyro_rate_calib.x, gyro[1] - _gyro_rate_calib.y, gyro[2] - _gyro_rate_calib.z};
 }
 
-Vector3f Imu::getRawAccel(){
+Vector3f Bmi088_driver::getRawAccel(){
     float acc[3];
 
     _bmi088.getAcceleration(&acc[0], &acc[1], &acc[2]);
@@ -52,16 +52,16 @@ Vector3f Imu::getRawAccel(){
     return {acc[0], acc[1], acc[2]};
 }
 
-ImuData Imu::getRawImu()
+ImuData Bmi088_driver::getRawImu()
 {
     return {
         getRawGyro(),
         getRawAccel(),
-        getImuTemp()
+        _getImuTemp()
     };
 }
 
-int16_t Imu::getImuTemp()
+int16_t Bmi088_driver::_getImuTemp()
 {
     int16_t imuTemp = _bmi088.getTemperature();
 

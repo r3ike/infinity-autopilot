@@ -8,7 +8,7 @@ HAL::HAL()
     _multi_instances_reset();
     
     #ifdef HAL_TEENSY
-        registerImu(new HAL_IMU_Teensy());
+        registerImu(new Bmi088_driver());
         registerGps(new HAL_GPS_Teensy());
 
         motor = new HAL_MOTOR_Teensy();
