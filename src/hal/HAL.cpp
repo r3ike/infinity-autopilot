@@ -33,12 +33,13 @@ HALState HAL::init()
     GPS_SERIAL.begin(9600);
     LIDAR_SERIAL.begin(9600);
 
-    for (uint8_t i = 0; i < _imu_count; i++) if (!_imu_instances[i] || !_imu_instances[i]->init()) states.imu_state[i] = false;     // Init tutte le imu
+    for (uint8_t i = 0; i < _imu_count; i++) states.imu_state[i] = (_imu_instances[i] && _imu_instances[i]->init());            // Init tutte le imu
+        
 
     /**
      * ATTENZIONE: La inizializzazione del gps è errata perchè sta passando a tutti la stessa seriale.
      */
-    for (uint8_t i = 0; i < _gps_count; i++) if (!_gps_instances[i] || !_gps_instances[i]->init(&GPS_SERIAL)) states.gps_state[i] = false;     // Init tutti i gps
+    for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances[i] && _gps_instances[i]->init(&GPS_SERIAL);     // Init tutti i gps
     
     
     //states.lidar_state = lidar->init(&LIDAR_SERIAL);
