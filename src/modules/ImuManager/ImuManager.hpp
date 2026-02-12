@@ -15,6 +15,8 @@ class ImuManager
 public:
     ImuManager();
     ~ImuManager() = default;
+
+    void publish();
 private:
 
 };
