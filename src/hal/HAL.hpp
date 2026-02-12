@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 
 #ifdef HAL_TEENSY
     #include <Arduino.h>
@@ -107,8 +108,8 @@ public:
 
     HALState init();
 
-    bool registerImu(HAL_IMU* imu_instance);        // Metodo per registare una nuova  IMU
-    HAL_IMU* getImuInstance(uint8_t idx);           // Metodo per prendere l'instanza di una IMU
+    bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
+    HAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
 
     bool registerGps(HAL_GPS* gps_instance);
     HAL_GPS* getGpsInstance(uint8_t idx);
@@ -128,7 +129,7 @@ public:
     HAL_Time_Interrupts* time;
 
 private:
-    HAL_IMU* _imu_instances[IMU_INSTANCES];         // Buffer per le instanze delle IMU
+    std::unique_ptr<HAL_IMU> _imu_instances[IMU_INSTANCES];         // Buffer per le instanze delle IMU
     uint8_t _imu_count;                             // Contatore per le imu aggiunte
 
     HAL_GPS* _gps_instances[GPS_INSTANCES];         // Buffer per le instanze del GPS

@@ -8,7 +8,7 @@ HAL::HAL()
     _multi_instances_reset();
     
     #ifdef HAL_TEENSY
-        registerImu(new Bmi088_driver());
+        registerImu(std::make_unique<Bmi088_driver>());
         registerGps(new HAL_GPS_Teensy());
 
         motor = new HAL_MOTOR_Teensy();
@@ -51,11 +51,11 @@ HALState HAL::init()
     return states;
 }
 
-bool HAL::registerImu(HAL_IMU *imu_instance)
+bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance )
 {
     if (_imu_count >= IMU_INSTANCES) return false;
     
-    _imu_instances[_imu_count++] = imu_instance;
+    _imu_instances[_imu_count++] = std::move(imu_instance);
     
     return true;
 }
@@ -63,7 +63,7 @@ bool HAL::registerImu(HAL_IMU *imu_instance)
 HAL_IMU* HAL::getImuInstance(uint8_t idx){
     if(idx < 0 || idx >= _imu_count) return nullptr;
 
-    return _imu_instances[idx];
+    return _imu_instances[idx].get();
 }
 
 bool HAL::registerGps(HAL_GPS *gps_instance)
