@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <array>
 
 #ifdef HAL_TEENSY
     #include <Arduino.h>
@@ -111,38 +112,44 @@ public:
     bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
     HAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
 
-    bool registerGps(HAL_GPS* gps_instance);
+    bool registerGps(std::unique_ptr<HAL_GPS> gps_instance);
     HAL_GPS* getGpsInstance(uint8_t idx);
 
-    bool registerLidar(HAL_LIDAR* lidar_instance);
+    bool registerLidar(std::unique_ptr<HAL_LIDAR> lidar_instance);
     HAL_LIDAR* getLidarInstance(uint8_t idx);
 
-    bool registerMag(HAL_MAG* mag_instance);
+    bool registerMag(std::unique_ptr<HAL_MAG> mag_instance);
     HAL_MAG* getMagInstance(uint8_t idx);
 
-    bool registerBaro(HAL_BARO* baro_instance);
+    bool registerBaro(std::unique_ptr<HAL_BARO> baro_instance);
     HAL_BARO* getBaroInstance(uint8_t idx);
 
-    HAL_MOTOR* motor;
-    HAL_Telemetry* telemetry;
-    HAL_Logging* logger;
-    HAL_Time_Interrupts* time;
+    HAL_MOTOR* getMotorsInstance();
+    HAL_Logging* getSdLoggingInstance();
+    HAL_Telemetry* getTelemetryInstance();
+    HAL_Time_Interrupts* getTimeInstance();
 
 private:
-    std::unique_ptr<HAL_IMU> _imu_instances[IMU_INSTANCES];         // Buffer per le instanze delle IMU
-    uint8_t _imu_count;                             // Contatore per le imu aggiunte
+    std::array<std::unique_ptr<HAL_IMU>, IMU_INSTANCES> _imu_instances;         // Buffer per le instanze delle IMU
+    uint8_t _imu_count;                                             // Contatore per le imu aggiunte
 
-    HAL_GPS* _gps_instances[GPS_INSTANCES];         // Buffer per le instanze del GPS
+    std::array<std::unique_ptr<HAL_GPS>,GPS_INSTANCES> _gps_instances;         // Buffer per le instanze delle GPS
     uint8_t _gps_count;                             // Contatore per il numero di gps aggiunti
 
-    HAL_LIDAR* _lidar_instances[LIDAR_INSTANCES];   // Buffer per le instanze dei lidar
+    
+    std::array<std::unique_ptr<HAL_LIDAR>, LIDAR_INSTANCES> _lidar_instances;   // Buffer per le instanze dei lidar
     uint8_t _lidar_count;                           // Contatore per il numero di lidar
 
-    HAL_MAG* _mag_instances[MAG_INSTANCES];
+    std::array<std::unique_ptr<HAL_MAG>, MAG_INSTANCES> _mag_instances;
     uint8_t _mag_count;
 
-    HAL_BARO* _baro_instances[BARO_INSTANCES];
+    std::array<std::unique_ptr<HAL_BARO>,BARO_INSTANCES> _baro_instances;
     uint8_t _baro_count;
+
+    std::unique_ptr<HAL_MOTOR> _motor_instance;
+    std::unique_ptr<HAL_Telemetry> _telemetry_instance;
+    std::unique_ptr<HAL_Logging> _sd_logging_instance;
+    std::unique_ptr<HAL_Time_Interrupts> _time_instance;
 
     void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 
