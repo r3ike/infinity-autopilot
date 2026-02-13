@@ -37,13 +37,13 @@ HALState HAL::init()
     GPS_SERIAL.begin(9600);
     LIDAR_SERIAL.begin(9600);
 
-    for (uint8_t i = 0; i < _imu_count; i++) states.imu_state[i] = (_imu_instances[i] && _imu_instances[i]->init());            // Init tutte le imu
+    for (uint8_t i = 0; i < _imu_count; i++) states.imu_state[i] = (_imu_instances.at(i)->init());            // Init tutte le imu
         
 
     /**
      * ATTENZIONE: La inizializzazione del gps è errata perchè sta passando a tutti la stessa seriale.
      */
-    for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances[i] && _gps_instances[i]->init(&GPS_SERIAL);     // Init tutti i gps
+    for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances.at(i)->init(&GPS_SERIAL);     // Init tutti i gps
     
     
     //states.lidar_state = lidar->init(&LIDAR_SERIAL);
@@ -67,7 +67,7 @@ bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance )
 }
 
 HAL_IMU* HAL::getImuInstance(uint8_t idx){
-    if(idx < 0 || idx >= _imu_count) return nullptr;
+    if(idx >= _imu_count) return nullptr;
 
     return _imu_instances.at(idx).get();
 }
@@ -82,7 +82,7 @@ bool HAL::registerGps(std::unique_ptr<HAL_GPS> gps_instance)
 }
 
 HAL_GPS* HAL::getGpsInstance(uint8_t idx){
-    if(idx < 0 || idx >= _gps_count) return nullptr;
+    if(idx >= _gps_count) return nullptr;
 
     return _gps_instances.at(idx).get();
 }
@@ -98,7 +98,7 @@ bool HAL::registerLidar(std::unique_ptr<HAL_LIDAR> lidar_instance)
 
 HAL_LIDAR *HAL::getLidarInstance(uint8_t idx)
 {
-    if(idx < 0 || idx >= _lidar_count) return nullptr;
+    if(idx >= _lidar_count) return nullptr;
 
     return _lidar_instances.at(idx).get();
 }
@@ -114,7 +114,7 @@ bool HAL::registerMag(std::unique_ptr<HAL_MAG> mag_instance)
 
 HAL_MAG *HAL::getMagInstance(uint8_t idx)
 {
-    if(idx < 0 || idx >= _mag_count) return nullptr;
+    if(idx >= _mag_count) return nullptr;
 
     return _mag_instances.at(idx).get();
 }
@@ -130,7 +130,7 @@ bool HAL::registerBaro(std::unique_ptr<HAL_BARO> baro_instance)
 
 HAL_BARO *HAL::getBaroInstance(uint8_t idx)
 {
-    if(idx < 0 || idx >= _baro_count) return nullptr;
+    if(idx >= _baro_count) return nullptr;
 
     return _baro_instances.at(idx).get();
 }

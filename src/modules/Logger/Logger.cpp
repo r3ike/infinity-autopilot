@@ -4,13 +4,7 @@
 
 Logger::Logger(){}
 
-Logger &Logger::getInstance()
-{
-    // Questa variabile 'instance' viene creata solo la prima volta 
-    // che chiami getInstance(). Le volte successive viene restituita quella già esistente.
-    static Logger instance; 
-    return instance;
-}
+
 
 /**------------------------------------------
  *              Private methods

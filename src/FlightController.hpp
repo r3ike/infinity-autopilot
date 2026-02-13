@@ -10,7 +10,8 @@
 class FlightController
 {
 private:
-    HAL hal;
+    HAL _hal;
+    Logger _logger;
 
     ImuLpfFilter _imu_lpf_filter;
     

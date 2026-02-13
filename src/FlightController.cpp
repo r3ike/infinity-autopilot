@@ -22,46 +22,40 @@ void FlightController::hardLoopWrapper()
 
 
 void FlightController::init()
-{
-    Logger& logger = Logger::getInstance();    
+{  
 
-    hal.init();
+    _hal.init();
 
-    hal.time->startHardLoop(LOOP_RATE_HARD_LOOP, FlightController::hardLoopWrapper);
-
-    /**
-     * LPF initialization 
-     */
-    _imu_lpf_filter.init_lpf_acc(LOOP_RATE_HARD_LOOP, ACC_CUTOFF_FREQ);
-    _imu_lpf_filter.init_lpf_gyro(LOOP_RATE_HARD_LOOP, GYRO_CUTOFF_FREQ);
+    _hal.getTimeInstance()->startHardLoop(LOOP_RATE_HARD_LOOP, FlightController::hardLoopWrapper);
+    
+    
 
 }
 
 
 void FlightController::hardLoop()
 {
-    uint32_t hardloop_start = hal.time->micros();
-    Logger& logger = Logger::getInstance();
+    uint32_t hardloop_start = _hal.getTimeInstance()->micros();
+    
 
     // Hard loop tasks
     
-    ImuData imuData = hal.imu->read();
+    ImuData imuData = _hal.getImuInstance(0)->getRawImu();
 
     ImuData imuFiltered = _imu_lpf_filter.apply(imuData);
 
-    logger.logImu(hardloop_start, imuData, imuFiltered);
     
 }
 
 void FlightController::runSoftLoop()
 {
-    uint32_t frame_start = hal.time->micros();
+    uint32_t frame_start = _hal.getTimeInstance()->micros();
 
 
     // Soft loop tasks => il resto del frame usato per i soft tasks
     const uint32_t loop_period_us = hz_to_us(LOOP_RATE_HARD_LOOP);  //Conversione da hz a microsecondi
 
-    while (hal.time->micros() - frame_start < loop_period_us)
+    while (_hal.getTimeInstance()->micros() - frame_start < loop_period_us)
     {
         /**
          * Soft-tasks:
