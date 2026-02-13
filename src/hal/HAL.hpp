@@ -7,7 +7,8 @@
     #include <Arduino.h>
 #endif
 
-#include <utils/uav_data.hpp>
+#include <utils/srimb_topics/imu_topic.hpp>
+#include <utils/srimb_topics/gps_topic.hpp>
 #include <utils/Vector3f.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>

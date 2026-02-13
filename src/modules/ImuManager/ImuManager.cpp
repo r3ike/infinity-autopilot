@@ -20,7 +20,7 @@ void ImuManager::_publish_single_imu(uint8_t instance)
 {
     ImuData imu;
 
-    _hal.getImuInstance(instance)->getRawImu();
+    imu = _hal.getImuInstance(instance)->getRawImu();
 
     uint64_t now = micros();
     

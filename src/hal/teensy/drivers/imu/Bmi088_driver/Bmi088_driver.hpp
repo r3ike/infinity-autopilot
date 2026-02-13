@@ -14,7 +14,7 @@
 #include <utils/Quaternion.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
-#include <utils/uav_data.hpp>
+#include <utils/srimb_topics/imu_topic.hpp>
 
 
 class Bmi088_driver : public HAL_IMU

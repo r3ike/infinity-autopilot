@@ -1,11 +1,13 @@
 #pragma once
-#include "../srimb_topic.hpp"
+#include "modules/SRIMB/srimb_topic.hpp"
+#include <cstdint>
+#include <./utils/Vector3f.h>
+#include <config/parameters.h>
 
-constexpr uint8_t IMU_INSTANCES = 1;
 
 struct ImuData {
-    float ax, ay, az;
-    float gx, gy, gz;
+    Vector3f acc;
+    Vector3f gyro;
     int16_t temp;
 };
 
