@@ -17,13 +17,13 @@ struct GpsData
     uint8_t time[7];        //GG MM YY H M S centisecond
     uint32_t fixAge;
 };
-
+/*
 struct ImuData
 {
     Vector3f gyro;
     Vector3f acc;
     int16_t temp;
-};
+};*/
 
 struct LidarData
 {
