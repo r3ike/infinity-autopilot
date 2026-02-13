@@ -57,6 +57,8 @@ ImuData Bmi088_driver::getRawImu()
     return {
         getRawGyro(),
         getRawAccel(),
+        {0,0,0},
+        {0,0,0},
         _getImuTemp()
     };
 }

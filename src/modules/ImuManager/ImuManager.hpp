@@ -3,6 +3,7 @@
 #include "modules/SRIMB/srimb.hpp"
 #include "modules/SRIMB/srimb_topic.hpp"
 #include "utils/srimb_topics/imu_topic.hpp"
+#include <config/parameters.h>
 
 #include "hal/HAL.hpp"
 
@@ -16,16 +17,23 @@
 class ImuManager
 {
 public:
-    ImuManager(HAL& hal) : _hal(hal){};
+    ImuManager(HAL& hal) : _hal(hal){
+        for (size_t i = 0; i < IMU_INSTANCES; i++)
+        {
+            _imu_lpf_filters[i] = std::make_unique<ImuLpfFilter>();
+        }
+        
+        
+    };
     ~ImuManager() = default;
 
     void init();
 
-    void publish();
+    void run();
 private:
     HAL& _hal;
 
-    ImuLpfFilter _imu_lpf_filter;
+    std::array<std::unique_ptr<ImuLpfFilter>, IMU_INSTANCES> _imu_lpf_filters;
 
     void _publish_single_imu(uint8_t instance);
 };

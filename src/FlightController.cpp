@@ -2,9 +2,6 @@
 
 
 
-FlightController::FlightController() {}
-FlightController::~FlightController(){}
-
 // Implementazione del Singleton
 FlightController& FlightController::getInstance()
 {
@@ -23,13 +20,11 @@ void FlightController::hardLoopWrapper()
 
 void FlightController::init()
 {  
-
     _hal.init();
 
     _hal.getTimeInstance()->startHardLoop(LOOP_RATE_HARD_LOOP, FlightController::hardLoopWrapper);
     
-    
-
+    _imu_manager.init();
 }
 
 
@@ -37,12 +32,10 @@ void FlightController::hardLoop()
 {
     uint32_t hardloop_start = _hal.getTimeInstance()->micros();
     
-
     // Hard loop tasks
-    
-    ImuData imuData = _hal.getImuInstance(0)->getRawImu();
 
-    ImuData imuFiltered = _imu_lpf_filter.apply(imuData);
+    _imu_manager.run();
+    
 
     
 }
