@@ -2,7 +2,7 @@
 
 #include "modules/SRIMB/srimb.hpp"
 #include "modules/SRIMB/srimb_topic.hpp"
-#include "modules/SRIMB/topics/imu_topic.hpp"
+#include "utils/srimb_topics/imu_topic.hpp"
 
 #include "hal/HAL.hpp"
 
