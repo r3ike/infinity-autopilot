@@ -1,11 +1,10 @@
-#include <hal/teensy/drivers/lidar/Lidar.hpp>
-#include "Lidar.hpp"
+#include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
+#include "TFLuna_driver.hpp"
 
 // Costructor
-Lidar::Lidar(){_alt_calib_offset=0;}
-Lidar::~Lidar(){}
+TFLuna_driver::TFLuna_driver(){_alt_calib_offset=0;}
 
-bool Lidar::init(Stream *serialPtr){
+bool TFLuna_driver::init(Stream *serialPtr){
     bool res = _lidar.begin(serialPtr);
     if (res)
     {
@@ -26,7 +25,7 @@ int16_t Lidar::read()
 }
 */
 
-void Lidar::calib(){
+void TFLuna_driver::calib(){
     _alt_calib_offset = 0;
     for (int i = 0; i < LIDAR_CALIBRATION_STEP; i++)
     {
@@ -36,7 +35,7 @@ void Lidar::calib(){
     _alt_calib_offset = _alt_calib_offset/LIDAR_CALIBRATION_STEP;
 }
 
-LidarData Lidar::read(){
+LidarData TFLuna_driver::read(){
     int16_t lidar_altitude = 0.0f;
     int16_t tfFlux = 0;    // Strength or quality of return signal
     int16_t tfTemp = 0;    // Internal temperature of Lidar sensor chip

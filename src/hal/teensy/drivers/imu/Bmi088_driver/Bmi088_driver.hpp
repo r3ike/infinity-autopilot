@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <./hal/teensy/lib/BMI088/BMI088.h>
+#include <hal/teensy/lib/BMI088/BMI088.h>
 #include <hal/HAL.hpp>
 
 #include <utils/Vector3f.h>

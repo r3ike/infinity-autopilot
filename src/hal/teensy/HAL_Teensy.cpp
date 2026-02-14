@@ -63,6 +63,7 @@ void HAL_MOTOR_Teensy::write(float m1, float m2, float m3, float m4)
 /*--------------------------
         HAL LIDAR
 ---------------------------*/
+/*
 HAL_LIDAR_Teensy::HAL_LIDAR_Teensy(){}
 HAL_LIDAR_Teensy::~HAL_LIDAR_Teensy(){}
 
@@ -84,7 +85,7 @@ void HAL_LIDAR_Teensy::calib()
 LidarData HAL_LIDAR_Teensy::read()
 {
     return _lidar.read();
-}
+}*/
 
 /*--------------------------
         HAL GPS

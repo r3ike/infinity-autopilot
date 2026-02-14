@@ -66,8 +66,9 @@ class HAL_LIDAR {
 public:
 #ifdef HAL_TEENSY
     virtual bool init(Stream *serialPtr) = 0;
-#endif
+#elif defined(HAL_SITL)
     virtual bool init() = 0;
+#endif
     virtual void calib() = 0;
     virtual LidarData read() = 0;
 };
@@ -159,11 +160,11 @@ private:
 
 
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
-#ifdef HAL_TEENSY
+#ifdef defined(HAL_TEENSY)
     #include <hal/teensy/HAL_Teensy.hpp>
 
     #include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
-    #include <hal/teensy/drivers/lidar/Lidar.hpp>
+    #include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
     #include <hal/teensy/drivers/motor/Motor.hpp>
     #include <hal/teensy/drivers/gps/Bn280_driver/Bn280_driver.hpp>
     #include <hal/teensy/drivers/mag/Mag.hpp>

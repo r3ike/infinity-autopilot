@@ -3,7 +3,6 @@
 #include <Arduino.h>
 
 //#include <hal/teensy/drivers/imu/Imu.h>
-#include <hal/teensy/drivers/lidar/Lidar.hpp>
 #include <hal/teensy/drivers/motor/Motor.hpp>
 #include <hal/teensy/drivers/mag/Mag.hpp>
 
@@ -83,6 +82,7 @@ public:
 /*--------------------------
         HAL LIDAR
 ---------------------------*/
+/*
 class HAL_LIDAR_Teensy : public HAL_LIDAR
 {
 private:
@@ -95,7 +95,7 @@ public:
     bool init() override;
     void calib() override;
     LidarData read() override;
-};
+};*/
 
 /*--------------------------
         HAL TIME
