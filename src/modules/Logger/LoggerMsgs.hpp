@@ -1,5 +1,5 @@
 #pragma once
-#include <utils/uav_data.hpp>
+//#include <utils/uav_data.hpp>
 
 /**
  * Definition of log msg types
@@ -20,6 +20,16 @@ enum LogMsgID
 };
 
 // Log per la imu
+template<typename T>
+struct LoggerMsgs
+{
+    uint8_t sync;                   //BYTE PER IDENTIFICARE L'INIZIO DEL PACCHETTO
+    uint8_t msg_type;
+    uint32_t timestamp;
+    T data;
+};
+
+/*
 struct LogImuMsg
 {
     uint8_t sync;                   //BYTE PER IDENTIFICARE L'INIZIO DEL PACCHETTO
@@ -28,7 +38,8 @@ struct LogImuMsg
     ImuData imu_data_raw;            //RAW
     ImuData imu_data_filtered;       //FILTERED
 };
-
+*/
+/*
 struct LogTasksTraceMsg
 {
     uint8_t sync;
@@ -38,6 +49,6 @@ struct LogTasksTraceMsg
     uint32_t soft_loop_started;
     uint32_t soft_loop_finished;
 };
-
+*/
 
 #pragma pack(pop)

@@ -1,6 +1,15 @@
 #pragma once
+#include <stdint.h>
+#include <array>
+#include <vector>
+#include <memory>
+
 #include <modules/Logger/LoggerMsgs.hpp>
 #include <config/parameters.h>
+
+#include "modules/SRIMB/srimb.hpp"
+#include "utils/srimb_topics/imu_topic.hpp"
+#include "utils/srimb_topics/gps_topic.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
 
@@ -15,22 +24,26 @@
 class Logger
 {
 private:
-    
-
 
     uint8_t _log_buffer[BUFFER_SIZE_KB * 1024];
     volatile uint32_t _head = 0; // Dove scrive il Producer
     volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
 
-    void writeToBuffer(const void* data, unsigned int length);
+    std::array<std::unique_ptr<SRIMB_Sub>, IMU_INSTANCES> _srimb_subs_imu;
+    std::array<std::unique_ptr<SRIMB_Sub>, GPS_INSTANCES> _srimb_subs_gps;
+    
 
+    void _write_to_buffer(const void* data, unsigned int length);
+
+    void _log_imu(uint32_t timestamp, ImuData imu_data);
+    
+    void _log_tasks_trace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished);
 public:
     Logger();
     ~Logger() = default;
 
-    void logImu(uint32_t timestamp, ImuData imu_raw, ImuData imu_filtered);
-    
-    void LogTasksTrace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished);
+    void log();
+
     
 };
 
