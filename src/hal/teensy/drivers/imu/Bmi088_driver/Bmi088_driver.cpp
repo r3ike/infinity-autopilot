@@ -3,7 +3,6 @@
 
 
 Bmi088_driver::Bmi088_driver() {}
-Bmi088_driver::~Bmi088_driver(){}
 
 bool Bmi088_driver::init() {
     _gyro_rate_calib = {0,0,0};

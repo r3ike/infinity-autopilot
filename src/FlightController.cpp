@@ -30,7 +30,7 @@ void FlightController::init()
 
 void FlightController::hardLoop()
 {
-    uint32_t hardloop_start = _hal.getTimeInstance()->micros();
+    //uint32_t hardloop_start = _hal.getTimeInstance()->micros();
     
     // Hard loop tasks
 

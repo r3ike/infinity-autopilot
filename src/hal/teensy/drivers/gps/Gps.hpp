@@ -1,6 +1,6 @@
 #pragma once
 #include <./hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
-#include <utils/uav_data.hpp>
+#include <utils/srimb_topics/gps_topic.hpp>
 // ---------- UBX COMMANDS ----------
 
 // Set rate = 10Hz

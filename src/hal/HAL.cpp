@@ -159,20 +159,23 @@ HAL_Time_Interrupts *HAL::getTimeInstance()
 
 void HAL::_multi_instances_reset()
 {
+    /*
     _imu_instances.fill(nullptr);
     _gps_instances.fill(nullptr);
     _lidar_instances.fill(nullptr);
     _baro_instances.fill(nullptr);
     _mag_instances.fill(nullptr);
+    */
     
     _imu_count = 0;
     _gps_count = 0;
     _mag_count = 0;
     _baro_count = 0;
     _lidar_count = 0;
-
+    /*
     _motor_instance = nullptr;
     _telemetry_instance = nullptr;
     _sd_logging_instance = nullptr;
     _time_instance = nullptr;
+    */
 }

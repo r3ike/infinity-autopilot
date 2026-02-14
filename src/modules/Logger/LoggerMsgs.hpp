@@ -25,7 +25,7 @@ struct LoggerMsgs
 {
     uint8_t sync;                   //BYTE PER IDENTIFICARE L'INIZIO DEL PACCHETTO
     uint8_t msg_type;
-    uint32_t timestamp;
+    uint64_t timestamp;
     T data;
 };
 

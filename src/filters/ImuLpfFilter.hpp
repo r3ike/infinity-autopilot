@@ -27,7 +27,7 @@ struct ImuLpfFilter
         _lpf_gyro_z.computeCoefficient(fs, fc);
     }
 
-    ImuData apply(ImuData& imu_data){
+    void apply(ImuData& imu_data){
         
 
         imu_data.filtered_acc.x = _lpf_acc_x.apply(imu_data.raw_acc.x);

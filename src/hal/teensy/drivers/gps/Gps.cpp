@@ -15,6 +15,8 @@ bool Gps::init(Stream *serial)
     sendUBX(UBX_DISABLE_GSA, sizeof(UBX_DISABLE_GSA));
     sendUBX(UBX_DISABLE_GSV, sizeof(UBX_DISABLE_GSV));
     sendUBX(UBX_DISABLE_VTG, sizeof(UBX_DISABLE_VTG));
+
+    return true;
 }
 
 GpsData Gps::read()
@@ -32,6 +34,8 @@ GpsData Gps::read()
             gps.altitude.meters(),
             gps.course.deg(),
             gps.speed.mps(),
+            0,0,0,
+            0,0,0,
             gps.satellites.value(),
             gps.hdop.hdop(),
             {

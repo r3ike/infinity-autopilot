@@ -43,5 +43,5 @@ LidarData Lidar::read(){
 
     _lidar.getData(lidar_altitude, tfFlux, tfTemp);
 
-    return {lidar_altitude - _alt_calib_offset, tfFlux, tfTemp};
+    return {lidar_altitude, tfFlux, tfTemp};
 }

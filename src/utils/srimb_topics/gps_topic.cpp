@@ -1,3 +1,3 @@
 #include "gps_topic.hpp"
 
-SRIMB_Topic<GpsData> topic_imu[GPS_INSTANCES];
+SRIMB_Topic<GpsData> topic_gps[GPS_INSTANCES];

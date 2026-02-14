@@ -29,6 +29,8 @@ void ImuManager::_publish_single_imu(uint8_t instance)
 
     imu = _hal.getImuInstance(instance)->getRawImu();
 
+    imu.imu_id = instance;
+
     _imu_lpf_filters.at(instance)->apply(imu);
 
     srimb_publish(topic_imu[instance], imu, now);

@@ -8,7 +8,6 @@
 #include <utils/Quaternion.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
-#include <utils/uav_data.hpp>
 
 class ICM42688P_driver : public HAL_IMU
 {

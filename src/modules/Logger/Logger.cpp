@@ -30,18 +30,43 @@ void Logger::_write_to_buffer(const void* data, unsigned int length)
     }
 }
 
-void Logger::_log_imu(uint32_t timestamp, ImuData imu_data)
+void Logger::_log_imu()
 {
     if (LOG_IMU_FLAG)
     {
-        LoggerMsgs<ImuData> imu_msg = {MAGIC_CHECK_BYTE, LOG_ID_IMU, timestamp, imu_data};
+        for (size_t i = 0; i < IMU_INSTANCES; i++)
+        {
+            ImuData imu_data;
+            uint64_t timestamp;
+            if (srimb_copy(topic_imu[i], *_srimb_subs_imu.at(i).get(), imu_data, timestamp))
+            {
+                LoggerMsgs<ImuData> imu_msg = {MAGIC_CHECK_BYTE, LOG_ID_IMU, timestamp, imu_data};
 
-        _write_to_buffer(&imu_msg, sizeof(imu_msg));
+                _write_to_buffer(&imu_msg, sizeof(imu_msg));
+            }
+        }
     }
-    
 }
 
-void Logger::_log_tasks_trace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished){
+void Logger::_log_gps()
+{
+    if (LOG_GPS_FLAG)
+    {
+        for (size_t i = 0; i < GPS_INSTANCES; i++)
+        {
+            GpsData gps_data;
+            uint64_t timestamp;
+            if (srimb_copy(topic_gps[i], *_srimb_subs_gps.at(i).get(), gps_data, timestamp))
+            {
+                LoggerMsgs<GpsData> gps_msg = {MAGIC_CHECK_BYTE, LOG_ID_GPS, timestamp, gps_data};
+            
+                _write_to_buffer(&gps_msg, sizeof(gps_msg));
+            }
+        }
+    }
+}
+
+void Logger::_log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished){
     if (LOG_TASK_TRACE_FLAG)
     {
     }
@@ -53,7 +78,8 @@ void Logger::_log_tasks_trace(uint32_t frame_start, uint32_t hard_loop_finished,
  -------------------------------------------*/
 
 void Logger::log(){
-    
-    
-    
+      
+    _log_imu();
+    _log_gps();
+
 }

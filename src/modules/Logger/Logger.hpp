@@ -35,9 +35,11 @@ private:
 
     void _write_to_buffer(const void* data, unsigned int length);
 
-    void _log_imu(uint32_t timestamp, ImuData imu_data);
+    void _log_imu();
+
+    void _log_gps();
     
-    void _log_tasks_trace(uint32_t frame_start, uint32_t hard_loop_finished, uint32_t soft_loop_started, uint32_t soft_loop_finished);
+    void _log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished);
 public:
     Logger();
     ~Logger() = default;

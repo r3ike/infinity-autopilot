@@ -16,7 +16,9 @@ float Mag::readHeading()
     return heading;
 }
 
+/*
 Vector3f Mag::readRawValues()
 {
     return {mag.getRawX(), mag.getRawY(), mag.getRawZ()};
 }
+*/

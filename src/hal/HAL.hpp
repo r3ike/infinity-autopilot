@@ -9,6 +9,7 @@
 
 #include <utils/srimb_topics/imu_topic.hpp>
 #include <utils/srimb_topics/gps_topic.hpp>
+#include <utils/srimb_topics/lidar_topic.hpp>
 #include <utils/Vector3f.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
@@ -110,7 +111,7 @@ public:
 
     HALState init();
 
-    bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
+    bool registerImu(std::unique_ptr<HAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
     HAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
 
     bool registerGps(std::unique_ptr<HAL_GPS> gps_instance);
@@ -168,4 +169,4 @@ private:
     #include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(HAL_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
-#endif;
+#endif
