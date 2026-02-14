@@ -9,7 +9,7 @@ HAL::HAL()
     
     #ifdef HAL_TEENSY
         registerImu(std::make_unique<Bmi088_driver>());
-        registerGps(std::make_unique<HAL_GPS_Teensy>());
+        registerGps(std::make_unique<Bn280_driver>());
         //registerBaro(std::make_unique);
         registerLidar(std::make_unique<HAL_LIDAR_Teensy>());
         registerMag(std::make_unique<HAL_MAG_Teensy>());

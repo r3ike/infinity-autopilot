@@ -1,5 +1,4 @@
-#ifndef IMU_H
-#define IMU_H
+#pragma once
 
 /*-------------------------------
     WRAPPER PER LA IMU
@@ -14,7 +13,7 @@
 #include <utils/Quaternion.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
-#include <utils/srimb_topics/imu_topic.hpp>
+#include <utils/srimb_topics/imu_topic/imu_topic.hpp>
 
 
 class Bmi088_driver : public HAL_IMU
@@ -40,5 +39,3 @@ public:
 
     
 };
-
-#endif

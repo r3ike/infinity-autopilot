@@ -8,8 +8,8 @@
 #include <config/parameters.h>
 
 #include "modules/SRIMB/srimb.hpp"
-#include "utils/srimb_topics/imu_topic.hpp"
-#include "utils/srimb_topics/gps_topic.hpp"
+#include "utils/srimb_topics/imu_topic/imu_topic.hpp"
+#include "utils/srimb_topics/gps_topic/gps_topic.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
 

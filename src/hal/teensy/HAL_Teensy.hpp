@@ -5,7 +5,6 @@
 //#include <hal/teensy/drivers/imu/Imu.h>
 #include <hal/teensy/drivers/lidar/Lidar.hpp>
 #include <hal/teensy/drivers/motor/Motor.hpp>
-#include <hal/teensy/drivers/gps/Gps.hpp>
 #include <hal/teensy/drivers/mag/Mag.hpp>
 
 
@@ -66,6 +65,7 @@ public:
 /*--------------------------
         HAL GPS
 ---------------------------*/
+/*
 class HAL_GPS_Teensy : public HAL_GPS
 {
 private:
@@ -78,6 +78,7 @@ public:
     bool init() override;
     GpsData read() override;
 };
+*/
 
 /*--------------------------
         HAL LIDAR

@@ -89,6 +89,7 @@ LidarData HAL_LIDAR_Teensy::read()
 /*--------------------------
         HAL GPS
 ---------------------------*/
+/*
 HAL_GPS_Teensy::HAL_GPS_Teensy(){}
 HAL_GPS_Teensy::~HAL_GPS_Teensy(){}
 
@@ -105,7 +106,7 @@ bool HAL_GPS_Teensy::init()
 GpsData HAL_GPS_Teensy::read()
 {
     return _gps.read();
-}
+}*/
 
 /*--------------------------
         HAL MAG

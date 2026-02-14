@@ -7,9 +7,9 @@
     #include <Arduino.h>
 #endif
 
-#include <utils/srimb_topics/imu_topic.hpp>
-#include <utils/srimb_topics/gps_topic.hpp>
-#include <utils/srimb_topics/lidar_topic.hpp>
+#include <utils/srimb_topics/imu_topic/imu_topic.hpp>
+#include <utils/srimb_topics/gps_topic/gps_topic.hpp>
+#include <utils/srimb_topics/lidar_topic/lidar_topic.hpp>
 #include <utils/Vector3f.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
@@ -165,7 +165,7 @@ private:
     #include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
     #include <hal/teensy/drivers/lidar/Lidar.hpp>
     #include <hal/teensy/drivers/motor/Motor.hpp>
-    #include <hal/teensy/drivers/gps/Gps.hpp>
+    #include <hal/teensy/drivers/gps/Bn280_driver/Bn280_driver.hpp>
     #include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(HAL_SITL)
     #include <hal/SITL/HAL_sitl.hpp>

@@ -1,6 +1,9 @@
 #pragma once
-#include <./hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
-#include <utils/srimb_topics/gps_topic.hpp>
+#include <hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
+#include <utils/srimb_topics/gps_topic/gps_topic.hpp>
+
+#include <hal/HAL.hpp>
+
 // ---------- UBX COMMANDS ----------
 
 // Set rate = 10Hz
@@ -18,18 +21,18 @@ const uint8_t UBX_DISABLE_GSV[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x0
 const uint8_t UBX_DISABLE_VTG[] = {0xB5, 0x62, 0x06, 0x01, 0x03, 0x00, 0xF0, 0x05, 0x00, 0xFF, 0x19};
 
 
-class Gps
+class Bn280_driver : public HAL_GPS
 {
 private:
-    Stream *serialPtr;
-    TinyGPSPlus gps;
+    Stream *_serial_ptr;
+    TinyGPSPlus _gps;
 
-    void sendUBX(const uint8_t *msg, uint8_t len);
+    void _send_UBX(const uint8_t *msg, uint8_t len);
 public:
-    Gps();
-    ~Gps();
+    Bn280_driver();
+    ~Bn280_driver();
 
-    bool init(Stream *serialPtr);
+    bool init(Stream *serialPtr) override;
 
-    GpsData read();
+    GpsData read() override;
 };

@@ -3,7 +3,7 @@
 #include <utils/Vector3f.h>
 #include <./hal/teensy/lib/TFMPlus/TFMPlus.h>
 #include <config/parameters.h>
-#include <utils/srimb_topics/lidar_topic.hpp>
+#include <utils/srimb_topics/lidar_topic/lidar_topic.hpp>
 
 class Lidar
 {
