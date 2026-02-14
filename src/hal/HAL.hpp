@@ -46,8 +46,9 @@ class HAL_GPS {
 public:
 #ifdef HAL_TEENSY
     virtual bool init(Stream *serialPtr) = 0;
-#endif
+#elif defined(HAL_SITL)
     virtual bool init() = 0;
+#endif
     virtual GpsData read() = 0;
 };
 
