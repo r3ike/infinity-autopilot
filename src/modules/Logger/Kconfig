@@ -1,3 +1,7 @@
+menu "Logger module configuration"
+
+
+
 config LOGGER_ENABLED
     bool "Enable Logger Module"
     default y
@@ -5,3 +9,35 @@ config LOGGER_ENABLED
 config LOG_IMU_ENABLED
     bool "Enable log messages on IMU topics"
     default y
+    depends on LOGGER_ENABLED
+
+config LOG_GPS_ENABLED
+    bool "Enable log messages on GPS topics"
+    default y
+    depends on LOGGER_ENABLED
+
+config LOG_MAG_ENABLED
+    bool "Enable log messages on Magnetometer topics"
+    default y
+    depends on LOGGER_ENABLED
+
+config LOG_BARO_ENABLED
+    bool "Enable log messages on Barometer topics"
+    default y
+    depends on LOGGER_ENABLED
+
+config LOG_LIDAR_ENABLED
+    bool "Enable log messages on Lidar topics"
+    default y
+    depends on LOGGER_ENABLED
+
+config LOG_EKF_ENABLED
+    bool "Enable log messages on EKF topics"
+    default y
+    depends on LOGGER_ENABLED
+
+config LOG_SYS_INFO_ENABLED
+    bool "Enable log messages on System General Information topics"
+    default y
+    depends on LOGGER_ENABLED
+endmenu

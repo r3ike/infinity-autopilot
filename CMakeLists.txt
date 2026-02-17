@@ -8,7 +8,7 @@ endif()
 
 # Includi utilità
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include(component)
+include(module)
 include(kconfig)
 
 # Seleziona defconfig e toolchain
@@ -46,15 +46,10 @@ if(EXISTS ${DOT_CONFIG_PATH})
 endif()
 
 # Aggiungi componenti se abilitati
-if(CONFIG_CORE_ENABLED)
-    add_subdirectory(components/core)
+if(CONFIG_LOGGER_ENABLED)
+    add_subdirectory(src/modules/logger)
 endif()
-if(CONFIG_SENSOR_ENABLED)
-    add_subdirectory(components/sensor)
-endif()
-if(CONFIG_ACTUATOR_ENABLED)
-    add_subdirectory(components/actuator)
-endif()
+
 
 # Aggiungi applicazione
 #add_subdirectory(app)

@@ -29,4 +29,10 @@ config TARGET_TEENSY41
 
 endchoice
 
-source "src/modules/*/Kconfig"
+menu "HAL Configuration"
+source "src/hal/Kconfig"
+endmenu
+
+menu "Modules Configuration"
+source "src/modules/Logger/Kconfig"
+endmenu
