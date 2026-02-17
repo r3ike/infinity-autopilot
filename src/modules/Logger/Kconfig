@@ -1,0 +1,7 @@
+config LOGGER_ENABLED
+    bool "Enable Logger Module"
+    default y
+
+config LOG_IMU_ENABLED
+    bool "Enable log messages on IMU topics"
+    default y

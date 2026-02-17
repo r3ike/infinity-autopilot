@@ -1,0 +1,4 @@
+# CONFIG_TARGET_SITL is not set
+CONFIG_TARGET_TEENSY41=y
+CONFIG_LOG_DEBUG=n
+# CONFIG_SENSOR_SIMULATED_VALUE non viene impostato perchè dipende da LOG_DEBUG
