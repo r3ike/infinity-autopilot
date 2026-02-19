@@ -1,4 +1,4 @@
-#include <hal/teensy/HAL_Teensy.hpp>
+#include <src/hal/teensy/HAL_Teensy.hpp>
 #include "HAL_Teensy.hpp"
 
 /*--------------------------

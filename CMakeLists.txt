@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(MyProject)
+project(Infinity-Autopilot)
 
 # Controllo piattaforma
 if(NOT TARGET_PLATFORM)
@@ -44,10 +44,19 @@ if(EXISTS ${DOT_CONFIG_PATH})
         endif()
     endforeach()
 endif()
+if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
+    add_subdirectory(src/hal/teensy/cores)
+    add_subdirectory(src/hal/teensy/lib/TinyGPSPlus)
+endif()
 
 # Aggiungi componenti se abilitati
 if(CONFIG_LOGGER_ENABLED)
-    add_subdirectory(src/modules/logger)
+    add_subdirectory(src/modules/Logger)
+endif()
+
+
+if(BN280_DRIVER_ENABLED AND ${TARGET_PLATFORM} STREQUAL "TEENSY41")
+    add_subdirectory(src/hal/teensy/drivers/gps/Bn280_driver)
 endif()
 
 

@@ -2,7 +2,7 @@
 include_guard(GLOBAL)
 
 find_package(Python3 REQUIRED)
-
+#message(STATUS "Python used: ${Python3_EXECUTABLE}")
 # Trova il percorso della directory in cui si trova il modulo kconfiglib
 execute_process(
     COMMAND ${Python3_EXECUTABLE} -c "import kconfiglib; import os; print(os.path.dirname(kconfiglib.__file__))"

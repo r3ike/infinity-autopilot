@@ -1,5 +1,6 @@
 #pragma once
 #include <hal/teensy/lib/TinyGPSPlus/TinyGPSPlus.h>
+
 #include <utils/srimb_topics/gps_topic/gps_topic.hpp>
 
 #include <hal/HAL.hpp>

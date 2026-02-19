@@ -27,7 +27,7 @@ set(CMAKE_CXX_FLAGS_INIT "${COMMON_FLAGS} -std=gnu++17 -fno-exceptions -fno-rtti
 
 # Linker flags
 set(CMAKE_EXE_LINKER_FLAGS_INIT
-    "-Wl,--gc-sections ${MCU_SPECIFIC_FLAGS} -T${CMAKE_CURRENT_LIST_DIR}/../linker_scripts/IMXRT1062.ld"
+    "-Wl,--gc-sections ${MCU_SPECIFIC_FLAGS} -T${CMAKE_SOURCE_DIR}/src/hal/teensy/cores/teensy4/imxrt1062_t41.ld"
 )
 
 # Non cercare librerie nel sistema host
