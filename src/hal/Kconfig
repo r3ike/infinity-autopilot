@@ -1,8 +1,8 @@
 
-config HAL_ENABLED
-    bool "Enable Logger Module"
-    default y
-    help
-        Questo menu conterrà le configurazione della HAL, quindi la selezione dei vari sensori, delle seriali del gps e lidar
-        Capire come gestire il numero di instanze di un sensore.
+if TARGET_SITL
+source "src/hal/SITL/Kconfig"
+endif
 
+if TARGET_TEENSY41
+source "src/hal/teensy/Kconfig"
+endif

@@ -1,28 +1,15 @@
 mainmenu "Infinity-Autopilot Configuration"
 
-menu "Target Platform"
-config TARGET_PC
-    bool "Build for PC (host system)"
-    help
-      Select this to compile the application for your PC.
-      The program will run natively and print output to the console.
-
-config TARGET_TEENSY41
-    bool "Build for Teensy 4.1"
-    help
-      Select this to cross-compile the application for Teensy 4.1.
-      The program will run on the microcontroller and use its LED and Serial.
-endmenu
 
 # Imponi che una e una sola piattaforma sia selezionata
 choice
-    prompt "Platform choice"
-    default TARGET_PC
+    prompt "Target choice"
+    default TARGET_SITL
     help
       Choose the target platform for the build.
 
-config TARGET_PC
-    bool "PC"
+config TARGET_SITL
+    bool "SITL"
 
 config TARGET_TEENSY41
     bool "Teensy 4.1"

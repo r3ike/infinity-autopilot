@@ -1,0 +1,17 @@
+menuconfig BN280_DRIVER_ENABLED
+    bool "Supporto BN280 driver"
+
+if BN280_DRIVER_ENABLED
+choice
+    prompt "GPS Serial interface"
+    default GPS_SERIAL1
+
+config GPS_SERIAL1
+    bool Serial1
+
+config GPS_SERIAL2
+    bool Serial2
+endchoice
+
+
+endif

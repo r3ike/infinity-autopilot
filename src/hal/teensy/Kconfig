@@ -1,0 +1,3 @@
+
+source "src/hal/teensy/drivers/gps/Kconfig"
+source "src/hal/teensy/drivers/imu/Kconfig"
