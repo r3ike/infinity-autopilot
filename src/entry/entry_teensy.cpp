@@ -1,18 +1,21 @@
 
-#include <Arduino.h>
+#include "Arduino.h"
 
 
-#include <FlightController.hpp>
+//#include <FlightController.hpp>
 
 
 
 void setup() {
-    FlightController& fc_instance = FlightController::getInstance();
+    /*FlightController& fc_instance = FlightController::getInstance();
 
-    fc_instance.init();
+    fc_instance.init();*/
+    Serial.print("ciao");
+
 }
 
 void loop() {
+    /*
     FlightController& fc_instance = FlightController::getInstance();
-    fc_instance.runSoftLoop();
+    fc_instance.runSoftLoop();*/
 }

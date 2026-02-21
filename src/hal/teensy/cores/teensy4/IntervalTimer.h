@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 #ifndef __INTERVALTIMER_H__
 #define __INTERVALTIMER_H__
-
+#include <type_traits>
 #include <stddef.h>
 #include "imxrt.h"
 #if TEENSYDUINO >= 159

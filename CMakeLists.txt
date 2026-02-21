@@ -1,6 +1,11 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 project(Infinity-Autopilot VERSION 0.5 LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 #add_executable(Infinity-Autopilot)
 
@@ -50,7 +55,7 @@ if(EXISTS ${DOT_CONFIG_PATH})
     endforeach()
 endif()
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    add_subdirectory(src/hal/teensy/lib/TinyGPSPlus)
+    add_subdirectory(src/hal/teensy/cores/teensy4)
 endif()
 
 # Aggiungi componenti se abilitati
@@ -64,5 +69,5 @@ if(BN280_DRIVER_ENABLED AND ${TARGET_PLATFORM} STREQUAL "TEENSY41")
 endif()
 
 
-# Aggiungi applicazione
+# Aggiungi entry point
 add_subdirectory(src/entry)
