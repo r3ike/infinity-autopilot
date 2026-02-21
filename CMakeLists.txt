@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
-project(Infinity-Autopilot)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+project(Infinity-Autopilot VERSION 0.5 LANGUAGES C CXX)
+
+#add_executable(Infinity-Autopilot)
+
+#target_link_libraries(Infinity-Autopilot PUBLIC entry)
 
 # Controllo piattaforma
 if(NOT TARGET_PLATFORM)
-    message(FATAL_ERROR "Specificare TARGET_PLATFORM: -DTARGET_PLATFORM=PC o TEENSY41")
+    message(FATAL_ERROR "Specificare TARGET_PLATFORM: -DTARGET_PLATFORM=SITL o TEENSY41")
 endif()
 
 # Includi utilità
@@ -17,7 +22,7 @@ if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
 else()
     set(CONFIG_BOARD_DEFCONFIG pc_defconfig)
-    set(TOOLCHAIN_FILE toolchain_native.cmake)
+    set(TOOLCHAIN_FILE toolchain_sitl.cmake)
 endif()
 
 # Carica toolchain
@@ -45,7 +50,6 @@ if(EXISTS ${DOT_CONFIG_PATH})
     endforeach()
 endif()
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    add_subdirectory(src/hal/teensy/cores)
     add_subdirectory(src/hal/teensy/lib/TinyGPSPlus)
 endif()
 
@@ -61,4 +65,4 @@ endif()
 
 
 # Aggiungi applicazione
-#add_subdirectory(app)
+add_subdirectory(src/entry)
