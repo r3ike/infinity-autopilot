@@ -34,13 +34,13 @@ endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${TOOLCHAIN_FILE})
 
 # Kconfig
-set(DOT_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR}/.config)
-set(DOT_CONFIG_BACKUP_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG})
+set(DOT_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.config)
+set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG})
 
 configure_kconfig(
     KCONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/Kconfig
     DOT_CONFIG ${DOT_CONFIG_PATH}
-    DOT_CONFIG_BACKUP ${DOT_CONFIG_BACKUP_PATH}
+    DEFCONFIG_FILE ${DEF_CONFIG_PATH}
 )
 
 # Leggi .config in variabili CMake
@@ -56,6 +56,10 @@ if(EXISTS ${DOT_CONFIG_PATH})
 endif()
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     add_subdirectory(src/hal/teensy/cores/teensy4)
+
+    if (BN280_DRIVER_ENABLED)
+        add_subdirectory(src/hal/teensy/drivers/gps/Bn280_driver)
+    endif()
 endif()
 
 # Aggiungi componenti se abilitati
@@ -63,10 +67,6 @@ if(CONFIG_LOGGER_ENABLED)
     add_subdirectory(src/modules/Logger)
 endif()
 
-
-if(BN280_DRIVER_ENABLED AND ${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    add_subdirectory(src/hal/teensy/drivers/gps/Bn280_driver)
-endif()
 
 
 # Aggiungi entry point

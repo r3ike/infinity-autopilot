@@ -16,45 +16,53 @@ set(MENUCONFIG_SCRIPT ${KCONFIGLIB_DIR}/menuconfig.py)
 
 function(configure_kconfig)
     set(options)
-    set(oneValueArgs KCONFIG_ROOT DOT_CONFIG DOT_CONFIG_BACKUP)
+    set(oneValueArgs KCONFIG_ROOT DOT_CONFIG DEFCONFIG_FILE)
     set(multiValueArgs)
 
     cmake_parse_arguments(KCONFIG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     set(KCONFIG_ROOT ${KCONFIG_KCONFIG_ROOT})
     set(DOT_CONFIG ${KCONFIG_DOT_CONFIG})
-    set(DOT_CONFIG_BACKUP ${KCONFIG_DOT_CONFIG_BACKUP})
+    set(DEFCONFIG_FILE ${KCONFIG_DEFCONFIG_FILE})
     set(AUTOCONF_H ${CMAKE_CURRENT_BINARY_DIR}/include/generated/autoconf.h)
 
     # Crea la directory per autoconf.h
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/generated)
 
-    # Comando per generare .config e autoconf.h usando genconfig.py
+    # Se non esiste .config, lo genera da defconfig (opzionale)
+    if(DEFINED DEFCONFIG_FILE AND NOT EXISTS ${DOT_CONFIG})
+        add_custom_command(
+            OUTPUT ${DOT_CONFIG}
+            COMMAND ${CMAKE_COMMAND} -E copy ${DEFCONFIG_FILE} ${DOT_CONFIG}
+            COMMENT "Copio il file di configurazione predefinito"
+            VERBATIM
+        )
+    endif()
+
+    # Comando per generare autoconf.h da .config
     add_custom_command(
-        OUTPUT ${DOT_CONFIG} ${AUTOCONF_H}
+        OUTPUT ${AUTOCONF_H}
         COMMAND ${Python3_EXECUTABLE} ${GENCONFIG_SCRIPT}
             --kconfig ${KCONFIG_ROOT}
-            --dot-config ${DOT_CONFIG}
-            --dot-config-backup ${DOT_CONFIG_BACKUP}
+            --config ${DOT_CONFIG}
             --header-path ${AUTOCONF_H}
-        DEPENDS ${KCONFIG_ROOT}
-                ${DOT_CONFIG_BACKUP}
-        COMMENT "Generating configuration from Kconfig"
+        DEPENDS ${KCONFIG_ROOT} ${DOT_CONFIG}
+        COMMENT "Generazione di autoconf.h da .config"
         VERBATIM
     )
 
-    # Target per lanciare l'interfaccia menuconfig
+    # Target per menuconfig (modifica interattiva di .config)
     add_custom_target(menuconfig
         COMMAND ${Python3_EXECUTABLE} ${MENUCONFIG_SCRIPT}
             --kconfig ${KCONFIG_ROOT}
-            --dot-config ${DOT_CONFIG}
+            --config ${DOT_CONFIG}
         DEPENDS ${KCONFIG_ROOT}
-        COMMENT "Running menuconfig to edit configuration"
+        COMMENT "Avvia menuconfig per modificare la configurazione"
         VERBATIM
     )
 
-    # Target che garantisce che la configurazione sia generata prima di compilare
-    add_custom_target(generate_config DEPENDS ${DOT_CONFIG} ${AUTOCONF_H})
+    # Target che garantisce la generazione di autoconf.h prima della compilazione
+    add_custom_target(generate_config DEPENDS ${AUTOCONF_H})
 
     # Aggiungi la directory di inclusione per autoconf.h
     include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
