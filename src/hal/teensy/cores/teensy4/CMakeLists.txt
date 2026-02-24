@@ -206,7 +206,7 @@ target_link_options(arduino_flags INTERFACE
     "-Wl,--cref"
     "-Wl,--print-memory-usage"
     "-Wl,-Map=${CMAKE_PROJECT_NAME}.map"
-    "LINKER:-script,${LINKER_SCRIPT}"
+    #"LINKER:-script,${LINKER_SCRIPT}"
 )
 
 # 4. LA LIBRERIA DEL CORE

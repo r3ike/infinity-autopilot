@@ -29,12 +29,12 @@ function(configure_kconfig)
     # Crea la directory per autoconf.h
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/generated)
 
-    # Se non esiste .config, lo genera da defconfig (opzionale)
+    # Se non esiste .config e abbiamo un defconfig, copialo
     if(DEFINED DEFCONFIG_FILE AND NOT EXISTS ${DOT_CONFIG})
         add_custom_command(
             OUTPUT ${DOT_CONFIG}
             COMMAND ${CMAKE_COMMAND} -E copy ${DEFCONFIG_FILE} ${DOT_CONFIG}
-            COMMENT "Copio il file di configurazione predefinito"
+            COMMENT "Copying default configuration to ${DOT_CONFIG}"
             VERBATIM
         )
     endif()
@@ -42,22 +42,26 @@ function(configure_kconfig)
     # Comando per generare autoconf.h da .config
     add_custom_command(
         OUTPUT ${AUTOCONF_H}
-        COMMAND ${Python3_EXECUTABLE} ${GENCONFIG_SCRIPT}
-            --kconfig ${KCONFIG_ROOT}
-            --config ${DOT_CONFIG}
+        COMMAND ${CMAKE_COMMAND} -E env 
+            KCONFIG_CONFIG=${DOT_CONFIG}
+            srctree=${CMAKE_SOURCE_DIR}
+            ${Python3_EXECUTABLE} ${GENCONFIG_SCRIPT}
             --header-path ${AUTOCONF_H}
+            ${KCONFIG_ROOT}
         DEPENDS ${KCONFIG_ROOT} ${DOT_CONFIG}
-        COMMENT "Generazione di autoconf.h da .config"
+        COMMENT "Generating autoconf.h from .config"
         VERBATIM
     )
 
     # Target per menuconfig (modifica interattiva di .config)
     add_custom_target(menuconfig
-        COMMAND ${Python3_EXECUTABLE} ${MENUCONFIG_SCRIPT}
-            --kconfig ${KCONFIG_ROOT}
-            --config ${DOT_CONFIG}
+        COMMAND ${CMAKE_COMMAND} -E env
+            KCONFIG_CONFIG=${DOT_CONFIG}
+            srctree=${CMAKE_SOURCE_DIR}
+            ${Python3_EXECUTABLE} ${MENUCONFIG_SCRIPT}
+            ${KCONFIG_ROOT}
         DEPENDS ${KCONFIG_ROOT}
-        COMMENT "Avvia menuconfig per modificare la configurazione"
+        COMMENT "Running menuconfig to edit configuration"
         VERBATIM
     )
 

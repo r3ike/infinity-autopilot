@@ -26,7 +26,7 @@ if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     set(CONFIG_BOARD_DEFCONFIG teensy41_defconfig)
     set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
 else()
-    set(CONFIG_BOARD_DEFCONFIG pc_defconfig)
+    set(CONFIG_BOARD_DEFCONFIG sitl_defconfig)
     set(TOOLCHAIN_FILE toolchain_sitl.cmake)
 endif()
 
@@ -62,6 +62,11 @@ if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     endif()
 endif()
 
+
+add_subdirectory(src/utils)
+add_subdirectory(src/modules/SRIMB)
+add_subdirectory(src/utils/srimb_topics)
+
 # Aggiungi componenti se abilitati
 if(CONFIG_LOGGER_ENABLED)
     add_subdirectory(src/modules/Logger)
@@ -71,3 +76,5 @@ endif()
 
 # Aggiungi entry point
 add_subdirectory(src/entry)
+
+add_dependencies(infinity_autopilot generate_config)        #assicura che autoconf.h sia generato prima della compilazione

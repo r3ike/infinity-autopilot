@@ -1,9 +1,11 @@
 #pragma once
-#include "modules/SRIMB/srimb_topic.hpp"
 #include <cstdint>
-#include <./utils/Vector3f.h>
-#include <config/parameters.h>
 
+#include "srimb_topic.hpp"
+#include "Vector3f.h"
+#include "generated/autoconf.h"
+
+#define IMU_INSTANCES 1
 
 struct LidarData
 {

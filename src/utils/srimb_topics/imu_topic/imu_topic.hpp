@@ -1,8 +1,8 @@
 #pragma once
-#include "modules/SRIMB/srimb_topic.hpp"
+#include "srimb_topic.hpp"
 #include <cstdint>
-#include <./utils/Vector3f.h>
-#include <config/parameters.h>
+#include "Vector3f.h"
+#include "generated/autoconf.h"
 
 
 struct ImuData {

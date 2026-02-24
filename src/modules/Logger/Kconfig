@@ -40,4 +40,6 @@ config LOG_SYS_INFO_ENABLED
     bool "Enable log messages on System General Information topics"
     default y
     depends on LOGGER_ENABLED
+
+
 endmenu
