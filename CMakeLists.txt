@@ -57,9 +57,7 @@ endif()
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     add_subdirectory(src/hal/teensy/cores/teensy4)
 
-    if (BN280_DRIVER_ENABLED)
-        add_subdirectory(src/hal/teensy/drivers/gps/Bn280_driver)
-    endif()
+    add_subdirectory(src/hal)
 endif()
 
 

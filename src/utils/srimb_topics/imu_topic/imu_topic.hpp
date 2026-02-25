@@ -4,6 +4,7 @@
 #include "Vector3f.h"
 #include "generated/autoconf.h"
 
+#define IMU_INSTANCES 1
 
 struct ImuData {
     Vector3f raw_acc;
@@ -18,4 +19,4 @@ struct ImuData {
     //Da aggiungere scoring e stato sensore e capire se mettere quaternioni qua(quindi se fare la conversione nel driver o nel imuManager)
 };
 
-extern SRIMB_Topic<ImuData> topic_imu[LIDAR_INSTANCES];
+extern SRIMB_Topic<ImuData> topic_imu[IMU_INSTANCES];

@@ -5,7 +5,7 @@
 #include "Vector3f.h"
 #include "generated/autoconf.h"
 
-#define IMU_INSTANCES 1
+#define LIDAR_INSTANCES 1
 
 struct LidarData
 {
@@ -15,4 +15,4 @@ struct LidarData
     uint8_t lidar_id = 0;
 };
 
-extern SRIMB_Topic<LidarData> topic_lidar[IMU_INSTANCES];
+extern SRIMB_Topic<LidarData> topic_lidar[LIDAR_INSTANCES];

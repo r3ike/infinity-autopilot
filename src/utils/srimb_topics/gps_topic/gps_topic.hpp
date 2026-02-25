@@ -4,6 +4,7 @@
 #include "Vector3f.h"
 #include "generated/autoconf.h"
 
+#define GPS_INSTANCES 1
 
 struct GpsData
 {

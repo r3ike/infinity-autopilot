@@ -6,7 +6,7 @@
 
 #include "generated/autoconf.h"
 
-#include <LoggerMsgs.hpp>
+#include "LoggerMsgs.hpp"
 //#include <config/parameters.h>
 
 #include "srimb.hpp"
