@@ -6,6 +6,8 @@ config LOGGER_ENABLED
     bool "Enable Logger Module"
     default y
 
+
+
 config LOG_IMU_ENABLED
     bool "Enable log messages on IMU topics"
     default y
@@ -41,5 +43,12 @@ config LOG_SYS_INFO_ENABLED
     default y
     depends on LOGGER_ENABLED
 
+config LOGGER_BUFFER_SIZE
+    int "Dimensione del buffer circolare per i messaggi di log in KB"
+    range 8 64
+    default 32
+    depends on LOGGER_ENABLED
+    help
+      Specifica la dimensione del buffer circolare per i messaggi di log in KB.
 
 endmenu

@@ -14,7 +14,6 @@
 #include "gps_topic/gps_topic.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
-#define BUFFER_SIZE_KB 32
 
 /**
  * La classe Logger si occupa di salvare in un buffer circolare in RAM i messagi di log (definiti in LoggerMsgs.hpp).
@@ -28,7 +27,7 @@ class Logger
 {
 private:
 
-    uint8_t _log_buffer[BUFFER_SIZE_KB * 1024];
+    uint8_t _log_buffer[CONFIG_LOGGER_BUFFER_SIZE * 1024];
     volatile uint32_t _head = 0; // Dove scrive il Producer
     volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
 

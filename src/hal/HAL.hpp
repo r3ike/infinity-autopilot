@@ -7,10 +7,10 @@
     #include <Arduino.h>
 #endif
 
-#include <utils/srimb_topics/imu_topic/imu_topic.hpp>
-#include <utils/srimb_topics/gps_topic/gps_topic.hpp>
-#include <utils/srimb_topics/lidar_topic/lidar_topic.hpp>
-#include <utils/Vector3f.h>
+#include <imu_topic/imu_topic.hpp>
+#include <gps_topic/gps_topic.hpp>
+#include <lidar_topic/lidar_topic.hpp>
+#include <Vector3f.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
 
@@ -161,7 +161,7 @@ private:
 
 
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
-#ifdef defined(HAL_TEENSY)
+#ifdef CONFIG_TARGET_TEENSY41
     #include <hal/teensy/HAL_Teensy.hpp>
 
     #include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
@@ -169,6 +169,6 @@ private:
     #include <hal/teensy/drivers/motor/Motor.hpp>
     #include <hal/teensy/drivers/gps/Bn280_driver/Bn280_driver.hpp>
     #include <hal/teensy/drivers/mag/Mag.hpp>
-#elif defined(HAL_SITL)
+#elif defined(CONFIG_TARGET_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
 #endif

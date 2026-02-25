@@ -32,7 +32,7 @@ void Logger::_write_to_buffer(const void* data, unsigned int length)
 
 void Logger::_log_imu()
 {
-    if (CONFIG_LOG_IMU_ENABLED == 1)
+    if (CONFIG_LOG_IMU_ENABLED)
     {
         for (size_t i = 0; i < IMU_INSTANCES; i++)
         {
