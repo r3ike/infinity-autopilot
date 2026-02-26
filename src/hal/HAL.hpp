@@ -3,9 +3,10 @@
 #include <memory>
 #include <array>
 
-#ifdef HAL_TEENSY
-    #include <Arduino.h>
-#endif
+#define IS_DEFINED(macro)  IS_DEFINED_(macro)
+#define IS_DEFINED_(macro) IS_DEFINED__##macro(1, 0)
+#define IS_DEFINED__1(a, b) a
+#define IS_DEFINED__0(a, b) b
 
 #include <imu_topic/imu_topic.hpp>
 #include <gps_topic/gps_topic.hpp>
@@ -13,6 +14,18 @@
 #include <Vector3f.h>
 #include <config/board_configs.h>
 #include <config/parameters.h>
+
+#ifdef CONFIG_TARGET_TEENSY41
+    #include <Arduino.h>
+
+    // Gps drivers settings
+    #define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
+
+
+    #define GPS_INSTANCES (BN280_INSTANCES + 0)
+#else
+    #define IMU_INSTANCES 1
+#endif
 
 struct HALState{
     bool imu_state[IMU_INSTANCES];

@@ -6,9 +6,15 @@ HAL::HAL()
 {
     _multi_instances_reset();
     
-    #ifdef HAL_TEENSY
+    #ifdef CONFIG_TARGET_TEENSY41
         registerImu(std::make_unique<Bmi088_driver>());
-        registerGps(std::make_unique<Bn280_driver>());
+        #ifdef CONFIG_BN280_DRIVER_ENABLED
+        for (size_t i = 0; i < CONFIG_BN280_NUM_INSTANCES; i++)
+        {
+            registerGps(std::make_unique<Bn280_driver>());
+        }
+        
+        #endif
         //registerBaro(std::make_unique);
         registerLidar(std::make_unique<TFLuna_driver>());
         registerMag(std::make_unique<HAL_MAG_Teensy>());
@@ -18,7 +24,7 @@ HAL::HAL()
         //_telemetry_instance
         //_sd_logging_instance
 
-    #elif defined(HAL_SITL)
+    #elif defined(CONFIG_TARGET_SITL)
         registerImu(new HAL_IMU_SITL());
         //pwm = new HAL_MOTOR_SITL();
         //telemetry = new HAL_Telemetry_SITL();
@@ -31,7 +37,7 @@ HAL::~HAL(){}
 HALState HAL::init()
 {
     HALState states;
-#ifdef HAL_TEENSY
+#ifdef CONFIG_TARGET_TEENSY41
 
     GPS_SERIAL.begin(9600);
     LIDAR_SERIAL.begin(9600);
@@ -47,7 +53,7 @@ HALState HAL::init()
     
     //states.lidar_state = lidar->init(&LIDAR_SERIAL);
 
-#elif defined(HAL_SITL)
+#elif defined(CONFIG_TARGET_SITL)
 
 #endif
 
