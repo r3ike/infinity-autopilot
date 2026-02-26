@@ -8,23 +8,30 @@
 #define IS_DEFINED__1(a, b) a
 #define IS_DEFINED__0(a, b) b
 
-#include <imu_topic/imu_topic.hpp>
-#include <gps_topic/gps_topic.hpp>
-#include <lidar_topic/lidar_topic.hpp>
-#include <Vector3f.h>
+#include "imu_topic/imu_topic.hpp"
+#include "gps_topic/gps_topic.hpp"
+#include "lidar_topic/lidar_topic.hpp"
+#include "Vector3f.h"
+#include "generated/autoconf.h"
 #include <config/board_configs.h>
-#include <config/parameters.h>
+//#include <config/parameters.h>
 
 #ifdef CONFIG_TARGET_TEENSY41
-    #include <Arduino.h>
+    #include "Arduino.h"
 
     // Gps drivers settings
     #define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
 
+    #define BMI088_INSTANCES (IS_DEFINED(CONFIG_BMI088_DRIVER_ENABLED) ? BMI088_NUM_INSTANCES : 0)
 
+    #define IMU_INSTANCES (BMI088_INSTANCES + 0)
     #define GPS_INSTANCES (BN280_INSTANCES + 0)
+    #define MAG_INSTANCES 1
+    #define LIDAR_INSTANCES 1
+    #define BARO_INSTANCES 1
 #else
     #define IMU_INSTANCES 1
+    #define GPS_INSTANCES 1
 #endif
 
 struct HALState{
@@ -57,9 +64,9 @@ public:
 
 class HAL_GPS {
 public:
-#ifdef HAL_TEENSY
+#ifdef CONFIG_TARGET_TEENSY41
     virtual bool init(Stream *serialPtr) = 0;
-#elif defined(HAL_SITL)
+#elif defined(CONFIG_TARGET_SITL)
     virtual bool init() = 0;
 #endif
     virtual GpsData read() = 0;
@@ -78,9 +85,9 @@ public:
 
 class HAL_LIDAR {
 public:
-#ifdef HAL_TEENSY
+#ifdef CONFIG_TARGET_TEENSY41
     virtual bool init(Stream *serialPtr) = 0;
-#elif defined(HAL_SITL)
+#elif defined(CONFIG_TARGET_SITL)
     virtual bool init() = 0;
 #endif
     virtual void calib() = 0;
@@ -175,12 +182,19 @@ private:
 
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
 #ifdef CONFIG_TARGET_TEENSY41
-    #include <hal/teensy/HAL_Teensy.hpp>
+    #include "hal/teensy/HAL_Teensy.hpp"
 
-    #include <Bmi088_driver.hpp>
+    #ifdef CONFIG_BMI088_DRIVER_ENABLED
+    #include "Bmi088_driver.hpp"
+    #endif
+
+    #ifdef CONFIG_BN280_DRIVER_ENABLED
+    #include "Bn280_driver.hpp"
+    #endif
+
     #include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
     #include <hal/teensy/drivers/motor/Motor.hpp>
-    #include <Bn280_driver.hpp>
+    
     #include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(CONFIG_TARGET_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
