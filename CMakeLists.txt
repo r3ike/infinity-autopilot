@@ -54,16 +54,12 @@ if(EXISTS ${DOT_CONFIG_PATH})
         endif()
     endforeach()
 endif()
-if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    add_subdirectory(src/hal/teensy/cores/teensy4)
-
-    add_subdirectory(src/hal)
-endif()
 
 
 add_subdirectory(src/utils)
 add_subdirectory(src/modules/SRIMB)
 add_subdirectory(src/utils/srimb_topics)
+add_subdirectory(src/hal)
 
 # Aggiungi componenti se abilitati
 if(CONFIG_LOGGER_ENABLED)

@@ -177,10 +177,10 @@ private:
 #ifdef CONFIG_TARGET_TEENSY41
     #include <hal/teensy/HAL_Teensy.hpp>
 
-    #include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
+    #include <Bmi088_driver.hpp>
     #include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
     #include <hal/teensy/drivers/motor/Motor.hpp>
-    #include <hal/teensy/drivers/gps/Bn280_driver/Bn280_driver.hpp>
+    #include <Bn280_driver.hpp>
     #include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(CONFIG_TARGET_SITL)
     #include <hal/SITL/HAL_sitl.hpp>

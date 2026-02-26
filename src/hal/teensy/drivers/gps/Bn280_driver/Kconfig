@@ -11,47 +11,36 @@ config BN280_NUM_INSTANCES
     default 1
     help
       Specifica quante istanze di GPS BN280 sono presenti sulla board.
+      
 
 #Instanza 0
-choice
-    prompt "BN280 0 Serial interface"
-    default BN280_0_SERIAL1
+config BN280_0_SERIAL
+    int "BN280 0 Serial interface"
+    range 0 3
+    default 0
     depends on BN280_DRIVER_ENABLED && BN280_NUM_INSTANCES >= 1
-
-config BN280_0_SERIAL1
-    bool Serial1
-
-config BN280_0_SERIAL2
-    bool Serial2
-endchoice
+    help
+      Specifica l'interfaccia seriale utilizzata per il GPS BN280 0.
 
 
 #Instanza 1
-choice
-    prompt "BN280 1 Serial interface"
-    default BN280_1_SERIAL1
+config BN280_1_SERIAL
+    int "BN280 1 Serial interface"
+    range 0 3
+    default 1
     depends on BN280_DRIVER_ENABLED && BN280_NUM_INSTANCES >= 2
-
-config BN280_1_SERIAL1
-    bool Serial1
-
-config BN280_1_SERIAL2
-    bool Serial2
-endchoice
+    help
+      Specifica l'interfaccia seriale utilizzata per il GPS BN280 1.
 
 
 #Instanza 2
-choice
-    prompt "BN280 2 Serial interface"
-    default BN280_2_SERIAL1
+config BN280_2_SERIAL
+    int "BN280 2 Serial interface"
+    range 0 3
+    default 2
     depends on BN280_DRIVER_ENABLED && BN280_NUM_INSTANCES >= 3
-
-config BN280_2_SERIAL1
-    bool Serial1
-
-config BN280_2_SERIAL2
-    bool Serial2
-endchoice
+    help
+      Specifica l'interfaccia seriale utilizzata per il GPS BN280 2.
 
 
 endif
