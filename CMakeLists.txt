@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
+
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 project(Infinity-Autopilot VERSION 0.5 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
