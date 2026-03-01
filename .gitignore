@@ -2,3 +2,12 @@
 .vscode/c_cpp_properties.json
 build/
 venv/
+
+# Zephyr workspace
+/zephyr/
+/modules/
+/bootloader/
+/tools/
+/.west/
+# Build output
+/build/
