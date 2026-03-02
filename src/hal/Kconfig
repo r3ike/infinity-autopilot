@@ -1,8 +1,8 @@
 
 if TARGET_SITL
-source "src/hal/SITL/Kconfig"
+source "../src/hal/SITL/Kconfig"
 endif
 
 if TARGET_TEENSY41
-source "src/hal/teensy/Kconfig"
+source "../src/hal/teensy/Kconfig"
 endif

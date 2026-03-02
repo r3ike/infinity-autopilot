@@ -1,5 +1,7 @@
 mainmenu "Infinity-Autopilot Configuration"
-
+menu "Zephyr Configuration"
+source "Kconfig.zephyr"
+endmenu
 
 # Imponi che una e una sola piattaforma sia selezionata
 choice
@@ -17,9 +19,9 @@ config TARGET_TEENSY41
 endchoice
 
 menu "HAL Configuration"
-source "src/hal/Kconfig"
+source "../src/hal/Kconfig"
 endmenu
 
 menu "Modules Configuration"
-source "src/modules/Logger/Kconfig"
+source "../src/modules/Logger/Kconfig"
 endmenu
