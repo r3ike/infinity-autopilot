@@ -1,5 +1,6 @@
 {
-    "cmake.configureOnOpen": true,
+    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false,
     "cmake.generator": "Ninja",
     "cmake.configureArgs": [
         "-DTARGET_PLATFORM=TEENSY41",
