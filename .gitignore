@@ -3,11 +3,26 @@
 build/
 venv/
 
-# Zephyr workspace
-zephyr/
+# Zephyr workspace (scaricate da west update)
+/zephyr/
 /modules/
 /bootloader/
 /tools/
 /.west/
-# Build output
+
+# Directory di build e output
 /build/
+/twister-out*/
+
+# Python virtual environment (se lo tieni qui, ma è meglio tenerlo fuori)
+/venv/
+/env/
+__pycache__/
+*.pyc
+
+
+# File temporanei
+*.swp
+*.swo
+*~
+.DS_Store
