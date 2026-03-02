@@ -27,10 +27,16 @@ include(kconfig)
 # Seleziona defconfig e toolchain
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
     set(CONFIG_BOARD_DEFCONFIG teensy41_defconfig)
-    set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
+    #set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
+    # Nel tuo CMakeLists.txt (nella radice del progetto)
+    set(DTC_OVERLAY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity_fc/teensy41.overlay)
+    set(CONF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf;${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity_fc/teensy41.conf)
 else()
     set(CONFIG_BOARD_DEFCONFIG sitl_defconfig)
-    set(TOOLCHAIN_FILE toolchain_sitl.cmake)
+    #set(TOOLCHAIN_FILE toolchain_sitl.cmake)
+    # Nel tuo CMakeLists.txt (nella radice del progetto)
+    set(DTC_OVERLAY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/boards/sitl/native_sim.overlay)
+    set(CONF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf;${CMAKE_CURRENT_SOURCE_DIR}/boards/sitl/native_sim.conf)
 endif()
 
 # Carica toolchain
