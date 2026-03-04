@@ -1,0 +1,6 @@
+if(CONFIG_LOGGER_ENABLED)
+    add_module(logger)
+    target_sources(logger PRIVATE Logger.cpp)
+    target_include_directories(logger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    target_link_libraries(logger PUBLIC SRIMB srimb_topics)
+endif()

@@ -1,0 +1,17 @@
+# west.yml
+manifest:
+  defaults:
+    remote: upstream
+
+  remotes:
+    - name: upstream
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      repo-path: zephyr
+      revision: v3.6.0                # Scegli una versione stabile (o main se vuoi l'ultima)
+      import: true                     # Importa automaticamente i moduli di Zephyr (HAL, ecc.)
+
+  self:
+    path: .                            # Importantissimo: indica che questo repository (il tuo) deve stare nella radice del workspace

@@ -4,12 +4,14 @@
 #include <vector>
 #include <memory>
 
-#include <modules/Logger/LoggerMsgs.hpp>
-#include <config/parameters.h>
+#include "generated/autoconf.h"
 
-#include "modules/SRIMB/srimb.hpp"
-#include "utils/srimb_topics/imu_topic/imu_topic.hpp"
-#include "utils/srimb_topics/gps_topic/gps_topic.hpp"
+#include "LoggerMsgs.hpp"
+//#include <config/parameters.h>
+
+#include "srimb.hpp"
+#include "imu_topic/imu_topic.hpp"
+#include "gps_topic/gps_topic.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
 
@@ -25,7 +27,7 @@ class Logger
 {
 private:
 
-    uint8_t _log_buffer[BUFFER_SIZE_KB * 1024];
+    uint8_t _log_buffer[CONFIG_LOGGER_BUFFER_SIZE * 1024];
     volatile uint32_t _head = 0; // Dove scrive il Producer
     volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
 

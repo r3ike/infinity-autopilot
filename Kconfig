@@ -1,0 +1,27 @@
+mainmenu "Infinity-Autopilot Configuration"
+menu "Zephyr Configuration"
+source "Kconfig.zephyr"
+endmenu
+
+# Imponi che una e una sola piattaforma sia selezionata
+choice
+    prompt "Target choice"
+    default TARGET_SITL
+    help
+      Choose the target platform for the build.
+
+config TARGET_SITL
+    bool "SITL"
+
+config TARGET_TEENSY41
+    bool "Teensy 4.1"
+
+endchoice
+
+menu "HAL Configuration"
+source "../src/hal/Kconfig"
+endmenu
+
+menu "Modules Configuration"
+source "../src/modules/Logger/Kconfig"
+endmenu

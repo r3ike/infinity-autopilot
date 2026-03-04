@@ -1,0 +1,5 @@
+menu "IMU Drivers"
+source "../src/hal/teensy/drivers/imu/Bmi088_driver/Kconfig"
+
+source "../src/hal/teensy/drivers/imu/ICM42688P_driver/Kconfig"
+endmenu

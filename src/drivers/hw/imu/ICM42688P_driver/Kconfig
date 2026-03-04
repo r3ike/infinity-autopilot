@@ -1,0 +1,2 @@
+menuconfig ICM42688P_DRIVER_ENABLED
+    bool "Supporto ICM42688P driver"

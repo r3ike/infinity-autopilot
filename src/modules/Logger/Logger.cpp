@@ -32,7 +32,7 @@ void Logger::_write_to_buffer(const void* data, unsigned int length)
 
 void Logger::_log_imu()
 {
-    if (LOG_IMU_FLAG)
+    if (CONFIG_LOG_IMU_ENABLED)
     {
         for (size_t i = 0; i < IMU_INSTANCES; i++)
         {
@@ -50,7 +50,7 @@ void Logger::_log_imu()
 
 void Logger::_log_gps()
 {
-    if (LOG_GPS_FLAG)
+    if (CONFIG_LOG_GPS_ENABLED)
     {
         for (size_t i = 0; i < GPS_INSTANCES; i++)
         {
