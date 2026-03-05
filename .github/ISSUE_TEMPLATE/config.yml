@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentazione
+    url: https://github.com/reike/infinity-autopilot/wiki
+    about: Consulta la wiki del progetto
+  - name: Discussioni
+    url: https://github.com/reike/infinity-autopilot/discussions
+    about: Fai domande e discuti con la comunità
