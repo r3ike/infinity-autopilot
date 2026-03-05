@@ -1,0 +1,25 @@
+/ {
+    // Qualsiasi altra configurazione...
+};
+
+&i2c1 {
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>; // Es. 400kHz
+
+    bmi088_accel: accelerometer@18 {
+        compatible = "bosch,bmi088-accel";
+        reg = <0x18>;
+        status = "okay";
+        // Opzioni di configurazione specifiche (vedi datasheet)
+        // odr = <0x0B>; // Output Data Rate (es. 800Hz)
+        // osr = <0x08>; // Oversampling Rate
+    };
+
+    bmi088_gyro: gyroscope@69 {
+        compatible = "bosch,bmi088-gyro";
+        reg = <0x69>;
+        status = "okay";
+        // Opzioni di configurazione specifiche
+        // bandwidth = <0x06>; // Frequenza di taglio (es. 64Hz)
+    };
+};
