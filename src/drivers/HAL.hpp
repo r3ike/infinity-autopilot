@@ -17,21 +17,58 @@
 #include <config/board_configs.h>
 //#include <config/parameters.h>
 
+
 #ifdef CONFIG_TARGET_TEENSY41
 
-    // Gps drivers settings
-    #define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
+// Gps drivers settings
+#define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
+#define BMI088_INSTANCES (IS_DEFINED(CONFIG_BMI088_DRIVER_ENABLED) ? BMI088_NUM_INSTANCES : 0)
+#define IMU_INSTANCES (BMI088_INSTANCES + 0)
+#define GPS_INSTANCES (BN280_INSTANCES + 0)
+#define MAG_INSTANCES 1
+#define LIDAR_INSTANCES 1
+#define BARO_INSTANCES 1
 
-    #define BMI088_INSTANCES (IS_DEFINED(CONFIG_BMI088_DRIVER_ENABLED) ? BMI088_NUM_INSTANCES : 0)
+// Configurazioni per il multi-instance del Bmi088
+#ifdef CONFIG_BMI088_DRIVER_ENABLED 
 
-    #define IMU_INSTANCES (BMI088_INSTANCES + 0)
-    #define GPS_INSTANCES (BN280_INSTANCES + 0)
-    #define MAG_INSTANCES 1
-    #define LIDAR_INSTANCES 1
-    #define BARO_INSTANCES 1
+#define BMI088_ACCEL_0 DT_NODELABEL(bmi088_accel_0)
+#define BMI088_GYRO_0  DT_NODELABEL(bmi088_gyro_0)
+#define BMI088_ACCEL_1 DT_NODELABEL(bmi088_accel_1)
+#define BMI088_GYRO_1  DT_NODELABEL(bmi088_gyro_1)
+#define BMI088_ACCEL_2 DT_NODELABEL(bmi088_accel_2)
+#define BMI088_GYRO_2  DT_NODELABEL(bmi088_gyro_2)
+
+// Istanza 0
+#if (CONFIG_BMI088_NUM_INSTANCES >=1) && !DT_NODE_EXISTS(BMI088_ACCEL_0)
+#error "BMI088 instance 0 accelerometer node not found in device tree"
+#endif
+#if (CONFIG_BMI088_NUM_INSTANCES >=1) && !DT_NODE_EXISTS(BMI088_GYRO_0)
+#error "BMI088 instance 0 gyroscope node not found in device tree"
+#endif
+// Istanza 1
+#if (CONFIG_BMI088_NUM_INSTANCES >=2) && !DT_NODE_EXISTS(BMI088_ACCEL_1)
+#error "BMI088 instance 1 accelerometer node not found in device tree"
+#endif
+#if (CONFIG_BMI088_NUM_INSTANCES >=2) && !DT_NODE_EXISTS(BMI088_GYRO_1)
+#error "BMI088 instance 1 gyroscope node not found in device tree"
+#endif
+// Istanza 2
+#if (CONFIG_BMI088_NUM_INSTANCES >=3) && !DT_NODE_EXISTS(BMI088_ACCEL_2)
+#error "BMI088 instance 2 accelerometer node not found in device tree"
+#endif
+#if (CONFIG_BMI088_NUM_INSTANCES >=3) && !DT_NODE_EXISTS(BMI088_GYRO_2)
+#error "BMI088 instance 2 gyroscope node not found in device tree"
+#endif
+
+#endif
+
+
 #else
-    #define IMU_INSTANCES 1
-    #define GPS_INSTANCES 1
+
+#define IMU_INSTANCES 1
+#define GPS_INSTANCES 1
+
 #endif
 
 struct HALState{
@@ -53,7 +90,7 @@ struct HALState{
 /*---------------------------------
     CLASSI INTERFACE PER HAL
 ----------------------------------*/
-class HAL_IMU {
+class IHAL_IMU {
 public:
     virtual bool init() = 0;
     virtual void calib() = 0;

@@ -9,5 +9,8 @@
     "cmake.buildDirectory": "${workspaceFolder}/build",
     "cmake.sourceDirectory": "${workspaceFolder}",
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "conventionalCommits.scopes": [
+        "HAL"
+    ]
 }

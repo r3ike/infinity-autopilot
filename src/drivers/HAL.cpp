@@ -7,7 +7,30 @@ HAL::HAL()
     _multi_instances_reset();
     
     #ifdef CONFIG_TARGET_TEENSY41
-        registerImu(std::make_unique<Bmi088_driver>());
+    
+        #ifdef CONFIG_BN280_DRIVER_ENABLED
+        
+        // Istanza 0
+        #if CONFIG_BMI088_NUM_INSTANCES >= 1
+        const struct device *accel0 = DEVICE_DT_GET(BMI088_ACCEL_0);
+        const struct device *gyro0  = DEVICE_DT_GET(BMI088_GYRO_0);
+        registerImu(std::make_unique<Bmi088_driver>(accel0, gyro0));
+        #endif
+        // Istanza 1
+        #if CONFIG_BMI088_NUM_INSTANCES >= 2
+        const struct device *accel1 = DEVICE_DT_GET(BMI088_ACCEL_1);
+        const struct device *gyro1  = DEVICE_DT_GET(BMI088_GYRO_1);
+        registerImu(std::make_unique<Bmi088_driver>(accel1, gyro1));
+        #endif
+        // Istanza 2
+        #if CONFIG_BMI088_NUM_INSTANCES >= 3
+        const struct device *accel2 = DEVICE_DT_GET(BMI088_ACCEL_2);
+        const struct device *gyro2  = DEVICE_DT_GET(BMI088_GYRO_2);
+        registerImu(std::make_unique<Bmi088_driver>(accel2, gyro2));
+        #endif
+
+        #endif
+
         #ifdef CONFIG_BN280_DRIVER_ENABLED
         for (size_t i = 0; i < CONFIG_BN280_NUM_INSTANCES; i++)
         {
@@ -62,7 +85,7 @@ HALState HAL::init()
 
 
 
-bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance )
+bool HAL::registerImu(std::unique_ptr<IHAL_IMU> imu_instance )
 {
     if (_imu_count >= IMU_INSTANCES) return false;
     
@@ -71,7 +94,7 @@ bool HAL::registerImu(std::unique_ptr<HAL_IMU> imu_instance )
     return true;
 }
 
-HAL_IMU* HAL::getImuInstance(uint8_t idx){
+IHAL_IMU* HAL::getImuInstance(uint8_t idx){
     if(idx >= _imu_count) return nullptr;
 
     return _imu_instances.at(idx).get();

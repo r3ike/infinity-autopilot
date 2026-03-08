@@ -1,19 +1,19 @@
-#include <hal/teensy/drivers/imu/Bmi088_driver/Bmi088_driver.hpp>
+
 #include "Bmi088_driver.hpp"
 
 
-Bmi088_driver::Bmi088_driver() {}
+Bmi088_driver::Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev):_accel_dev(accel_dev), _gyro_dev(gyro_dev) {}
 
 bool Bmi088_driver::init() {
     _gyro_rate_calib = {0,0,0};
 
-    if (!device_is_ready(accel_dev)) {
+    if (!device_is_ready(_accel_dev)) {
         //LOG_ERR("Device accelerometro non pronto");
         return false;
     }
     //LOG_INF("Accelerometro trovato: %s", accel_dev->name);
 
-    if (!device_is_ready(gyro_dev)) {
+    if (!device_is_ready(_gyro_dev)) {
         //LOG_ERR("Device giroscopio non pronto");
         return false;
     }
@@ -46,14 +46,14 @@ Vector3f Bmi088_driver::getRawAccel(){
     struct sensor_value accel_x, accel_y, accel_z;
 
     // --- Leggi accelerometro ---
-    if (sensor_sample_fetch(accel_dev) < 0) {
+    if (sensor_sample_fetch(_accel_dev) < 0) {
         // LOG_ERR("Fallita acquisizione campione accelerometro");
         return;
     }
 
-    sensor_channel_get(accel_dev, SENSOR_CHAN_ACCEL_X, &accel_x);
-    sensor_channel_get(accel_dev, SENSOR_CHAN_ACCEL_Y, &accel_y);
-    sensor_channel_get(accel_dev, SENSOR_CHAN_ACCEL_Z, &accel_z);
+    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_X, &accel_x);
+    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Y, &accel_y);
+    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Z, &accel_z);
 
 
     return {
@@ -68,14 +68,14 @@ ImuData Bmi088_driver::getRawImu()
     struct sensor_value gyro_x, gyro_y, gyro_z;
 
     // --- Leggi giroscopio ---
-    if (sensor_sample_fetch(gyro_dev) < 0) {
+    if (sensor_sample_fetch(_gyro_dev) < 0) {
         // LOG_ERR("Fallita acquisizione campione giroscopio");
         return;
     }
 
-    sensor_channel_get(gyro_dev, SENSOR_CHAN_GYRO_X, &gyro_x);
-    sensor_channel_get(gyro_dev, SENSOR_CHAN_GYRO_Y, &gyro_y);
-    sensor_channel_get(gyro_dev, SENSOR_CHAN_GYRO_Z, &gyro_z);
+    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_X, &gyro_x);
+    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Y, &gyro_y);
+    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Z, &gyro_z);
 
     return {
         getRawGyro(),
@@ -91,13 +91,13 @@ double Bmi088_driver::_getImuTemp()
     struct sensor_value temp_value;
 
     // 1. Effettua una lettura del sensore (il giroscopio, che include il die temp)
-    if (sensor_sample_fetch(gyro_dev) < 0) {
+    if (sensor_sample_fetch(_gyro_dev) < 0) {
         LOG_ERR("Fallita acquisizione campione per temperatura");
         return;
     }
 
     // 2. Ottieni il valore del canale temperatura
-    if (sensor_channel_get(gyro_dev, SENSOR_CHAN_DIE_TEMP, &temp_value) < 0) {
+    if (sensor_channel_get(_gyro_dev, SENSOR_CHAN_DIE_TEMP, &temp_value) < 0) {
         LOG_ERR("Impossibile leggere il canale temperatura");
         return;
     }

@@ -15,25 +15,19 @@
 // #include <config/parameters.h>
 #include <srimb_topics/imu_topic/imu_topic.hpp>
 
-// Ottieni il device tree node label e il device pointer per l'accelerometro
-#define ACCEL_NODE DT_NODELABEL(bmi088_accel)
 
-// Ottieni il device tree node label e il device pointer per il giroscopio
-#define GYRO_NODE DT_NODELABEL(bmi088_gyro)
-
-
-class Bmi088_driver : public HAL_IMU
+class Bmi088_driver : public IHAL_IMU
 {
 private:
     Vector3f _gyro_rate_calib;
     
-    const struct device *gyro_dev = DEVICE_DT_GET(GYRO_NODE);
-    const struct device *accel_dev = DEVICE_DT_GET(ACCEL_NODE);
+    const struct device *_gyro_dev;
+    const struct device *_accel_dev;
 
     double _getImuTemp(); 
     
 public:
-    Bmi088_driver();
+    Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev);
     ~Bmi088_driver() = default;
 
     bool init() override;
