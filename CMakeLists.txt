@@ -77,12 +77,13 @@ set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG
 #add_subdirectory(src/utils)
 #add_subdirectory(src/modules/SRIMB)
 #add_subdirectory(src/utils/srimb_topics)
-#add_subdirectory(src/hal)
 
 # Aggiungi componenti se abilitati
 if(CONFIG_LOGGER_ENABLED)
     # add_subdirectory(src/modules/Logger)
 endif()
+
+add_subdirectory(src/drivers)
 
 
 
