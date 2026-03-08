@@ -8,16 +8,16 @@
 #define IS_DEFINED__1(a, b) a
 #define IS_DEFINED__0(a, b) b
 
+#include <zephyr/kernel.h>
+
 #include "imu_topic/imu_topic.hpp"
 #include "gps_topic/gps_topic.hpp"
 #include "lidar_topic/lidar_topic.hpp"
 #include "Vector3f.h"
-#include "generated/autoconf.h"
 #include <config/board_configs.h>
 //#include <config/parameters.h>
 
 #ifdef CONFIG_TARGET_TEENSY41
-    #include "Arduino.h"
 
     // Gps drivers settings
     #define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
