@@ -170,8 +170,8 @@ public:
 
     HALState init();
 
-    bool registerImu(std::unique_ptr<HAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
-    HAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
+    bool registerImu(std::unique_ptr<IHAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
+    IHAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
 
     bool registerGps(std::unique_ptr<HAL_GPS> gps_instance);
     HAL_GPS* getGpsInstance(uint8_t idx);
@@ -191,7 +191,7 @@ public:
     HAL_Time_Interrupts* getTimeInstance();
 
 private:
-    std::array<std::unique_ptr<HAL_IMU>, IMU_INSTANCES> _imu_instances;         // Buffer per le instanze delle IMU
+    std::array<std::unique_ptr<IHAL_IMU>, IMU_INSTANCES> _imu_instances;         // Buffer per le instanze delle IMU
     uint8_t _imu_count;                                             // Contatore per le imu aggiunte
 
     std::array<std::unique_ptr<HAL_GPS>,GPS_INSTANCES> _gps_instances;         // Buffer per le instanze delle GPS
@@ -219,7 +219,6 @@ private:
 
 // Include delle implementazioni concrete DOPO le definizioni delle interfacce
 #ifdef CONFIG_TARGET_TEENSY41
-    #include "hal/teensy/HAL_Teensy.hpp"
 
     #ifdef CONFIG_BMI088_DRIVER_ENABLED
     #include "Bmi088_driver.hpp"
