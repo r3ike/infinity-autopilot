@@ -1,0 +1,2 @@
+source "../src/modules/Logger/Kconfig"
+source "../src/modules/ImuManager/Kconfig"

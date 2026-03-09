@@ -1,0 +1,8 @@
+
+if TARGET_SITL
+source "../src/drivers/sitl/Kconfig"
+endif
+
+if TARGET_TEENSY41
+source "../src/drivers/hw/Kconfig"
+endif

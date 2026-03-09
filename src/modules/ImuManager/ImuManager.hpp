@@ -1,13 +1,16 @@
 #pragma once
 
-#include "modules/SRIMB/srimb.hpp"
-#include "modules/SRIMB/srimb_topic.hpp"
-#include "utils/srimb_topics/imu_topic/imu_topic.hpp"
-#include <config/parameters.h>
+#include <zephyr/kernel.h>
 
-#include "hal/HAL.hpp"
+#include "srimb.hpp"
+#include "srimb_topic.hpp"
+#include "imu_topic/imu_topic.hpp"
+
+
+#include "HAL.hpp"
 
 #include <filters/ImuLpfFilter.hpp>
+
 
 /**
  * Questa classe si occupa di gestire le IMU, in particolare è il modulo addetto a pubblicare il topic ImuData e 

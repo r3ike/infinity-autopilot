@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include "generated/autoconf.h"
+#include <zephyr/kernel.h>
 
 #include "LoggerMsgs.hpp"
 //#include <config/parameters.h>

@@ -1,4 +1,4 @@
-#include "modules/ImuManager/ImuManager.hpp"
+
 #include "ImuManager.hpp"
 
 void ImuManager::init()

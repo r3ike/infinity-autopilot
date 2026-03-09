@@ -6,7 +6,7 @@ endmenu
 # Imponi che una e una sola piattaforma sia selezionata
 choice
     prompt "Target choice"
-    default TARGET_SITL
+    default TARGET_TEENSY41
     help
       Choose the target platform for the build.
 
@@ -18,10 +18,10 @@ config TARGET_TEENSY41
 
 endchoice
 
-menu "HAL Configuration"
-source "../src/hal/Kconfig"
+menu "Drivers Configuration"
+source "../src/drivers/Kconfig"
 endmenu
 
 menu "Modules Configuration"
-source "../src/modules/Logger/Kconfig"
+source "../src/modules/Kconfig"
 endmenu

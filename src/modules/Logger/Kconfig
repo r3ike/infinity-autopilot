@@ -1,12 +1,11 @@
-menu "Logger module configuration"
 
-
-
-config LOGGER_ENABLED
-    bool "Enable Logger Module"
+menuconfig LOGGER_ENABLED
+    bool "Logger module configuration"
     default y
 
 
+
+if LOGGER_ENABLED
 
 config LOG_IMU_ENABLED
     bool "Enable log messages on IMU topics"
@@ -51,4 +50,4 @@ config LOGGER_BUFFER_SIZE
     help
       Specifica la dimensione del buffer circolare per i messaggi di log in KB.
 
-endmenu
+endif # LOGGER_ENABLED

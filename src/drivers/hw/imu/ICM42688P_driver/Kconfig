@@ -1,2 +1,11 @@
 menuconfig ICM42688P_DRIVER_ENABLED
     bool "Supporto ICM42688P driver"
+
+if ICM42688P_DRIVER_ENABLED
+
+config ICM42688P_NUM_INSTANCES
+    int "Numero di sensori ICM42688P presenti nel sistema"
+    range 1 3
+    default 1
+
+endif # ENABLE_ICM42688P_DRIVER
