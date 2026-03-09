@@ -8,7 +8,7 @@ HAL::HAL()
     
     #ifdef CONFIG_TARGET_TEENSY41
     
-        #ifdef CONFIG_BN280_DRIVER_ENABLED
+        #ifdef CONFIG_BMI088_DRIVER_ENABLED
         
         // Istanza 0
         #if CONFIG_BMI088_NUM_INSTANCES >= 1
@@ -39,11 +39,11 @@ HAL::HAL()
         
         #endif
         //registerBaro(std::make_unique);
-        registerLidar(std::make_unique<TFLuna_driver>());
-        registerMag(std::make_unique<HAL_MAG_Teensy>());
+        //registerLidar(std::make_unique<TFLuna_driver>());
+        //registerMag(std::make_unique<HAL_MAG_Teensy>());
 
-        _motor_instance = std::make_unique<HAL_MOTOR_Teensy>();
-        _time_instance = std::make_unique<HAL_TIME_INTERRUPTS_Teensy>();
+        //_motor_instance = std::make_unique<HAL_MOTOR_Teensy>();
+        //_time_instance = std::make_unique<HAL_TIME_INTERRUPTS_Teensy>();
         //_telemetry_instance
         //_sd_logging_instance
 
@@ -62,8 +62,6 @@ HALState HAL::init()
     HALState states;
 #ifdef CONFIG_TARGET_TEENSY41
 
-    GPS_SERIAL.begin(9600);
-    LIDAR_SERIAL.begin(9600);
 
     for (uint8_t i = 0; i < _imu_count; i++) states.imu_state[i] = (_imu_instances.at(i)->init());            // Init tutte le imu
         
@@ -71,7 +69,7 @@ HALState HAL::init()
     /**
      * ATTENZIONE: La inizializzazione del gps è errata perchè sta passando a tutti la stessa seriale.
      */
-    for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances.at(i)->init(&GPS_SERIAL);     // Init tutti i gps
+    //for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances.at(i)->init(&GPS_SERIAL);     // Init tutti i gps
     
     
     //states.lidar_state = lidar->init(&LIDAR_SERIAL);

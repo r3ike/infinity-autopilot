@@ -8,6 +8,7 @@ set(TOPICS_SOURCES
 )
 
 add_library(srimb_topics STATIC ${TOPICS_SOURCES})
+add_dependencies(srimb_topics offsets_h)
 target_include_directories(srimb_topics PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(srimb_topics PUBLIC SRIMB utils)
+target_link_libraries(srimb_topics PUBLIC zephyr_interface SRIMB utils hal stdc++)

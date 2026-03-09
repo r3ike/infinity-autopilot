@@ -10,3 +10,7 @@ west build -t menuconfig
 ```
 Una volta modificate le configurazione interessate è necessario eseguire nuovamente il comando di build.
 
+## Clean build
+```bash
+west build -t clean
+```

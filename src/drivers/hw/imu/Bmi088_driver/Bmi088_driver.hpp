@@ -7,13 +7,14 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/autoconf.h>
 
-#include <HAL.hpp>
-#include <Vector3f.h>
-#include <Quaternion.h>
+#include "HAL.hpp"
+#include "Vector3f.h"
+#include "Quaternion.h"
 // #include <config/board_configs.h>
 // #include <config/parameters.h>
-#include <srimb_topics/imu_topic/imu_topic.hpp>
+#include "imu_topic/imu_topic.hpp"
 
 
 class Bmi088_driver : public IHAL_IMU

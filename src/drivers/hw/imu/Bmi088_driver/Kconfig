@@ -1,5 +1,6 @@
 menuconfig BMI088_DRIVER_ENABLED
     bool "Supporto BMI088 driver"
+    default y
 
 
 

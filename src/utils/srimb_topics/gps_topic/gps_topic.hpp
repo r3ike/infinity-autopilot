@@ -1,10 +1,12 @@
 #pragma once
+
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
 #include "srimb_topic.hpp"
 #include <cstdint>
 #include "Vector3f.h"
-#include "generated/autoconf.h"
+#include "HAL.hpp"
 
-#define GPS_INSTANCES 1
 
 struct GpsData
 {

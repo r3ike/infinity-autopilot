@@ -3,26 +3,24 @@
 #include <memory>
 #include <array>
 
-#define IS_DEFINED(macro)  IS_DEFINED_(macro)
-#define IS_DEFINED_(macro) IS_DEFINED__##macro(1, 0)
-#define IS_DEFINED__1(a, b) a
-#define IS_DEFINED__0(a, b) b
 
 #include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
+#include <zephyr/sys/util.h>
 
 #include "imu_topic/imu_topic.hpp"
 #include "gps_topic/gps_topic.hpp"
 #include "lidar_topic/lidar_topic.hpp"
 #include "Vector3f.h"
-#include <config/board_configs.h>
+//#include <config/board_configs.h>
 //#include <config/parameters.h>
 
 
 #ifdef CONFIG_TARGET_TEENSY41
 
 // Gps drivers settings
-#define BN280_INSTANCES (IS_DEFINED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
-#define BMI088_INSTANCES (IS_DEFINED(CONFIG_BMI088_DRIVER_ENABLED) ? BMI088_NUM_INSTANCES : 0)
+#define BN280_INSTANCES (IS_ENABLED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
+#define BMI088_INSTANCES (IS_ENABLED(CONFIG_BMI088_DRIVER_ENABLED) ? CONFIG_BMI088_NUM_INSTANCES : 0)
 #define IMU_INSTANCES (BMI088_INSTANCES + 0)
 #define GPS_INSTANCES (BN280_INSTANCES + 0)
 #define MAG_INSTANCES 1
@@ -102,7 +100,7 @@ public:
 class HAL_GPS {
 public:
 #ifdef CONFIG_TARGET_TEENSY41
-    virtual bool init(Stream *serialPtr) = 0;
+    virtual bool init() = 0;
 #elif defined(CONFIG_TARGET_SITL)
     virtual bool init() = 0;
 #endif
@@ -123,7 +121,7 @@ public:
 class HAL_LIDAR {
 public:
 #ifdef CONFIG_TARGET_TEENSY41
-    virtual bool init(Stream *serialPtr) = 0;
+    virtual bool init() = 0;
 #elif defined(CONFIG_TARGET_SITL)
     virtual bool init() = 0;
 #endif
@@ -228,10 +226,10 @@ private:
     #include "Bn280_driver.hpp"
     #endif
 
-    #include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
-    #include <hal/teensy/drivers/motor/Motor.hpp>
+    //#include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
+    //#include <hal/teensy/drivers/motor/Motor.hpp>
     
-    #include <hal/teensy/drivers/mag/Mag.hpp>
+    //#include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(CONFIG_TARGET_SITL)
     #include <hal/SITL/HAL_sitl.hpp>
 #endif

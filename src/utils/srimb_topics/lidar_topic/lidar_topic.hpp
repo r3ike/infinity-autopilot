@@ -1,11 +1,12 @@
 #pragma once
 #include <cstdint>
 
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
 #include "srimb_topic.hpp"
 #include "Vector3f.h"
-#include "generated/autoconf.h"
+#include "HAL.hpp"
 
-#define LIDAR_INSTANCES 1
 
 struct LidarData
 {

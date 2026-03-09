@@ -1,10 +1,11 @@
 #pragma once
-#include "srimb_topic.hpp"
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
 #include <cstdint>
+#include "srimb_topic.hpp"
 #include "Vector3f.h"
-#include "generated/autoconf.h"
+#include "HAL.hpp"
 
-#define IMU_INSTANCES 1
 
 struct ImuData {
     Vector3f raw_acc;
