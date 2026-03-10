@@ -3,24 +3,29 @@
 #include <memory>
 #include <array>
 
-
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
 
-#include "imu_topic/imu_topic.hpp"
-#include "gps_topic/gps_topic.hpp"
-#include "lidar_topic/lidar_topic.hpp"
 #include "Vector3f.h"
-//#include <config/board_configs.h>
-//#include <config/parameters.h>
 
 
 #ifdef CONFIG_TARGET_TEENSY41
 
-// Gps drivers settings
-#define BN280_INSTANCES (IS_ENABLED(CONFIG_BN280_DRIVER_ENABLED) ? CONFIG_BN280_NUM_INSTANCES : 0)
-#define BMI088_INSTANCES (IS_ENABLED(CONFIG_BMI088_DRIVER_ENABLED) ? CONFIG_BMI088_NUM_INSTANCES : 0)
+// BN280
+#ifdef CONFIG_BN280_DRIVER_ENABLED
+#define BN280_INSTANCES CONFIG_BN280_NUM_INSTANCES
+#else
+#define BN280_INSTANCES 0
+#endif
+
+// BMI088
+#ifdef CONFIG_BMI088_DRIVER_ENABLED
+#define BMI088_INSTANCES CONFIG_BMI088_NUM_INSTANCES
+#else
+#define BMI088_INSTANCES 0
+#endif
+
 #define IMU_INSTANCES (BMI088_INSTANCES + 0)
 #define GPS_INSTANCES (BN280_INSTANCES + 0)
 #define MAG_INSTANCES 1
@@ -68,6 +73,12 @@
 #define GPS_INSTANCES 1
 
 #endif
+
+#include "imu_topic/ImuData.hpp"
+#include "gps_topic/GpsData.hpp"
+#include "lidar_topic/LidarData.hpp"
+
+
 
 struct HALState{
     bool imu_state[IMU_INSTANCES];

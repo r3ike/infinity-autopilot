@@ -88,12 +88,12 @@ double Bmi088_driver::_getImuTemp()
 
     // 1. Effettua una lettura del sensore (il giroscopio, che include il die temp)
     if (sensor_sample_fetch(_gyro_dev) < 0) {
-        return {0,0,0};
+        return 0.0;
     }
 
     // 2. Ottieni il valore del canale temperatura
     if (sensor_channel_get(_gyro_dev, SENSOR_CHAN_DIE_TEMP, &temp_value) < 0) {
-        return {0,0,0};
+        return 0.0;
     }
 
     // 3. Converti e logga

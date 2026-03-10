@@ -11,6 +11,7 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "C_Cpp.errorSquiggles": "disabled",
     "conventionalCommits.scopes": [
-        "HAL"
+        "HAL",
+        "SRIMB_TOPICS"
     ]
 }
