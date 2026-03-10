@@ -1,6 +1,23 @@
+add_library(Modules INTERFACE)      #Target aggregatore
+
+set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
+
+#---------------------------------
+#       Moduli obbligatori
+#---------------------------------
+add_subdirectory(SRIMB)
+list(APPEND MODULES_LINK_LIB SRIMB)
+add_subdirectory(ImuManager)
+list(APPEND MODULES_LINK_LIB ImuManager)
+
+#---------------------------------
+#       Moduli Facoltativi
+#---------------------------------
+
 if(CONFIG_LOGGER_ENABLED)
-    #add_subdirectory(Logger)
+    add_subdirectory(Logger)
+    list(APPEND MODULES_LINK_LIB Logger)
 endif()
 
-add_subdirectory(SRIMB)
-#add_subdirectory(ImuManager)
+
+target_link_libraries(Modules INTERFACE ${MODULES_LINK_LIB})
