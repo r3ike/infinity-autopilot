@@ -1,7 +1,7 @@
 #pragma once
 
 /*-------------------------------
-    WRAPPER PER LA IMU
+    WRAPPER PER IL BMI088
 -------------------------------*/
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>

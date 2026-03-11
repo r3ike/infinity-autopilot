@@ -1,18 +1,32 @@
 #pragma once
 
-#include <Arduino.h>
-#include <Wire.h>
-#include <hal/HAL.hpp>
+/*-------------------------------
+    WRAPPER PER IL ICM42688P
+-------------------------------*/
 
-#include <utils/Vector3f.h>
-#include <utils/Quaternion.h>
-#include <config/board_configs.h>
-#include <config/parameters.h>
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/autoconf.h>
 
-class ICM42688P_driver : public HAL_IMU
+#include "ImuLpfFilter.hpp"
+#include "HAL.hpp"
+#include "Vector3f.h"
+#include "Quaternion.h"
+#include "imu_topic/imu_topic.hpp"
+
+class ICM42688P_driver : public IHAL_IMU
 {
 private:
-    /* data */
+    Vector3f _gyro_rate_calib;
+    
+    const struct device *_gyro_dev;
+    const struct device *_accel_dev;
+
+    std::unique_ptr<ImuLpfFilter> _lpf_filter;
+
+    double _getImuTemp(); 
 public:
     ICM42688P_driver();
     ~ICM42688P_driver() = default;

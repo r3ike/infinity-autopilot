@@ -2,24 +2,52 @@
     // Qualsiasi altra configurazione...
 };
 
+
 &lpi2c1 {
     status = "okay";
-    clock-frequency = <I2C_BITRATE_FAST>; // Es. 400kHz
+    clock-frequency = <I2C_BITRATE_FAST>;
 
-    bmi088_accel_0: accelerometer@18 {
-        compatible = "bosch,bmi088-accel";
-        reg = <0x18>;
+    bmi088_gyro_0: bmi088-gyr@68 {
+        compatible = "bosch,bmi088-gyr";
+        reg = <0x68>; /* Indirizzo I2C del giroscopio */
+        /* bandwidth = <...>; */
         status = "okay";
-        // Opzioni di configurazione specifiche (vedi datasheet)
-        // odr = <0x0B>; // Output Data Rate (es. 800Hz)
-        // osr = <0x08>; // Oversampling Rate
     };
 
-    bmi088_gyro_0: gyroscope@69 {
-        compatible = "bosch,bmi088-gyro";
-        reg = <0x69>;
+    bmi088_accel_0: bmi088-acc@18 {
+        compatible = "bosch,bmi088-acc";
+        reg = <0x18>; /* Indirizzo I2C dell'accelerometro */
+        /* odr = <...>; */
+        /* osr = <...>; */
         status = "okay";
-        // Opzioni di configurazione specifiche
-        // bandwidth = <0x06>; // Frequenza di taglio (es. 64Hz)
     };
 };
+
+/* 
+#include <zephyr/dt-bindings/icm42688.h>
+
+&spi0 {
+    /* Abilita il bus SPI0 e configuralo (esempio) */
+    status = "okay";
+    cs-gpios = <&gpioa 4 GPIO_ACTIVE_LOW>; /* Chip select su PA4 */
+
+    icm42688p_0: icm42688p@0 {
+        compatible = "invensense,icm42688";
+        reg = <0>; /* Indice del CS, corrisponde al primo in cs-gpios */
+        spi-max-frequency = <DT_FREQ_M(24)>; /* Frequenza max SPI: 24 MHz */
+
+        /* (Opzionale) Pin di interrupt */
+        int-gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>; /* Interrupt su PA5 */
+
+        /* Configurazione iniziale dell'accelerometro */
+        accel-pwr-mode = <ICM42688_ACCEL_LN>;      /* Modalità Low-Noise */
+        accel-odr = <ICM42688_ACCEL_ODR_2000>;     /* Frequenza uscita: 2000 Hz */
+        accel-fs = <ICM42688_ACCEL_FS_16>;         /* Fondo scala: ±16G */
+
+        /* Configurazione iniziale del giroscopio */
+        gyro-pwr-mode = <ICM42688_GYRO_LN>;        /* Modalità Low-Noise */
+        gyro-odr = <ICM42688_GYRO_ODR_2000>;       /* Frequenza uscita: 2000 Hz */
+        gyro-fs = <ICM42688_GYRO_FS_16>;           /* Fondo scala: ±2000 °/s (valore 16) */
+    };
+};
+*/
