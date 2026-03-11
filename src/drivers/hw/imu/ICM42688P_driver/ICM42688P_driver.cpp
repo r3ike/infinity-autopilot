@@ -2,23 +2,19 @@
 #include "ICM42688P_driver.hpp"
 
 
-ICM42688P_driver::ICM42688P_driver(const struct device *accel_dev, const struct device *gyro_dev):_accel_dev(accel_dev), _gyro_dev(gyro_dev) {
+ICM42688P_driver::ICM42688P_driver(const struct device *imu_dev):_imu_dev(imu_dev){
     _lpf_filter = std::make_unique<ImuLpfFilter>();
 }
 
 bool ICM42688P_driver::init() {
     _gyro_rate_calib = {0,0,0};
 
-    if (!device_is_ready(_accel_dev)) {
+    if (!device_is_ready(_imu_dev)) {
         //LOG_ERR("Device accelerometro non pronto");
         return false;
     }
     //LOG_INF("Accelerometro trovato: %s", accel_dev->name);
 
-    if (!device_is_ready(_gyro_dev)) {
-        //LOG_ERR("Device giroscopio non pronto");
-        return false;
-    }
 
     _lpf_filter->init_lpf_acc(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_ICM42688P_ACCEL_LPF);
     _lpf_filter->init_lpf_gyro(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_ICM42688P_GYRO_LPF);
@@ -34,7 +30,7 @@ void ICM42688P_driver::calib(){
 }
 
 Vector3f ICM42688P_driver::getRawGyro(){
-    struct sensor_value gyro_x, gyro_y, gyro_z;
+    struct sensor_value gyro[3];
 
     // --- Leggi giroscopio ---
     if (sensor_sample_fetch(_gyro_dev) < 0) {
@@ -42,35 +38,30 @@ Vector3f ICM42688P_driver::getRawGyro(){
         return {0,0,0};
     }
 
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_X, &gyro_x);
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Y, &gyro_y);
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Z, &gyro_z);
+    sensor_channel_get(_imu_dev, SENSOR_CHAN_GYRO_XYZ, gyro);
 
     return {
-        sensor_value_to_double(&gyro_x),
-        sensor_value_to_double(&gyro_y),
-        sensor_value_to_double(&gyro_z)
+        sensor_value_to_double(&gyro[0]),
+        sensor_value_to_double(&gyro[1]),
+        sensor_value_to_double(&gyro[2])
     };
 }
 
 Vector3f ICM42688P_driver::getRawAccel(){
-    struct sensor_value accel_x, accel_y, accel_z;
+    struct sensor_value accel[3];
 
-    // --- Leggi accelerometro ---
-    if (sensor_sample_fetch(_accel_dev) < 0) {
-        // LOG_ERR("Fallita acquisizione campione accelerometro");
+    // --- Leggi giroscopio ---
+    if (sensor_sample_fetch(_imu_dev) < 0) {
+        // LOG_ERR("Fallita acquisizione campione giroscopio");
         return {0,0,0};
     }
 
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_X, &accel_x);
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Y, &accel_y);
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Z, &accel_z);
-
+    sensor_channel_get(_imu_dev, SENSOR_CHAN_ACCEL_XYZ, accel);
 
     return {
-        sensor_value_to_double(&accel_x),
-        sensor_value_to_double(&accel_y),
-        sensor_value_to_double(&accel_z)
+        sensor_value_to_double(&accel[0]),
+        sensor_value_to_double(&accel[1]),
+        sensor_value_to_double(&accel[2])
     };
 }
 
@@ -94,12 +85,12 @@ double ICM42688P_driver::_getImuTemp()
     struct sensor_value temp_value;
 
     // 1. Effettua una lettura del sensore (il giroscopio, che include il die temp)
-    if (sensor_sample_fetch(_gyro_dev) < 0) {
+    if (sensor_sample_fetch(_imu_dev) < 0) {
         return 0.0;
     }
 
     // 2. Ottieni il valore del canale temperatura
-    if (sensor_channel_get(_gyro_dev, SENSOR_CHAN_DIE_TEMP, &temp_value) < 0) {
+    if (sensor_channel_get(_imu_dev, SENSOR_CHAN_DIE_TEMP, &temp_value) < 0) {
         return 0.0;
     }
 

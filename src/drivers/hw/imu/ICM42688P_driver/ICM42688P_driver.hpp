@@ -21,8 +21,7 @@ class ICM42688P_driver : public IHAL_IMU
 private:
     Vector3f _gyro_rate_calib;
     
-    const struct device *_gyro_dev;
-    const struct device *_accel_dev;
+    const struct device *_imu_dev;
 
     std::unique_ptr<ImuLpfFilter> _lpf_filter;
 
