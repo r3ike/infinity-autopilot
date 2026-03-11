@@ -9,7 +9,6 @@
 
 #include "HAL.hpp"
 
-#include <filters/ImuLpfFilter.hpp>
 
 
 /**
@@ -20,14 +19,8 @@
 class ImuManager
 {
 public:
-    ImuManager(HAL& hal) : _hal(hal){
-        for (size_t i = 0; i < IMU_INSTANCES; i++)
-        {
-            _imu_lpf_filters[i] = std::make_unique<ImuLpfFilter>();
-        }
-        
-        
-    };
+    ImuManager(HAL& hal) : _hal(hal){};
+
     ~ImuManager() = default;
 
     void init();
@@ -36,7 +29,6 @@ public:
 private:
     HAL& _hal;
 
-    std::array<std::unique_ptr<ImuLpfFilter>, IMU_INSTANCES> _imu_lpf_filters;
 
     void _publish_single_imu(uint8_t instance);
 };

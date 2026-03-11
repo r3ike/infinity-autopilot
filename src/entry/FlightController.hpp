@@ -1,11 +1,13 @@
 #pragma once 
-#include <config/parameters.h>
-#include <Convertions.hpp>
 
-#include <HAL.hpp>
+#include "Convertions.hpp"
+#include "HAL.hpp"
 
-#include <modules/Logger/Logger.hpp>
-#include <modules/ImuManager/ImuManager.hpp>
+#ifdef CONFIG_LOGGER_ENABLED
+#include "Logger.hpp"
+#endif
+
+#include "ImuManager.hpp"
 
 class FlightController
 {

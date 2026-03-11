@@ -3,14 +3,7 @@
 
 void ImuManager::init()
 {
-    /**
-     * LPF initialization
-     */
-    for (size_t i = 0; i < IMU_INSTANCES; i++)
-    {
-        _imu_lpf_filters.at(i)->init_lpf_acc(LOOP_RATE_HARD_LOOP, ACC_CUTOFF_FREQ);
-        _imu_lpf_filters.at(i)->init_lpf_gyro(LOOP_RATE_HARD_LOOP, GYRO_CUTOFF_FREQ);
-    }
+    
 }
 
 void ImuManager::run()
@@ -31,7 +24,6 @@ void ImuManager::_publish_single_imu(uint8_t instance)
 
     imu.imu_id = instance;
 
-    _imu_lpf_filters.at(instance)->apply(imu);
 
     srimb_publish(topic_imu[instance], imu, now);
 }

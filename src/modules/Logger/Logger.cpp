@@ -1,4 +1,3 @@
-#include <modules/Logger/Logger.hpp>
 #include "Logger.hpp"
 
 
@@ -32,8 +31,7 @@ void Logger::_write_to_buffer(const void* data, unsigned int length)
 
 void Logger::_log_imu()
 {
-    if (CONFIG_LOG_IMU_ENABLED)
-    {
+    #ifdef CONFIG_LOG_IMU_ENABLED
         for (size_t i = 0; i < IMU_INSTANCES; i++)
         {
             ImuData imu_data;
@@ -45,13 +43,12 @@ void Logger::_log_imu()
                 _write_to_buffer(&imu_msg, sizeof(imu_msg));
             }
         }
-    }
+    #endif
 }
 
 void Logger::_log_gps()
 {
-    if (CONFIG_LOG_GPS_ENABLED)
-    {
+    #ifdef CONFIG_LOG_GPS_ENABLED
         for (size_t i = 0; i < GPS_INSTANCES; i++)
         {
             GpsData gps_data;
@@ -63,13 +60,14 @@ void Logger::_log_gps()
                 _write_to_buffer(&gps_msg, sizeof(gps_msg));
             }
         }
-    }
+    #endif
 }
 
 void Logger::_log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished){
-    if (LOG_TASK_TRACE_FLAG)
-    {
-    }
+    
+    #ifdef CONFIG_LOG_TASK_TRACE_FLAG
+
+    #endif
     
 };
 

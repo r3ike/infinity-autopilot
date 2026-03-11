@@ -8,7 +8,7 @@ set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
 add_subdirectory(SRIMB)
 list(APPEND MODULES_LINK_LIB SRIMB)
 add_subdirectory(ImuManager)
-list(APPEND MODULES_LINK_LIB ImuManager)
+list(APPEND MODULES_LINK_LIB Imu_manager)
 
 #---------------------------------
 #       Moduli Facoltativi
