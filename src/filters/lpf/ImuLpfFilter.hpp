@@ -1,8 +1,8 @@
 #pragma once
-#include <filters/BiquadFilter/BiquadFilter.hpp>
-#include <filters/ExpFilter/ExpFilter.hpp>
+#include <BiquadFilter/BiquadFilter.hpp>
+#include <ExpFilter/ExpFilter.hpp>
 
-#include <utils/srimb_topics/imu_topic/imu_topic.hpp>
+#include "imu_topic/ImuData.hpp"
 
 struct ImuLpfFilter
 {

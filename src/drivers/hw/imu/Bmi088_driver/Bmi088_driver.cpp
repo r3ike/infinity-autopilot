@@ -2,7 +2,9 @@
 #include "Bmi088_driver.hpp"
 
 
-Bmi088_driver::Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev):_accel_dev(accel_dev), _gyro_dev(gyro_dev) {}
+Bmi088_driver::Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev):_accel_dev(accel_dev), _gyro_dev(gyro_dev) {
+    _lpf_filter = std::make_unique<ImuLpfFilter>();
+}
 
 bool Bmi088_driver::init() {
     _gyro_rate_calib = {0,0,0};
@@ -17,6 +19,9 @@ bool Bmi088_driver::init() {
         //LOG_ERR("Device giroscopio non pronto");
         return false;
     }
+
+    _lpf_filter.init_lpf_acc(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_ACCEL_LPF);
+    _lpf_filter.init_lpf_gyro(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_GYRO_LPF);
 
     return true;
 }
@@ -71,15 +76,17 @@ Vector3f Bmi088_driver::getRawAccel(){
 
 ImuData Bmi088_driver::getRawImu()
 {
-    
-
-    return {
+    ImuData data = {
         getRawGyro(),
         getRawAccel(),
         {0,0,0},
         {0,0,0},
         _getImuTemp()
     };
+
+    _lpf_filter.apply(data);
+
+    return data;
 }
 
 double Bmi088_driver::_getImuTemp()

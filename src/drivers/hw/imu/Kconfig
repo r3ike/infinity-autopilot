@@ -1,4 +1,11 @@
 menu "IMU Drivers"
+
+config IMU_SAMPLE_FREQUENCY
+    int "Frequenza di campionamento dell'IMU (Hz)"
+    range 1 2000
+    default 500
+    
+
 source "../src/drivers/hw/imu/Bmi088_driver/Kconfig"
 
 source "../src/drivers/hw/imu/ICM42688P_driver/Kconfig"

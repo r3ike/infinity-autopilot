@@ -12,6 +12,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "conventionalCommits.scopes": [
         "HAL",
-        "SRIMB_TOPICS"
+        "SRIMB_TOPICS",
+        "ImuDrivers"
     ]
 }
