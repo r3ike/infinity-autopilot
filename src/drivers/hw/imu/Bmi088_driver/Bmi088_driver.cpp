@@ -34,7 +34,7 @@ void Bmi088_driver::calib(){
 }
 
 Vector3f Bmi088_driver::getRawGyro(){
-    struct sensor_value gyro_x, gyro_y, gyro_z;
+    struct sensor_value gyro[3];
 
     // --- Leggi giroscopio ---
     if (sensor_sample_fetch(_gyro_dev) < 0) {
@@ -42,19 +42,17 @@ Vector3f Bmi088_driver::getRawGyro(){
         return {0,0,0};
     }
 
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_X, &gyro_x);
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Y, &gyro_y);
-    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_Z, &gyro_z);
+    sensor_channel_get(_gyro_dev, SENSOR_CHAN_GYRO_XYZ, gyro);
 
     return {
-        sensor_value_to_double(&gyro_x),
-        sensor_value_to_double(&gyro_y),
-        sensor_value_to_double(&gyro_z)
+        sensor_value_to_double(&gyro[0]),
+        sensor_value_to_double(&gyro[1]),
+        sensor_value_to_double(&gyro[2])
     };
 }
 
 Vector3f Bmi088_driver::getRawAccel(){
-    struct sensor_value accel_x, accel_y, accel_z;
+    struct sensor_value accel[3];
 
     // --- Leggi accelerometro ---
     if (sensor_sample_fetch(_accel_dev) < 0) {
@@ -62,15 +60,13 @@ Vector3f Bmi088_driver::getRawAccel(){
         return {0,0,0};
     }
 
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_X, &accel_x);
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Y, &accel_y);
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_Z, &accel_z);
+    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_XYZ, &accel);
 
 
     return {
-        sensor_value_to_double(&accel_x),
-        sensor_value_to_double(&accel_y),
-        sensor_value_to_double(&accel_z)
+        sensor_value_to_double(&accel[0]),
+        sensor_value_to_double(&accel[1]),
+        sensor_value_to_double(&accel[2])
     };
 }
 
