@@ -77,6 +77,7 @@ set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG
 
 add_subdirectory(src/utils)
 add_subdirectory(src/utils/srimb_topics)
+add_subdirectory(src/filters)
 add_subdirectory(src/modules)
 add_subdirectory(src/drivers)
 

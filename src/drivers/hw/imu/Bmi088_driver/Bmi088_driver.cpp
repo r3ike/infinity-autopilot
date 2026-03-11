@@ -20,8 +20,8 @@ bool Bmi088_driver::init() {
         return false;
     }
 
-    _lpf_filter.init_lpf_acc(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_ACCEL_LPF);
-    _lpf_filter.init_lpf_gyro(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_GYRO_LPF);
+    _lpf_filter->init_lpf_acc(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_ACCEL_LPF);
+    _lpf_filter->init_lpf_gyro(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_BMI088_GYRO_LPF);
 
     return true;
 }
@@ -84,7 +84,7 @@ ImuData Bmi088_driver::getRawImu()
         _getImuTemp()
     };
 
-    _lpf_filter.apply(data);
+    _lpf_filter->apply(data);
 
     return data;
 }
