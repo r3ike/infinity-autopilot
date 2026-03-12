@@ -132,9 +132,9 @@ class IHAL_IMU {
 public:
     virtual bool init() = 0;
     virtual void calib() = 0;
-    virtual Vector3f getRawGyro() = 0;
-    virtual Vector3f getRawAccel() = 0;
-    virtual ImuData getRawImu() = 0;
+    virtual Vector3f get_raw_gyro() = 0;
+    virtual Vector3f get_raw_accel() = 0;
+    virtual ImuData get_imu() = 0;
 };
 
 class HAL_GPS {
@@ -179,7 +179,7 @@ public:
 
 class HAL_Logging {
 public:
-    virtual unsigned long long writeLog() = 0;
+    virtual unsigned long long write_log() = 0;
 };
 
 class HAL_Telemetry {
@@ -187,18 +187,7 @@ public:
     virtual unsigned long long micros() = 0;
 };
 
-/**
- * HAL che gestisce il time e le interrupts
- */
-class HAL_Time_Interrupts {
-public:
-    virtual unsigned long long micros() = 0;
 
-    virtual void enterCritical() = 0;
-    virtual void exitCritical() = 0;
-
-    virtual void startHardLoop(uint32_t frequency, void (*callback)()) = 0;
-};
 
 
 class HAL{
@@ -208,25 +197,24 @@ public:
 
     HALState init();
 
-    bool registerImu(std::unique_ptr<IHAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
-    IHAL_IMU* getImuInstance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
+    bool register_imu(std::unique_ptr<IHAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
+    IHAL_IMU* get_imu_instance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
 
-    bool registerGps(std::unique_ptr<HAL_GPS> gps_instance);
-    HAL_GPS* getGpsInstance(uint8_t idx);
+    bool register_gps(std::unique_ptr<HAL_GPS> gps_instance);
+    HAL_GPS* get_gps_instance(uint8_t idx);
 
-    bool registerLidar(std::unique_ptr<HAL_LIDAR> lidar_instance);
-    HAL_LIDAR* getLidarInstance(uint8_t idx);
+    bool register_lidar(std::unique_ptr<HAL_LIDAR> lidar_instance);
+    HAL_LIDAR* get_lidar_instance(uint8_t idx);
 
-    bool registerMag(std::unique_ptr<HAL_MAG> mag_instance);
-    HAL_MAG* getMagInstance(uint8_t idx);
+    bool register_mag(std::unique_ptr<HAL_MAG> mag_instance);
+    HAL_MAG* get_mag_instance(uint8_t idx);
 
-    bool registerBaro(std::unique_ptr<HAL_BARO> baro_instance);
-    HAL_BARO* getBaroInstance(uint8_t idx);
+    bool register_baro(std::unique_ptr<HAL_BARO> baro_instance);
+    HAL_BARO* get_baro_instance(uint8_t idx);
 
-    HAL_MOTOR* getMotorsInstance();
-    HAL_Logging* getSdLoggingInstance();
-    HAL_Telemetry* getTelemetryInstance();
-    HAL_Time_Interrupts* getTimeInstance();
+    HAL_MOTOR* get_motorsInstance();
+    HAL_Logging* get_sd_logging_instance();
+    HAL_Telemetry* get_telemetry_instance();
 
 private:
     std::array<std::unique_ptr<IHAL_IMU>, IMU_INSTANCES> _imu_instances;         // Buffer per le instanze delle IMU
@@ -248,7 +236,6 @@ private:
     std::unique_ptr<HAL_MOTOR> _motor_instance;
     std::unique_ptr<HAL_Telemetry> _telemetry_instance;
     std::unique_ptr<HAL_Logging> _sd_logging_instance;
-    std::unique_ptr<HAL_Time_Interrupts> _time_instance;
 
     void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 

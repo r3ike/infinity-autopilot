@@ -1,6 +1,0 @@
-if(CONFIG_LOGGER_ENABLED)
-    add_library(Logger STATIC)
-    target_sources(Logger PRIVATE Logger.cpp)
-    target_include_directories(Logger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-    target_link_libraries(Logger PUBLIC zephyr_interface SRIMB srimb_topics)
-endif()

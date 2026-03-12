@@ -29,7 +29,7 @@ void ICM42688P_driver::calib(){
     
 }
 
-Vector3f ICM42688P_driver::getRawGyro(){
+Vector3f ICM42688P_driver::get_raw_gyro(){
     struct sensor_value gyro[3];
 
     // --- Leggi giroscopio ---
@@ -47,7 +47,7 @@ Vector3f ICM42688P_driver::getRawGyro(){
     };
 }
 
-Vector3f ICM42688P_driver::getRawAccel(){
+Vector3f ICM42688P_driver::get_raw_accel(){
     struct sensor_value accel[3];
 
     // --- Leggi giroscopio ---
@@ -65,7 +65,7 @@ Vector3f ICM42688P_driver::getRawAccel(){
     };
 }
 
-ImuData ICM42688P_driver::getRawImu()
+ImuData ICM42688P_driver::get_imu()
 {
     ImuData data = {
         getRawGyro(),
@@ -80,7 +80,7 @@ ImuData ICM42688P_driver::getRawImu()
     return data;
 }
 
-double ICM42688P_driver::_getImuTemp()
+double ICM42688P_driver::_get_imu_temp()
 {
     struct sensor_value temp_value;
 

@@ -7,8 +7,8 @@ set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
 #---------------------------------
 add_subdirectory(SRIMB)
 list(APPEND MODULES_LINK_LIB SRIMB)
-add_subdirectory(ImuManager)
-list(APPEND MODULES_LINK_LIB Imu_manager)
+add_subdirectory(imu_manager)
+list(APPEND MODULES_LINK_LIB modules_imu_manager)
 
 #---------------------------------
 #       Moduli Facoltativi
@@ -16,7 +16,7 @@ list(APPEND MODULES_LINK_LIB Imu_manager)
 
 if(CONFIG_LOGGER_ENABLED)
     add_subdirectory(Logger)
-    list(APPEND MODULES_LINK_LIB Logger)
+    list(APPEND MODULES_LINK_LIB modules_logger)
 endif()
 
 

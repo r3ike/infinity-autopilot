@@ -28,7 +28,7 @@ private:
 
     std::unique_ptr<ImuLpfFilter> _lpf_filter;
 
-    double _getImuTemp(); 
+    double _get_imu_temp(); 
     
 public:
     Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev);
@@ -37,9 +37,9 @@ public:
     bool init() override;
     void calib() override;
 
-    Vector3f getRawGyro() override;
-    Vector3f getRawAccel() override;
-    ImuData getRawImu() override;
+    Vector3f get_raw_gyro() override;
+    Vector3f get_raw_accel() override;
+    ImuData get_imu() override;
 
     
 };

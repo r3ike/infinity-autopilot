@@ -103,7 +103,7 @@ HALState HAL::init()
 
 
 
-bool HAL::registerImu(std::unique_ptr<IHAL_IMU> imu_instance )
+bool HAL::register_imu(std::unique_ptr<IHAL_IMU> imu_instance )
 {
     if (_imu_count >= IMU_INSTANCES) return false;
     
@@ -112,13 +112,13 @@ bool HAL::registerImu(std::unique_ptr<IHAL_IMU> imu_instance )
     return true;
 }
 
-IHAL_IMU* HAL::getImuInstance(uint8_t idx){
+IHAL_IMU* HAL::get_imu_instance(uint8_t idx){
     if(idx >= _imu_count) return nullptr;
 
     return _imu_instances.at(idx).get();
 }
 
-bool HAL::registerGps(std::unique_ptr<HAL_GPS> gps_instance)
+bool HAL::register_gps(std::unique_ptr<HAL_GPS> gps_instance)
 {
     if (_gps_count >= GPS_INSTANCES) return false;
     
@@ -127,13 +127,13 @@ bool HAL::registerGps(std::unique_ptr<HAL_GPS> gps_instance)
     return true;
 }
 
-HAL_GPS* HAL::getGpsInstance(uint8_t idx){
+HAL_GPS* HAL::get_gps_instance(uint8_t idx){
     if(idx >= _gps_count) return nullptr;
 
     return _gps_instances.at(idx).get();
 }
 
-bool HAL::registerLidar(std::unique_ptr<HAL_LIDAR> lidar_instance)
+bool HAL::register_lidar(std::unique_ptr<HAL_LIDAR> lidar_instance)
 {
     if (_lidar_count >= LIDAR_INSTANCES) return false;
     
@@ -142,14 +142,14 @@ bool HAL::registerLidar(std::unique_ptr<HAL_LIDAR> lidar_instance)
     return true;
 }
 
-HAL_LIDAR *HAL::getLidarInstance(uint8_t idx)
+HAL_LIDAR *HAL::get_lidar_instance(uint8_t idx)
 {
     if(idx >= _lidar_count) return nullptr;
 
     return _lidar_instances.at(idx).get();
 }
 
-bool HAL::registerMag(std::unique_ptr<HAL_MAG> mag_instance)
+bool HAL::register_mag(std::unique_ptr<HAL_MAG> mag_instance)
 {
     if (_mag_count >= MAG_INSTANCES) return false;
     
@@ -158,14 +158,14 @@ bool HAL::registerMag(std::unique_ptr<HAL_MAG> mag_instance)
     return true;
 }
 
-HAL_MAG *HAL::getMagInstance(uint8_t idx)
+HAL_MAG *HAL::get_mag_instance(uint8_t idx)
 {
     if(idx >= _mag_count) return nullptr;
 
     return _mag_instances.at(idx).get();
 }
 
-bool HAL::registerBaro(std::unique_ptr<HAL_BARO> baro_instance)
+bool HAL::register_baro(std::unique_ptr<HAL_BARO> baro_instance)
 {
     if (_mag_count >= BARO_INSTANCES) return false;
     
@@ -174,32 +174,28 @@ bool HAL::registerBaro(std::unique_ptr<HAL_BARO> baro_instance)
     return true;
 }
 
-HAL_BARO *HAL::getBaroInstance(uint8_t idx)
+HAL_BARO *HAL::get_baro_instance(uint8_t idx)
 {
     if(idx >= _baro_count) return nullptr;
 
     return _baro_instances.at(idx).get();
 }
 
-HAL_MOTOR *HAL::getMotorsInstance()
+HAL_MOTOR *HAL::get_motorsInstance()
 {
     return _motor_instance.get();
 }
 
-HAL_Logging *HAL::getSdLoggingInstance()
+HAL_Logging *HAL::get_sd_logging_instance()
 {
     return _sd_logging_instance.get();
 }
 
-HAL_Telemetry *HAL::getTelemetryInstance()
+HAL_Telemetry *HAL::get_telemetry_instance()
 {
     return _telemetry_instance.get();
 }
 
-HAL_Time_Interrupts *HAL::getTimeInstance()
-{
-    return _time_instance.get();
-}
 
 
 

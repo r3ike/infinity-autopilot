@@ -33,7 +33,7 @@ void Bmi088_driver::calib(){
     
 }
 
-Vector3f Bmi088_driver::getRawGyro(){
+Vector3f Bmi088_driver::get_raw_gyro(){
     struct sensor_value gyro[3];
 
     // --- Leggi giroscopio ---
@@ -51,7 +51,7 @@ Vector3f Bmi088_driver::getRawGyro(){
     };
 }
 
-Vector3f Bmi088_driver::getRawAccel(){
+Vector3f Bmi088_driver::get_raw_accel(){
     struct sensor_value accel[3];
 
     // --- Leggi accelerometro ---
@@ -70,14 +70,14 @@ Vector3f Bmi088_driver::getRawAccel(){
     };
 }
 
-ImuData Bmi088_driver::getRawImu()
+ImuData Bmi088_driver::get_imu()
 {
     ImuData data = {
-        getRawGyro(),
-        getRawAccel(),
+        get_raw_gyro(),
+        get_raw_accel(),
         {0,0,0},
         {0,0,0},
-        _getImuTemp()
+        _get_imu_temp()
     };
 
     _lpf_filter->apply(data);
@@ -85,7 +85,7 @@ ImuData Bmi088_driver::getRawImu()
     return data;
 }
 
-double Bmi088_driver::_getImuTemp()
+double Bmi088_driver::_get_imu_temp()
 {
     struct sensor_value temp_value;
 
