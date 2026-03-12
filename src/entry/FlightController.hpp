@@ -1,8 +1,9 @@
 #pragma once 
 
-#include "Convertions.hpp"
-#include "HAL.hpp"
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
 
+#include "HAL.hpp"
 #ifdef CONFIG_LOGGER_ENABLED
 #include "Logger.hpp"
 #endif
@@ -17,13 +18,10 @@ private:
     ImuManager _imu_manager;
 
     
+public:
+    
     FlightController() : _imu_manager(_hal) {};
     ~FlightController() = default;
-
-    void hardLoop();
-
-public:
-
     
     void init();
 
