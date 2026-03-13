@@ -30,7 +30,7 @@ private:
     HAL& _hal;
 
 
-    void _publish_single_imu(uint8_t instance);
+    void publish_single_imu(uint8_t instance);
 };
 
 

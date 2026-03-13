@@ -35,13 +35,13 @@ private:
     std::array<std::unique_ptr<SRIMB_Sub>, GPS_INSTANCES> _srimb_subs_gps;
     
 
-    void _write_to_buffer(const void* data, unsigned int length);
+    void write_to_buffer(const void* data, unsigned int length);
 
-    void _log_imu();
+    void log_imu();
 
-    void _log_gps();
+    void log_gps();
     
-    void _log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished);
+    void log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished);
 public:
     Logger();
     ~Logger() = default;

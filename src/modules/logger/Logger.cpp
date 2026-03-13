@@ -19,7 +19,7 @@ Logger::Logger(){
  * void* data è un puntatore generico e universale,
  *  così che possiamo passare qualsiasi tipo di struct come parametro
  */
-void Logger::_write_to_buffer(const void* data, unsigned int length)
+void Logger::write_to_buffer(const void* data, unsigned int length)
 {
     const uint8_t* byte_ptr = static_cast<const uint8_t*>(data);    // Casting a puntatore di tipo uint8
     for (unsigned int i = 0; i < length; i++)
@@ -29,7 +29,7 @@ void Logger::_write_to_buffer(const void* data, unsigned int length)
     }
 }
 
-void Logger::_log_imu()
+void Logger::log_imu()
 {
     #ifdef CONFIG_LOG_IMU_ENABLED
         for (size_t i = 0; i < IMU_INSTANCES; i++)
@@ -46,7 +46,7 @@ void Logger::_log_imu()
     #endif
 }
 
-void Logger::_log_gps()
+void Logger::log_gps()
 {
     #ifdef CONFIG_LOG_GPS_ENABLED
         for (size_t i = 0; i < GPS_INSTANCES; i++)
@@ -63,7 +63,7 @@ void Logger::_log_gps()
     #endif
 }
 
-void Logger::_log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished){
+void Logger::log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished){
     
     #ifdef CONFIG_LOG_TASK_TRACE_FLAG
 

@@ -5,8 +5,7 @@ set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
 #---------------------------------
 #       Moduli obbligatori
 #---------------------------------
-add_subdirectory(SRIMB)
-list(APPEND MODULES_LINK_LIB SRIMB)
+
 add_subdirectory(imu_manager)
 list(APPEND MODULES_LINK_LIB modules_imu_manager)
 

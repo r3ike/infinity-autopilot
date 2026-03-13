@@ -15,7 +15,7 @@ void ImuManager::run()
     
 }
 
-void ImuManager::_publish_single_imu(uint8_t instance)
+void ImuManager::publish_single_imu(uint8_t instance)
 {
     ImuData imu;
     uint64_t now = 0;
