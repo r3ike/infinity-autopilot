@@ -14,6 +14,7 @@
         "HAL",
         "SRIMB_TOPICS",
         "ImuDrivers",
-        "SRIMB"
+        "SRIMB",
+        "scheduler"
     ]
 }

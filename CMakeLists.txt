@@ -80,6 +80,7 @@ add_subdirectory(src/utils/srimb_topics)
 add_subdirectory(src/filters)
 add_subdirectory(src/modules)
 add_subdirectory(src/drivers)
+add_subdirectory(src/scheduler)
 
 
 

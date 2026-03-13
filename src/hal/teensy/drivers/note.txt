@@ -1,2 +1,0 @@
-qua ci andrà la gestione dell'Hardware Abstraction layer 
-per gestire il Software in the loop e l'hardware classico

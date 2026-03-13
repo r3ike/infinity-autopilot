@@ -1,3 +1,0 @@
-menu "GPS Drivers"
-source "../src/hal/teensy/drivers/gps/Bn280_driver/Kconfig"
-endmenu
