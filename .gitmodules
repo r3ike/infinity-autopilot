@@ -1,3 +1,3 @@
-[submodule "src/modules/SRIMB"]
-	path = src/modules/SRIMB
+[submodule "src/middlewares"]
+	path = src/middlewares
 	url = https://github.com/r3ike/SRIMB.git
