@@ -1,2 +1,2 @@
-source "../src/modules/Logger/Kconfig"
-source "../src/modules/ImuManager/Kconfig"
+source "../src/modules/logger/Kconfig"
+source "../src/modules/imu_manager/Kconfig"

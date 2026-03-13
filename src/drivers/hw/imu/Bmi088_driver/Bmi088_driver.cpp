@@ -60,7 +60,7 @@ Vector3f Bmi088_driver::get_raw_accel(){
         return {0,0,0};
     }
 
-    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_XYZ, &accel);
+    sensor_channel_get(_accel_dev, SENSOR_CHAN_ACCEL_XYZ, accel);
 
 
     return {

@@ -15,7 +15,7 @@ list(APPEND MODULES_LINK_LIB modules_imu_manager)
 #---------------------------------
 
 if(CONFIG_LOGGER_ENABLED)
-    add_subdirectory(Logger)
+    add_subdirectory(logger)
     list(APPEND MODULES_LINK_LIB modules_logger)
 endif()
 

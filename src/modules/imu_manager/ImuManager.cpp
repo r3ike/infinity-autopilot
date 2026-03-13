@@ -18,9 +18,9 @@ void ImuManager::run()
 void ImuManager::_publish_single_imu(uint8_t instance)
 {
     ImuData imu;
-    uint64_t now = _hal.getTimeInstance()->micros();
+    uint64_t now = 0;
 
-    imu = _hal.getImuInstance(instance)->get_imu();
+    imu = _hal.get_imu_instance(instance)->get_imu();
 
     imu.imu_id = instance;
 
