@@ -19,5 +19,5 @@ if(CONFIG_LOGGER_ENABLED)
     list(APPEND MODULES_LINK_LIB modules_logger)
 endif()
 
-
+target_include_directories(Modules INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(Modules INTERFACE ${MODULES_LINK_LIB})

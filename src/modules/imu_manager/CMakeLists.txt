@@ -2,4 +2,4 @@
 add_library(modules_imu_manager STATIC)
 target_sources(modules_imu_manager PRIVATE ImuManager.cpp)
 target_include_directories(modules_imu_manager PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(modules_imu_manager PUBLIC zephyr_interface SRIMB srimb_topics hal)
+target_link_libraries(modules_imu_manager PUBLIC zephyr_interface SRIMB srimb_topics hal scheduler)

@@ -9,22 +9,26 @@
 #include "Logger.hpp"
 #endif
 
-#include "ImuManager.hpp"
+#include "ImuManagerTask.hpp"
+
+#include "Scheduler.hpp"
 
 class FlightController
 {
 private:
     HAL _hal;
-    Logger _logger;
-    ImuManager _imu_manager;
+
+    ImuManagerTask _imu_manager_task;
 
     
 public:
     
-    FlightController() : _imu_manager(_hal) {};
+    FlightController() : _imu_manager_task(_hal) {};
     ~FlightController() = default;
     
     void init();
+
+    void start():
 
 
 };
