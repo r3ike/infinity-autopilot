@@ -10,7 +10,7 @@ void ImuManager::run()
 {
     for (size_t i = 0; i < IMU_INSTANCES; i++)
     {
-        _publish_single_imu(i);
+        publish_single_imu(i);
     }
     
 }

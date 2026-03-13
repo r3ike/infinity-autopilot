@@ -40,7 +40,7 @@ void Logger::log_imu()
             {
                 LoggerMsgs<ImuData> imu_msg = {MAGIC_CHECK_BYTE, LOG_ID_IMU, timestamp, imu_data};
 
-                _write_to_buffer(&imu_msg, sizeof(imu_msg));
+                write_to_buffer(&imu_msg, sizeof(imu_msg));
             }
         }
     #endif
@@ -57,7 +57,7 @@ void Logger::log_gps()
             {
                 LoggerMsgs<GpsData> gps_msg = {MAGIC_CHECK_BYTE, LOG_ID_GPS, timestamp, gps_data};
             
-                _write_to_buffer(&gps_msg, sizeof(gps_msg));
+                write_to_buffer(&gps_msg, sizeof(gps_msg));
             }
         }
     #endif
@@ -77,7 +77,7 @@ void Logger::log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, 
 
 void Logger::log(){
       
-    _log_imu();
-    _log_gps();
+    log_imu();
+    log_gps();
 
 }
