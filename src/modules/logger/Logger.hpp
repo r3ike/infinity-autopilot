@@ -8,7 +8,7 @@
 
 #include "LoggerMsgs.hpp"
 //#include <config/parameters.h>
-
+#include "HAL_configs.hpp"
 #include "srimb.hpp"
 #include "imu_topic/imu_topic.hpp"
 #include "gps_topic/gps_topic.hpp"

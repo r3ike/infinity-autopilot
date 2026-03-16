@@ -6,7 +6,7 @@
 
 #include "ImuManager.hpp"
 
-class ImuManagerTask : public Module
+class ImuManagerTask : public IModule
 {
 private:
     PeriodicTask _imu_manager_task;
