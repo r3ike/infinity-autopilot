@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Module.hpp"
-#include "PeriodicWork.hpp"
+#include "PeriodicTask.hpp"
 #include "Scheduler.hpp"
 
 #include "ImuManager.hpp"
@@ -9,11 +9,11 @@
 class ImuManagerTask : public Module
 {
 private:
-    PeriodicWork _work;
+    PeriodicTask _imu_manager_task;
 
     ImuManager _imu_manager;
 public:
-    ImuManagerTask(HAL& hal) : _work(*this, medium_wq, K_MSEC(50)), _imu_manager(hal) {};
+    ImuManagerTask(HAL& hal) : _imu_manager_task([this]() { this->run(); }, fast_wq, K_MSEC(10)), _imu_manager(hal) {};
     ~ImuManagerTask() = default;
 
     void init() override {
@@ -21,8 +21,13 @@ public:
     };
 
     void start() override{
-        _work.start();
+        _imu_manager_task.start();
     };
+
+
+    void stop() override{
+        _imu_manager_task.stop();
+    }
 
     void run() override {
         _imu_manager.run();

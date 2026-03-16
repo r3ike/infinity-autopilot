@@ -4,14 +4,6 @@
 #include <zephyr/autoconf.h>
 #include <sys/util.h>
 
-#include "HAL.hpp"
-
-#ifdef CONFIG_LOGGER_ENABLED
-#include "Logger.hpp"
-#endif
-
-#include "ImuManager.hpp"
-
 
 // Stack per le work queue
 K_THREAD_STACK_DEFINE(fast_wq_stack, 2048);
