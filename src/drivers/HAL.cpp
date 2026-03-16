@@ -181,7 +181,7 @@ HAL_BARO *HAL::get_baro_instance(uint8_t idx)
     return _baro_instances.at(idx).get();
 }
 
-HAL_MOTOR *HAL::get_motorsInstance()
+HAL_MOTOR *HAL::get_motors_instance()
 {
     return _motor_instance.get();
 }
