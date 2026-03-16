@@ -11,8 +11,13 @@ class LoggerTask : public IModule
 private:
     Logger _logger;
     PeriodicTask _logger_task;
+
+    static void run_callback(void* context) {
+        static_cast<LoggerTask*>(context)->run();
+    }
+    
 public:
-    LoggerTask() : _logger_task([this]() { this->run(); }, fast_wq, K_MSEC(10)) {};
+    LoggerTask() : _logger_task(run_callback, this, &fast_wq, K_MSEC(10)) {};
     ~LoggerTask() = default;
 
     void start() override {

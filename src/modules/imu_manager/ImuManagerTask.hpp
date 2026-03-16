@@ -12,8 +12,13 @@ private:
     PeriodicTask _imu_manager_task;
 
     ImuManager _imu_manager;
+
+    static void run_callback(void* context) {
+        static_cast<ImuManagerTask*>(context)->run();
+    }
+
 public:
-    ImuManagerTask(HAL& hal) : _imu_manager_task([this]() { this->run(); }, fast_wq, K_MSEC(10)), _imu_manager(hal) {};
+    ImuManagerTask(HAL& hal) : _imu_manager_task(run_callback, this, &fast_wq, K_MSEC(10)), _imu_manager(hal) {};
     ~ImuManagerTask() = default;
 
     void init() override {

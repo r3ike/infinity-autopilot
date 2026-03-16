@@ -2,11 +2,11 @@
 
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
-#include <sys/util.h>
+#include <zephyr/sys/util.h>
 
 #include "HAL.hpp"
 #ifdef CONFIG_LOGGER_ENABLED
-#include "Logger.hpp"
+#include "LoggerTask.hpp"
 #endif
 
 #include "ImuManagerTask.hpp"
@@ -19,6 +19,7 @@ private:
     HAL _hal;
 
     ImuManagerTask _imu_manager_task;
+    LoggerTask _logger_task;
 
     
 public:
@@ -28,7 +29,7 @@ public:
     
     void init();
 
-    void start():
+    void start();
 
 
 };

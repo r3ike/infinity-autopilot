@@ -9,6 +9,7 @@ void FlightController::init()
     _hal.init();
 
     _imu_manager_task.init();
+    _logger_task.init();
 
 
 }
@@ -16,6 +17,7 @@ void FlightController::init()
 void FlightController::start()
 {
     _imu_manager_task.start();
+    _logger_task.start();
 }
 
 
