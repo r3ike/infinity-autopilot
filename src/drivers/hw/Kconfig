@@ -1,4 +1,4 @@
 if TARGET_TEENSY41
 source "../src/drivers/hw/imu/Kconfig"
-source "../src/drivers/hw/gps/Kconfig"
+source "../src/drivers/hw/gnss/Kconfig"
 endif
