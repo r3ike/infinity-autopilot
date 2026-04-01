@@ -79,10 +79,10 @@ pip install -r requirements.txt  # se presente
 ### Naming Convention per i Branch
 
 ```
-main                    # Branch di rilascio stabile
-develop                 # Branch di sviluppo
+stable                    # Branch di rilascio stabile
+main                 # Branch di sviluppo
 feature/DESCRIPTION     # Nuove feature (es: feature/gps-integration)
-bugfix/DESCRIPTION      # Bug fix (es: bugfix/sensor-calibration)
+fix/DESCRIPTION      # Bug fix (es: bugfix/sensor-calibration)
 docs/DESCRIPTION        # Documentazione (es: docs/api-guide)
 refactor/DESCRIPTION    # Refactoring (es: refactor/scheduler-cleanup)
 ```
