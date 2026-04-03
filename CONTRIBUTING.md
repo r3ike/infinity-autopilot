@@ -69,8 +69,10 @@ git merge upstream/main
 # Installa dipendenze
 sudo apt-get install cmake gcc-arm-none-eabi
 
-# Inizializza i moduli Zephyr (se applicabile)
-west init -m https://github.com/zephyrproject-rtos/zephyr.git
+# Inizializza il workspace West
+west init -l .
+
+west update
 
 # Installa dipendenze Python
 pip install -r requirements.txt  # se presente
@@ -157,16 +159,16 @@ CATTIVO: New thing
 // Nomi delle classi: PascalCase
 class FlightController {
 private:
-    // Membri privati: camelCase con underscore finale
-    float altitude_;
+    // Membri privati: camelCase con underscore iniziale
+    float _altitude;
     
-    // Metodi privati: camelCase
-    void updateSensors();
+    // Metodi privati
+    void _update_sensors();
     
 public:
     // Metodi pubblici: camelCase
     void initialize();
-    bool isReady() const;
+    bool is_ready() const;
     
     // Costanti: UPPER_SNAKE_CASE
     static constexpr float MAX_TILT_ANGLE = 45.0f;
@@ -184,25 +186,12 @@ static int g_errorCount = 0;
 
 **Linee Guida Generali:**
 - Larghezza linea: 100 caratteri
-- Indentazione: 4 spazi (NO tab)
+- Indentazione: Tab
 - Utilizza `const` e `constexpr` dove appropriato
 - Usa smart pointer dove possibile
 - Evita macro globali
 - Commenta logica non ovvia
 
-### Python
-```python
-# Segui PEP 8
-class SensorReader:
-    """Legge dati dai sensori."""
-    
-    def __init__(self):
-        self.sensors = []
-    
-    def read_data(self) -> dict:
-        """Legge i dati."""
-        pass
-```
 
 ### CMake
 ```cmake
