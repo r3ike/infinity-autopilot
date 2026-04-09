@@ -132,17 +132,8 @@ CATTIVO: New thing
    - Verifica la compilazione
    - Esegui test locali
 
-4. **Scrivi un commit message chiaro**
-   ```
-   [CATEGORY] Brief description
-
-   Detailed explanation if needed
-   
-   - Bullet point 1
-   - Bullet point 2
-   
-   Fixes #123
-   ```
+4. **Scrivi un commit message chiaro seguendo i conventional commit**
+  
 
 ### Sottomissione della PR
 - Usa il template fornito
