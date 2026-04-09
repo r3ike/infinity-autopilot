@@ -1,4 +1,7 @@
-# **Infinity autopilot**
+<h1 align="center">
+    Infinity-Autopilot
+</h1>
+
 Infinity è un autopilot avanzato totalmente open-source per UAV , permette compatibilità tra vari sistemi grazie ad un **Hardware Abstraction Layer** il quale permette attraverso vari environment diversi di essere compilato per vari sistemi e inoltre permette testing in **SITL**.
 
 
