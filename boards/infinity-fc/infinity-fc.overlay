@@ -1,0 +1,15 @@
+&spi1 {
+    /* ... le tue configurazioni pinctrl e cs-gpios ... */
+    cs-gpios = <&gpioa 4 GPIO_ACTIVE_LOW>, <&gpioa 15 GPIO_ACTIVE_LOW>;
+    status = "okay";
+
+    /* Nodo del tuo dispositivo */
+    my_sensor: my-sensor@1 {
+        compatible = "vendor,my-sensor";
+        reg = <1>; /* Corrisponde all'indice in cs-gpios (il secondo elemento) */
+        spi-max-frequency = <10000000>;
+
+        /* Definizione del pin di interrupt */
+        irq-gpios = <&gpioc 4 GPIO_ACTIVE_HIGH>; /* Pin PC4, attivo alto */
+    };
+};

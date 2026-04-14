@@ -15,6 +15,7 @@
         "SRIMB_TOPICS",
         "ImuDrivers",
         "SRIMB",
-        "scheduler"
+        "scheduler",
+        "EKF"
     ]
 }
