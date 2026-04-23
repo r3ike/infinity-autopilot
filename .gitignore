@@ -2,6 +2,7 @@
 .vscode/c_cpp_properties.json
 build/
 venv/
+.venv/
 
 # Zephyr workspace (scaricate da west update)
 /zephyr/
