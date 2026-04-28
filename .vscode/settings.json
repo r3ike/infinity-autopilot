@@ -16,6 +16,7 @@
         "ImuDrivers",
         "SRIMB",
         "scheduler",
-        "EKF"
+        "EKF",
+        "param_manager"
     ]
 }
