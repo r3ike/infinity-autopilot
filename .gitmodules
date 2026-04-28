@@ -1,3 +1,6 @@
 [submodule "src/middlewares/SRIMB"]
 	path = src/middlewares/SRIMB
 	url = https://github.com/r3ike/SRIMB.git
+[submodule "lib/mavlink"]
+	path = lib/mavlink
+	url = https://github.com/mavlink/c_library_v2.git
