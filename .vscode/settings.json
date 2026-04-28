@@ -17,6 +17,7 @@
         "SRIMB",
         "scheduler",
         "EKF",
-        "param_manager"
+        "param_manager",
+        "mavlink"
     ]
 }

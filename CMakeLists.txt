@@ -73,6 +73,7 @@ set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG
 #    endforeach()
 #endif()
 
+add_subdirectory(lib)
 
 add_subdirectory(src/middlewares/SRIMB)
 add_subdirectory(src/utils)
