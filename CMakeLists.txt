@@ -73,7 +73,22 @@ set(DOT_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.config)
 #    endforeach()
 #endif()
 
+# Genera i file dei parametri da YAML
+find_package(Python3 REQUIRED)
 
+set(YAML_SCHEMA ${CMAKE_CURRENT_SOURCE_DIR}/src/param_schema.yaml)
+set(GENERATOR_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_params.py)
+set(PARAM_DEFS_HPP ${CMAKE_CURRENT_BINARY_DIR}/param_defs.hpp)
+set(PARAM_DEFS_CPP ${CMAKE_CURRENT_BINARY_DIR}/param_defs.cpp)
+
+add_custom_command(
+    OUTPUT ${PARAM_DEFS_HPP} ${PARAM_DEFS_CPP}
+    COMMAND ${Python3_EXECUTABLE} ${GENERATOR_SCRIPT} ${YAML_SCHEMA} ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${YAML_SCHEMA} ${GENERATOR_SCRIPT}
+    COMMENT "Generazione codice parametri da YAML"
+)
+
+add_subdirectory(lib)
 
 add_subdirectory(src/middlewares/SRIMB)
 add_subdirectory(src/utils)
