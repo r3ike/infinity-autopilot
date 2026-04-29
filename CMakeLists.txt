@@ -34,17 +34,17 @@ include(module)
 #include(kconfig)
 
 # Seleziona defconfig e toolchain
-if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    set(CONFIG_BOARD_DEFCONFIG teensy41_defconfig)
-    #set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
-    # Nel tuo CMakeLists.txt (nella radice del progetto)
-    
-else()
-    set(CONFIG_BOARD_DEFCONFIG sitl_defconfig)
-    #set(TOOLCHAIN_FILE toolchain_sitl.cmake)
-    # Nel tuo CMakeLists.txt (nella radice del progetto)
-
-endif()
+#if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
+#    set(CONFIG_BOARD_DEFCONFIG teensy41_defconfig)
+#    #set(TOOLCHAIN_FILE toolchain_teensy41.cmake)
+#    # Nel tuo CMakeLists.txt (nella radice del progetto)
+#    
+#else()
+#    set(CONFIG_BOARD_DEFCONFIG sitl_defconfig)
+#    #set(TOOLCHAIN_FILE toolchain_sitl.cmake)
+#    # Nel tuo CMakeLists.txt (nella radice del progetto)
+#
+#endif()
 
 
 
@@ -53,7 +53,7 @@ endif()
 
 # Kconfig
 set(DOT_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.config)
-set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG})
+#set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG})
 
 #configure_kconfig(
 #    KCONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/Kconfig
@@ -73,7 +73,7 @@ set(DEF_CONFIG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/configs/${CONFIG_BOARD_DEFCONFIG
 #    endforeach()
 #endif()
 
-add_subdirectory(lib)
+
 
 add_subdirectory(src/middlewares/SRIMB)
 add_subdirectory(src/utils)
