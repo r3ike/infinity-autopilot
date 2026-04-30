@@ -85,12 +85,12 @@ public:
     virtual void test() = 0;
 };
 
-class HAL_Logging {
+class IHAL_SD {
 public:
     virtual unsigned long long write_log() = 0;
 };
 
-class HAL_Telemetry {
+class IHAL_Radio {
 public:
     virtual unsigned long long micros() = 0;
 };
@@ -121,8 +121,8 @@ public:
     HAL_BARO* get_baro_instance(uint8_t idx);
 
     HAL_MOTOR* get_motors_instance();
-    HAL_Logging* get_sd_logging_instance();
-    HAL_Telemetry* get_telemetry_instance();
+    IHAL_SD* get_sd_instance();
+    IHAL_Radio* get_telemetry_instance();
 
 private:
     std::array<std::unique_ptr<IHAL_IMU>, IMU_INSTANCES> _imu_instances;         // Buffer per le instanze delle IMU
@@ -142,8 +142,8 @@ private:
     uint8_t _baro_count;
 
     std::unique_ptr<HAL_MOTOR> _motor_instance;
-    std::unique_ptr<HAL_Telemetry> _telemetry_instance;
-    std::unique_ptr<HAL_Logging> _sd_logging_instance;
+    std::unique_ptr<IHAL_Radio> _radio_instance;
+    std::unique_ptr<IHAL_SD> _sd_instance;
 
     void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 

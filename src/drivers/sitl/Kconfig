@@ -1,0 +1,3 @@
+if TARGET_SITL
+source "../src/drivers/sitl/radio/Kconfig"
+endif

@@ -186,14 +186,14 @@ HAL_MOTOR *HAL::get_motors_instance()
     return _motor_instance.get();
 }
 
-HAL_Logging *HAL::get_sd_logging_instance()
+IHAL_SD *HAL::get_sd_instance()
 {
-    return _sd_logging_instance.get();
+    return _sd_instance.get();
 }
 
-HAL_Telemetry *HAL::get_telemetry_instance()
+IHAL_Radio *HAL::get_telemetry_instance()
 {
-    return _telemetry_instance.get();
+    return _radio_instance.get();
 }
 
 
