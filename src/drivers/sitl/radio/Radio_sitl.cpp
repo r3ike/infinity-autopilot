@@ -25,7 +25,7 @@ bool Radio_sitl::init(){
     // Ground control station destination
     memset(&_gcs_addr, 0, sizeof(_gcs_addr));
     _gcs_addr.sin_family = AF_INET;
-    _gcs_addr.sin_port = htons(14550);  // QGC default
+    _gcs_addr.sin_port = htons(CONFIG_RADIO_GCS_PORT);  
     inet_pton(AF_INET, "127.0.0.1", &_gcs_addr.sin_addr);
 }
 

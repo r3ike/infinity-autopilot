@@ -175,5 +175,7 @@ private:
     
     //#include <hal/teensy/drivers/mag/Mag.hpp>
 #elif defined(CONFIG_TARGET_SITL)
-    #include <hal/SITL/HAL_sitl.hpp>
+    #ifdef CONFIG_RADIO_SITL_DRIVER_ENABLED
+    #include "Radio_sitl.hpp"
+    #endif
 #endif

@@ -9,7 +9,9 @@ if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
     
 
     # Aggiungiamo le interfacce delle singole famiglie di driver all'interfaccia principale dei driver hardware
-    list(APPEND DRIVERS_SITL_LINK_LIB Radio_sitl_drivers)
+    if(CONFIG_RADIO_SITL_DRIVER_ENABLED)
+        list(APPEND DRIVERS_SITL_LINK_LIB Radio_sitl_drivers)
+    endif()
     //list(APPEND DRIVERS_SITL_LINK_LIB Gnss_sitl_drivers)
 
 
