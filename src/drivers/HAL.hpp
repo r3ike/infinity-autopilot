@@ -6,6 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
+#include <unistd.h>  
 
 #include "Vector3f.h"
 
@@ -92,7 +93,11 @@ public:
 
 class IHAL_Radio {
 public:
-    virtual unsigned long long micros() = 0;
+    virtual bool init() = 0;
+
+    virtual void send_to_GCS(uint8_t* buffer, size_t len) = 0;         // Metodo per inviare alla Ground control station
+
+    virtual long recive_from_GCS(uint8_t* buffer, size_t len) = 0;     // Metodo per ricevere dall Ground control station
 };
 
 
