@@ -311,3 +311,5 @@ print("Per generare il codice C++ occorre eseguire lo script con SymForce e l'ut
 print("Il codice generato includerà funzioni ottimizzate per calcolare:")
 print("  - Predizione covarianza")
 print("  - Innovazione e varianza per ogni sensore")
+
+print(State)
