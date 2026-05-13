@@ -1,6 +1,6 @@
 module_name: EKF
 parameters:
-  - group: Control
+  - group: Estimation
     definitions:
       ROLL_P:
         description:

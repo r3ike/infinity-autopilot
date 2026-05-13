@@ -296,20 +296,14 @@ def compute_lidar_innov_var_and_h(
 # ==============================================================================
 # 7. Generazione del codice C++ (simulata)
 # ==============================================================================
-# In un ambiente reale si chiamerebbero:
-# generate_px4_function(predict_covariance, output_names=None)
-# generate_px4_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-# generate_px4_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-# generate_px4_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-# generate_px4_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
-# generate_px4_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
-# generate_px4_state(State, tangent_idx)
 
-# Per mostrare il concetto:
-print("Le funzioni simboliche sono state definite.")
-print("Per generare il codice C++ occorre eseguire lo script con SymForce e l'utility di PX4.")
-print("Il codice generato includerà funzioni ottimizzate per calcolare:")
-print("  - Predizione covarianza")
-print("  - Innovazione e varianza per ogni sensore")
+from code_generation import generate_cpp_function, generate_state_header
 
-print(State)
+generate_cpp_function(predict_covariance, output_names=None)
+generate_cpp_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+generate_cpp_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+generate_cpp_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+generate_cpp_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+generate_cpp_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+generate_state_header(State, tangent_idx)
+
