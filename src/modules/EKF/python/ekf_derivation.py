@@ -294,16 +294,32 @@ def compute_lidar_innov_var_and_h(
     return (innov, innov_var, H.T)
 
 # ==============================================================================
-# 7. Generazione del codice C++ (simulata)
+# 7. Generazione del codice C++ o Python
 # ==============================================================================
 
-from code_generation import generate_cpp_function, generate_state_header
+from code_generation import generate_cpp_function, generate_python_function, generate_state_header
 
-generate_cpp_function(predict_covariance, output_names=None)
-generate_cpp_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-generate_cpp_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-generate_cpp_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-generate_cpp_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
-generate_cpp_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
-generate_state_header(State, tangent_idx)
+LANG = "cpp"
+
+if LANG == "cpp":
+    print("CPP functions generation started.\n")
+
+    generate_cpp_function(predict_covariance, output_names=None)
+    generate_cpp_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_cpp_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_cpp_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_cpp_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+    generate_cpp_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+    generate_state_header(State, tangent_idx)
+elif LANG == "py":
+    print("Python functions generation started.\n")
+
+    generate_python_function(predict_covariance, output_names=None)
+    generate_python_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_python_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_python_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_python_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+    generate_python_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+else:
+    print("Language not supported.\n")
 
