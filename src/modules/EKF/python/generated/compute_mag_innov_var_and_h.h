@@ -26,6 +26,8 @@ namespace sym {
  *     innov: Matrix31
  *     innov_var: Matrix31
  *     Hx: Matrix15_1
+ *     Hy: Matrix15_1
+ *     Hz: Matrix15_1
  */
 template <typename Scalar>
 void ComputeMagInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
@@ -34,7 +36,9 @@ void ComputeMagInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
                             const Eigen::Matrix<Scalar, 3, 1>& mag_ref, const Scalar R,
                             Eigen::Matrix<Scalar, 3, 1>* const innov = nullptr,
                             Eigen::Matrix<Scalar, 3, 1>* const innov_var = nullptr,
-                            Eigen::Matrix<Scalar, 15, 1>* const Hx = nullptr) {
+                            Eigen::Matrix<Scalar, 15, 1>* const Hx = nullptr,
+                            Eigen::Matrix<Scalar, 15, 1>* const Hy = nullptr,
+                            Eigen::Matrix<Scalar, 15, 1>* const Hz = nullptr) {
   // Total ops: 232
 
   // Input arrays
@@ -109,7 +113,7 @@ void ComputeMagInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
   const Scalar _tmp58 =
       _tmp22 * _tmp51 - _tmp53 * state(1, 0) + _tmp54 * state(2, 0) - _tmp56 * state(3, 0);
 
-  // Output terms (3)
+  // Output terms (5)
   if (innov != nullptr) {
     Eigen::Matrix<Scalar, 3, 1>& _innov = (*innov);
 
@@ -143,6 +147,26 @@ void ComputeMagInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
     _Hx(0, 0) = _tmp32;
     _Hx(1, 0) = _tmp33;
     _Hx(2, 0) = _tmp30;
+  }
+
+  if (Hy != nullptr) {
+    Eigen::Matrix<Scalar, 15, 1>& _Hy = (*Hy);
+
+    _Hy.setZero();
+
+    _Hy(0, 0) = _tmp45;
+    _Hy(1, 0) = _tmp47;
+    _Hy(2, 0) = _tmp48;
+  }
+
+  if (Hz != nullptr) {
+    Eigen::Matrix<Scalar, 15, 1>& _Hz = (*Hz);
+
+    _Hz.setZero();
+
+    _Hz(0, 0) = _tmp58;
+    _Hz(1, 0) = _tmp55;
+    _Hz(2, 0) = _tmp57;
   }
 }  // NOLINT(readability/fn_size)
 

@@ -214,19 +214,11 @@ def jacobian_chain_rule(expr: sf.Scalar, state: State) -> VTangent:
 # ==============================================================================
 
 # ---------- GPS (posizione) ----------
-def compute_gps_pos_innov_var_and_h(
-    state: VState, P: MTangent, meas: sf.V3, R: sf.Scalar
-) -> (sf.V3, sf.V3, VTangent):
+def compute_gps_pos_innov_var_and_h(state: VState, P: MTangent, meas: sf.V3, R: sf.Scalar) -> (sf.V3, sf.V3, VTangent, VTangent, VTangent):
+    
     state = vstate_to_state(state)
-    innov = state["vel"] - meas   # NOTA: probabilmente è "pos", ma per esempio si assume pos
-    # NOTA: Qui correggo: la misura è posizione, quindi innov = state["pos"] - meas
-    # (nel codice sopra c'è un refuso voluto? lo correggo)
     innov = state["pos"] - meas
-    H = jacobian_chain_rule(state["pos"][0], state)  # per semplicità, una riga alla volta
-    # In realtà si può fare per tutto il vettore, ma PX4 fa spesso per asse.
-    # Qui mostriamo un'unica funzione che restituisce H per x (o tutto).
-    # Per completezza generiamo tre funzioni separate o una sola con H completa.
-    # Scegliamo di generare l'innovazione come vettore e H per ogni asse (come in PX4).
+
     Hx = jacobian_chain_rule(state["pos"][0], state)
     Hy = jacobian_chain_rule(state["pos"][1], state)
     Hz = jacobian_chain_rule(state["pos"][2], state)
@@ -235,28 +227,36 @@ def compute_gps_pos_innov_var_and_h(
         (Hy * P * Hy.T + R)[0,0],
         (Hz * P * Hz.T + R)[0,0]
     )
-    return (innov, innov_var, Hx.T)
+    """
+     nel codice C++ chiamerai la funzione una volta sola, otterrai le tre Jacobiane e le userai in tre aggiornamenti scalari separati.
+     non devi invertire una matrice 3×3,
+    """
+    return (innov, innov_var, Hx.T, Hy.T, Hz.T)
 
 # ---------- GPS (velocità) ----------
-def compute_gps_vel_innov_var_and_h(
-    state: VState, P: MTangent, meas: sf.V3, R: sf.Scalar
-) -> (sf.V3, sf.V3, VTangent):
+def compute_gps_vel_innov_var_and_h(state: VState, P: MTangent, meas: sf.V3, R: sf.Scalar) -> (sf.V3, sf.V3, VTangent, VTangent, VTangent):
+
     state = vstate_to_state(state)
     innov = state["vel"] - meas
+
     Hx = jacobian_chain_rule(state["vel"][0], state)
     Hy = jacobian_chain_rule(state["vel"][1], state)
     Hz = jacobian_chain_rule(state["vel"][2], state)
+    # # Varianza dell'innovazione  H*P*H^T + R*I
     innov_var = sf.V3(
         (Hx * P * Hx.T + R)[0,0],
         (Hy * P * Hy.T + R)[0,0],
         (Hz * P * Hz.T + R)[0,0]
     )
-    return (innov, innov_var, Hx.T)
+    """
+     nel codice C++ chiamerai la funzione una volta sola, otterrai le tre Jacobiane e le userai in tre aggiornamenti scalari separati.
+     non devi invertire una matrice 3×3,
+    """
+    return (innov, innov_var, Hx.T, Hy.T, Hz.T)
 
 # ---------- Magnetometro (campo magnetico nel frame corpo) ----------
-def compute_mag_innov_var_and_h(
-    state: VState, P: MTangent, meas: sf.V3, mag_ref: sf.V3, R: sf.Scalar
-) -> (sf.V3, sf.V3, VTangent):
+def compute_mag_innov_var_and_h(state: VState, P: MTangent, meas: sf.V3, mag_ref: sf.V3, R: sf.Scalar) -> (sf.V3, sf.V3, VTangent, VTangent, VTangent):
+    
     state = vstate_to_state(state)
     # Misura predetta: ruota il campo di riferimento nel frame corpo
     meas_pred = state["quat_nominal"].inverse() * mag_ref
@@ -269,7 +269,7 @@ def compute_mag_innov_var_and_h(
         (Hy * P * Hy.T + R)[0,0],
         (Hz * P * Hz.T + R)[0,0]
     )
-    return (innov, innov_var, Hx.T)
+    return (innov, innov_var, Hx.T, Hy.T, Hz.T)
 
 # ---------- Barometro (altezza, assumiamo Z verso il basso, quindi h = -pos.z) ----------
 def compute_baro_innov_var_and_h(
@@ -299,27 +299,36 @@ def compute_lidar_innov_var_and_h(
 
 from code_generation import generate_cpp_function, generate_python_function, generate_state_header
 
-LANG = "cpp"
+LANG = "both"
 
-if LANG == "cpp":
+def generate_cpp():
     print("CPP functions generation started.\n")
 
     generate_cpp_function(predict_covariance, output_names=None)
-    generate_cpp_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-    generate_cpp_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-    generate_cpp_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_cpp_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
+    generate_cpp_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
+    generate_cpp_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
     generate_cpp_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
     generate_cpp_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
     generate_state_header(State, tangent_idx)
-elif LANG == "py":
+
+def generate_py():
     print("Python functions generation started.\n")
 
     generate_python_function(predict_covariance, output_names=None)
-    generate_python_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-    generate_python_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
-    generate_python_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx"])
+    generate_python_function(compute_gps_pos_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
+    generate_python_function(compute_gps_vel_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
+    generate_python_function(compute_mag_innov_var_and_h, output_names=["innov", "innov_var", "Hx", "Hy", "Hz"])
     generate_python_function(compute_baro_innov_var_and_h, output_names=["innov", "innov_var", "H"])
     generate_python_function(compute_lidar_innov_var_and_h, output_names=["innov", "innov_var", "H"])
+
+if LANG == "cpp":
+    generate_cpp()
+elif LANG == "py":
+    generate_py()
+elif LANG == "both":
+    generate_cpp()
+    generate_py()
 else:
     print("Language not supported.\n")
 

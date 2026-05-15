@@ -25,6 +25,8 @@ namespace sym {
  *     innov: Matrix31
  *     innov_var: Matrix31
  *     Hx: Matrix15_1
+ *     Hy: Matrix15_1
+ *     Hz: Matrix15_1
  */
 template <typename Scalar>
 void ComputeGpsVelInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
@@ -32,14 +34,16 @@ void ComputeGpsVelInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
                                const Eigen::Matrix<Scalar, 3, 1>& meas, const Scalar R,
                                Eigen::Matrix<Scalar, 3, 1>* const innov = nullptr,
                                Eigen::Matrix<Scalar, 3, 1>* const innov_var = nullptr,
-                               Eigen::Matrix<Scalar, 15, 1>* const Hx = nullptr) {
+                               Eigen::Matrix<Scalar, 15, 1>* const Hx = nullptr,
+                               Eigen::Matrix<Scalar, 15, 1>* const Hy = nullptr,
+                               Eigen::Matrix<Scalar, 15, 1>* const Hz = nullptr) {
   // Total ops: 6
 
   // Input arrays
 
   // Intermediate terms (0)
 
-  // Output terms (3)
+  // Output terms (5)
   if (innov != nullptr) {
     Eigen::Matrix<Scalar, 3, 1>& _innov = (*innov);
 
@@ -62,6 +66,22 @@ void ComputeGpsVelInnovVarAndH(const Eigen::Matrix<Scalar, 16, 1>& state,
     _Hx.setZero();
 
     _Hx(3, 0) = 1;
+  }
+
+  if (Hy != nullptr) {
+    Eigen::Matrix<Scalar, 15, 1>& _Hy = (*Hy);
+
+    _Hy.setZero();
+
+    _Hy(4, 0) = 1;
+  }
+
+  if (Hz != nullptr) {
+    Eigen::Matrix<Scalar, 15, 1>& _Hz = (*Hz);
+
+    _Hz.setZero();
+
+    _Hz(5, 0) = 1;
   }
 }  // NOLINT(readability/fn_size)
 
