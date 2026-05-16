@@ -272,9 +272,8 @@ def compute_mag_innov_var_and_h(state: VState, P: MTangent, meas: sf.V3, mag_ref
     return (innov, innov_var, Hx.T, Hy.T, Hz.T)
 
 # ---------- Barometro (altezza, assumiamo Z verso il basso, quindi h = -pos.z) ----------
-def compute_baro_innov_var_and_h(
-    state: VState, P: MTangent, meas: sf.Scalar, R: sf.Scalar
-) -> (sf.Scalar, sf.Scalar, VTangent):
+def compute_baro_innov_var_and_h(state: VState, P: MTangent, meas: sf.Scalar, R: sf.Scalar) -> (sf.Scalar, sf.Scalar, VTangent):
+    
     state = vstate_to_state(state)
     h_pred = -state["pos"][2]   # altezza = -z
     innov = h_pred - meas
@@ -283,9 +282,8 @@ def compute_baro_innov_var_and_h(
     return (innov, innov_var, H.T)
 
 # ---------- Lidar (altezza, uguale al barometro ma con diverso rumore) ----------
-def compute_lidar_innov_var_and_h(
-    state: VState, P: MTangent, meas: sf.Scalar, R: sf.Scalar
-) -> (sf.Scalar, sf.Scalar, VTangent):
+def compute_lidar_innov_var_and_h(state: VState, P: MTangent, meas: sf.Scalar, R: sf.Scalar) -> (sf.Scalar, sf.Scalar, VTangent):
+    
     state = vstate_to_state(state)
     h_pred = -state["pos"][2]
     innov = h_pred - meas
