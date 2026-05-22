@@ -12,5 +12,13 @@ public:
 
     void pop_oldest(){}
 
+    /**
+     * TODO:
+     *  - pop_oldest
+     *  - get_oldest => prende senza spostare la tail
+     *  - get_newest
+     *  - get_sample_timestamp => prende il sample filtrato dal timestamp => 2 prototipi di questo metodo uno senza interval che 
+     *                            prende il sample con il timestamp esatto mentre con interval prende i sample compresi tra +- interval
+     */
 };
 
