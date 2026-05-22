@@ -82,6 +82,16 @@ public:
         return true; 
     }
 
+    bool get(uint32_t idx, data_type &out ){
+        if (idx > 0 && idx < _size)
+        {
+            out = _buffer[idx];
+            return true;
+        }
+
+        return false;
+    }
+
     uint32_t get_head_idx(){ return _head;}
     uint32_t get_tail_idx(){ return _tail;}
     uint32_t get_element_count(){return _count;}
