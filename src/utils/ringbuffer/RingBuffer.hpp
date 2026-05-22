@@ -12,18 +12,17 @@ private:
     data_type *_buffer{nullptr};
     
     uint32_t _size{0};
+    // head e tail indicano rispettivamente il prossimo elemento da scrivere e da leggere.
     uint32_t _head{0};
     uint32_t _tail{0};
-
-    bool _first_write{true};
-
+    uint32_t _count{0};     // Contatore per contare gli elementi presenti nel buffer
 
     /**
      * Funzione per l'allocazione del ringbuffer
      * 
      * Ritorna true se l'allocazione è andata bene se no false.
      */
-    bool _allocate(size__t size){
+    bool _allocate(size_t size){
         if (check() && size == _size)   // controllo se si sta cercando di modificare l'allocazione ma con gli stessi valori
         {
             return true;
@@ -33,7 +32,7 @@ private:
 
         _buffer = new data_type[size] {};   // Le {} inizializzano tutti i valori a 0
 
-        if (_buffer == nullptr){return false;}
+        // if (_buffer == nullptr){return false;} il new non restituisce nullptr ma genera un exeption
 
         _size = size;
         
@@ -42,28 +41,66 @@ private:
         return true;
         
     };
-public:
-    RingBuffer(size_t size) {allocate(size)};
-    ~RingBuffer() {delete[] _buffer};
 
-    const data_type &pop_first() { return _buffer[_tail]; }    // Il primo const indica che il valore di ritorno può essere letto ma non modificato, mentre il secondo const dice che quel metodo non può modificare attributi della classe.
-    const data_type &pop_last() { return _buffer[_head]; }
+    void _deallocate(){
+        if (_buffer)
+        {
+            delete[] _buffer;
+            _buffer = nullptr;
+        }
+        
+    }
+
+public:
+    RingBuffer(size_t size) {_allocate(size)};
+    ~RingBuffer() {_deallocate();};
+
+   /**
+    * Rule of 5:
+    * no copy, assignment, move, move assignment
+    */
+	RingBuffer(const RingBuffer &) = delete;
+	RingBuffer &operator=(const RingBuffer &) = delete;
+	RingBuffer(RingBuffer &&) = delete;
+	RingBuffer &operator=(RingBuffer &&) = delete;
+    
+    bool reallocate(size_t new_size){
+        _deallocate();
+        return _allocate(new_size);
+    }
+    
+    bool pop(data_type &out) { 
+        if (_count == 0)
+        {
+            return false;
+        }
+        
+        out = _buffer[_tail];
+        _tail = (_tail + 1) % _size;
+        _count--;
+
+        return true; 
+    }
 
     uint32_t get_head_idx(){ return _head;}
     uint32_t get_tail_idx(){ return _tail;}
+    uint32_t get_element_count(){return _count;}
+
+    bool isEmpty() {return _count == 0;}
+    bool isFull() {return _count == _size;}
 
     void push(const data_type &data){
-        _head = (_head + 1) % _size;
 
         _buffer[_head] = data;
-
-        // Se la testa arriva alla coda allora sposto la coda avanti
-        if (_head == _tail && !_first_write)
+        _head = (_head + 1) % _size;
+        
+        // Se il count è uguale alla dimensione del buffer allora il buffer è pieno e quindi bisogna spostare avanti la coda
+        if (_count == _size)
         {
             _tail = (_tail + 1) % _size;
+        }else{
+            _count++;
         }
-
-        _first_write = false;
         
     }
 
@@ -83,12 +120,11 @@ public:
             
             _head = 0;
             _tail = 0;
-            _first_write = true;
+            _count = 0;
         }
         
     }
 
-    data_type
 };
 
 
