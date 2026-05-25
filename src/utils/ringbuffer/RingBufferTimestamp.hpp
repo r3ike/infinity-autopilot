@@ -20,5 +20,11 @@ public:
      *  - get_sample_timestamp => prende il sample filtrato dal timestamp => 2 prototipi di questo metodo uno senza interval che 
      *                            prende il sample con il timestamp esatto mentre con interval prende i sample compresi tra +- interval
      */
+
+    void get_oldest(){}
+
+    void get_newest(){}
+
+    void get_sample_timestamp(){}
 };
 
