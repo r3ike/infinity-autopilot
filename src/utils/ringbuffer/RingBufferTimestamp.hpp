@@ -7,10 +7,12 @@ class RingBufferTimestamp : public RingBuffer<data_type>
 private:
     /* data */
 public:
-    RingBufferTimestamp(size_t size): RingBuffer(size);
-    ~RingBufferTimestamp() {this->_deallocate();};
+    RingBufferTimestamp(size_t size): RingBuffer(size){}
+    ~RingBufferTimestamp() {this->_deallocate();}
 
-    void pop_oldest(){}
+    bool pop_oldest(data_type &out){
+        return this->pop(out);
+    }
 
     /**
      * TODO:
@@ -21,9 +23,18 @@ public:
      *                            prende il sample con il timestamp esatto mentre con interval prende i sample compresi tra +- interval
      */
 
-    void get_oldest(){}
+    bool get_oldest(data_type &out){
+        uint32_t oldest_idx = this->get_tail_idx();
 
-    void get_newest(){}
+        return this->get(oldest_idx, out);
+    }
+
+    bool get_newest(data_type &out){
+        uint32_t newest_idx = this->get_head_idx();
+
+        return this->get(newest_idx, out);
+    }
+
 
     void get_sample_timestamp(){}
 };
