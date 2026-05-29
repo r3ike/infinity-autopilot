@@ -19,14 +19,19 @@ enum LogMsgID
     LOG_ID_STATE_CHANGES
 };
 
+struct __attribute__((packed)) LogMsgHeader {
+    uint8_t  sync;        // MAGIC_CHECK_BYTE
+    uint8_t  msg_id;       // LogMsgId
+    uint16_t payload_size; // sizeof(T) — utile per il parser
+    uint64_t timestamp_us;
+};
+
 // Log per la imu
 template<typename T>
 struct LoggerMsgs
 {
-    uint8_t sync;                   //BYTE PER IDENTIFICARE L'INIZIO DEL PACCHETTO
-    uint8_t msg_type;
-    uint64_t timestamp;
-    T data;
+    LogMsgHeader header;
+    T payload;
 };
 
 /*

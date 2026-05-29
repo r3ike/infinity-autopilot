@@ -25,6 +25,13 @@
 class Logger
 {
 private:
+    /**
+     * TODO:
+     *  - rendere head e tail std::atomic per evitare race condition o altre problematiche relative alla concorrenza
+     *  - togliere std::array e usare array normale (volendo si può usare utils/ringbuffer/RingBuffer.hpp)
+     *  - capire come fare il write_to_buffer, se mantenere questo metodo o usare memcpy
+     *  - scrivere drain
+     */
 
     uint8_t _log_buffer[CONFIG_LOGGER_BUFFER_SIZE * 1024];
     volatile uint32_t _head = 0; // Dove scrive il Producer
@@ -34,7 +41,7 @@ private:
     std::array<std::unique_ptr<SRIMB_Sub>, GPS_INSTANCES> _srimb_subs_gps;
     
 
-    void write_to_buffer(const void* data, unsigned int length);
+    void write_to_buffer(const void* data, uint32_t length);
 
     void log_imu();
 
@@ -46,6 +53,12 @@ public:
     ~Logger() = default;
 
     void log();
+
+    /** 
+     *  metodo chiamato dal writer task (sd manager) per drenare il buffer del logger 
+     * ritorna quanti byte ha copiato
+     */
+    uint32_t drain(uint8_t *buf, uint32_t max_len);
 
     
 };

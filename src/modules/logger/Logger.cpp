@@ -19,7 +19,7 @@ Logger::Logger(){
  * void* data è un puntatore generico e universale,
  *  così che possiamo passare qualsiasi tipo di struct come parametro
  */
-void Logger::write_to_buffer(const void* data, unsigned int length)
+void Logger::write_to_buffer(const void* data, uint32_t length)
 {
     const uint8_t* byte_ptr = static_cast<const uint8_t*>(data);    // Casting a puntatore di tipo uint8
     for (unsigned int i = 0; i < length; i++)
@@ -31,19 +31,26 @@ void Logger::write_to_buffer(const void* data, unsigned int length)
 
 void Logger::log_imu()
 {
-    #ifdef CONFIG_LOG_IMU_ENABLED
-        for (size_t i = 0; i < IMU_INSTANCES; i++)
+#ifdef CONFIG_LOG_IMU_ENABLED
+    for (size_t i = 0; i < IMU_INSTANCES; i++)
+    {
+        ImuData imu_data;
+        uint64_t timestamp;
+        if (srimb_copy(topic_imu[i], *_srimb_subs_imu.at(i).get(), imu_data, timestamp))
         {
-            ImuData imu_data;
-            uint64_t timestamp;
-            if (srimb_copy(topic_imu[i], *_srimb_subs_imu.at(i).get(), imu_data, timestamp))
-            {
-                LoggerMsgs<ImuData> imu_msg = {MAGIC_CHECK_BYTE, LOG_ID_IMU, timestamp, imu_data};
-
-                write_to_buffer(&imu_msg, sizeof(imu_msg));
-            }
+            LoggerMsgs<ImuData> imu_msg = {
+                .header = {
+                    .magic = MAGIC_CHECK_BYTE,
+                    .msg_id = LogMsgID::LOG_ID_IMU,
+                    .payload_size = sizeof(ImuData),
+                    .timestamp_us = timestamp,
+                },
+                .payload = imu_data;
+            };
+            write_to_buffer(&imu_msg, sizeof(imu_msg));
         }
-    #endif
+    }
+#endif
 }
 
 void Logger::log_gps()
