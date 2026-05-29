@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Logger.hpp"
-#include "Module.hpp"
+#include "IModule.hpp"
 
 #include "PeriodicTask.hpp"
 #include "Scheduler.hpp"
