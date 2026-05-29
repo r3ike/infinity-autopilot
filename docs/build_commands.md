@@ -4,8 +4,14 @@ pip install -r zephyr/scripts/requirements.txt
 ```
 
 ## Build
+### Build hw
 ```bash
 west build -b teensy41 . -- -DTARGET_PLATFORM=TEENSY41
+```
+
+### Build sitl
+```bash
+west build -b native_sim/native/64  . -- -DTARGET_PLATFORM=SITL
 ```
 
 ## Change kconfig

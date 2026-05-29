@@ -10,7 +10,7 @@ manifest:
   projects:
     - name: zephyr
       repo-path: zephyr
-      revision: v3.6.0                # Scegli una versione stabile (o main se vuoi l'ultima)
+      revision: v4.3.0              # Scegli una versione stabile (o main se vuoi l'ultima)
       import: true                     # Importa automaticamente i moduli di Zephyr (HAL, ecc.)
 
   self:

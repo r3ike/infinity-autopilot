@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 
 if(${TARGET_PLATFORM} STREQUAL "TEENSY41")
-    set(DTC_OVERLAY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity_fc/teensy41.overlay)
-    set(CONF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf;${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity_fc/teensy41.conf)
+    set(DTC_OVERLAY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity-fc/teensy41.overlay)
+    set(CONF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf;${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity-fc/teensy41.conf)
 else()
     set(DTC_OVERLAY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/boards/sitl/native_sim.overlay)
     set(CONF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf;${CMAKE_CURRENT_SOURCE_DIR}/boards/sitl/native_sim.conf)
 endif()
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+
+
 
 #set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 project(Infinity-Autopilot VERSION 0.5 LANGUAGES C CXX)
