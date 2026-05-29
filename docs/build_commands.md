@@ -1,3 +1,8 @@
+## Prepare venv python
+```bash
+pip install -r zephyr/scripts/requirements.txt
+```
+
 ## Build
 ```bash
 west build -b teensy41 . -- -DTARGET_PLATFORM=TEENSY41

@@ -95,5 +95,8 @@
 
 #define IMU_INSTANCES 1
 #define GPS_INSTANCES 1
+#define LIDAR_INSTANCES 1
+#define BARO_INSTANCES 1
+#define MAG_INSTANCES 1
 
 #endif

@@ -68,11 +68,11 @@ HAL::HAL()
         //_sd_logging_instance
 
     #elif defined(CONFIG_TARGET_SITL)
-        registerImu(new HAL_IMU_SITL());
+        //registerImu(new HAL_IMU_SITL());
         //pwm = new HAL_MOTOR_SITL();
         //telemetry = new HAL_Telemetry_SITL();
         //logging = new HAL_Logging_SITL();
-        time = new HAL_TIME_INTERRUPTS_SITL();
+        //time = new HAL_TIME_INTERRUPTS_SITL();
     #endif
 }
 HAL::~HAL(){}

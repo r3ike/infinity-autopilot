@@ -11,7 +11,7 @@ if(CONFIG_TARGET_TEENSY41 OR ${TARGET_PLATFORM} STREQUAL "TEENSY41")
 
     # Aggiungiamo le interfacce delle singole famiglie di driver all'interfaccia principale dei driver hardware
     list(APPEND DRIVERS_HW_LINK_LIB Imu_drivers)
-    //list(APPEND DRIVERS_HW_LINK_LIB Gnss_drivers)
+    #list(APPEND DRIVERS_HW_LINK_LIB Gnss_drivers)
 
 
     target_include_directories(drivers_hardware INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

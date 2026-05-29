@@ -12,7 +12,7 @@ if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
     if(CONFIG_RADIO_SITL_DRIVER_ENABLED)
         list(APPEND DRIVERS_SITL_LINK_LIB Radio_sitl_drivers)
     endif()
-    //list(APPEND DRIVERS_SITL_LINK_LIB Gnss_sitl_drivers)
+    #list(APPEND DRIVERS_SITL_LINK_LIB Gnss_sitl_drivers)
 
 
     target_include_directories(drivers_sitl INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
