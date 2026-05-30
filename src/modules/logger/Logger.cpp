@@ -2,8 +2,6 @@
 
 
 Logger::Logger(){
-    for (size_t i = 0; i < IMU_INSTANCES; i++)  _srimb_subs_imu[i] = std::make_unique<SRIMB_Sub>();
-    for (size_t i = 0; i < GPS_INSTANCES; i++)  _srimb_subs_gps[i] = std::make_unique<SRIMB_Sub>();
     
 }
 
@@ -36,7 +34,7 @@ void Logger::log_imu()
     {
         ImuData imu_data;
         uint64_t timestamp;
-        if (srimb_copy(topic_imu[i], *_srimb_subs_imu.at(i).get(), imu_data, timestamp))
+        if (srimb_copy(topic_imu[i], _srimb_subs_imu[i], imu_data, timestamp))
         {
             LoggerMsgs<ImuData> imu_msg = {
                 .header = {
@@ -60,7 +58,7 @@ void Logger::log_gps()
         {
             GpsData gps_data;
             uint64_t timestamp;
-            if (srimb_copy(topic_gps[i], *_srimb_subs_gps.at(i).get(), gps_data, timestamp))
+            if (srimb_copy(topic_gps[i], _srimb_subs_gps[i], gps_data, timestamp))
             {
                 LoggerMsgs<GpsData> gps_msg = {MAGIC_CHECK_BYTE, LOG_ID_GPS, timestamp, gps_data};
             

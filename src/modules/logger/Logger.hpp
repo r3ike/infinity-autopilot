@@ -37,8 +37,9 @@ private:
     volatile uint32_t _head = 0; // Dove scrive il Producer
     volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
 
-    std::array<std::unique_ptr<SRIMB_Sub>, IMU_INSTANCES> _srimb_subs_imu;
-    std::array<std::unique_ptr<SRIMB_Sub>, GPS_INSTANCES> _srimb_subs_gps;
+
+    SRIMB_Sub _srimb_subs_imu[IMU_INSTANCES];
+    SRIMB_Sub _srimb_subs_gps[GPS_INSTANCES];
     
 
     void write_to_buffer(const void* data, uint32_t length);
