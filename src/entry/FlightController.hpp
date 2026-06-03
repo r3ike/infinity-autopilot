@@ -4,7 +4,9 @@
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
 
+#include "SRIMB.hpp"
 #include "HAL.hpp"
+
 #ifdef CONFIG_LOGGER_ENABLED
 #include "LoggerTask.hpp"
 #endif
@@ -16,6 +18,8 @@
 class FlightController
 {
 private:
+    srimb::SRIMB<float> temp_topic;
+
     HAL _hal;
 
     ImuManagerTask _imu_manager_task;

@@ -1,5 +1,6 @@
 
 set(TOPICS_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/baro_topic/baro_topic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/imu_topic/imu_topic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/gps_topic/gps_topic.cpp
