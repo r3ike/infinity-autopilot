@@ -53,6 +53,12 @@ public:
     Logger();
     ~Logger() = default;
 
+    /**
+     * Cose da fare:
+     *  metterei a disposizione vari metodi:
+     *      - 
+     */
+
     void log();
 
     /** 
