@@ -25,3 +25,7 @@ endmenu
 menu "Modules Configuration"
 source "../src/modules/Kconfig"
 endmenu
+
+menu "Scheduler Configuration"
+source "../src/scheduler/Kconfig"
+endmenu

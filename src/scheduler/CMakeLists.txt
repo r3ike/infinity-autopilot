@@ -1,5 +1,4 @@
-add_library(scheduler STATIC)
+add_library(scheduler INTERFACE)
 
-target_sources(scheduler PRIVATE Scheduler.cpp)
-target_include_directories(scheduler PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(scheduler PUBLIC zephyr_interface stdc++ utils)
+target_include_directories(scheduler INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(scheduler INTERFACE zephyr_interface stdc++ utils)

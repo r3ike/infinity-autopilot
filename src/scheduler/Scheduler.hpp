@@ -65,12 +65,21 @@ public:
         {
             auto& e = _tasks_entries[i];
 
-            if (!e.initialized){
-                continue;
-            }
+            if (!e.initialized){ continue; }
 
+            const auto& cfg = e.task->taskConfig();
 
+            k_tid_t tid = k_thread_create(&e.tcb, e.stack, e.stack_size, Scheduler::threadEntry, e.task, nullptr, nullptr, cfg.priority, 0, K_NO_WAIT);
             
+            k_thread_name_set(tid, cfg.name);
+            e.task->_tid = tid;
+
+            if (cfg.policy == SchedPolicy::EDF)
+            {
+                k_thread_deadline_set(tid, static_cast<int>(cfg.deadline_us));
+            }
+            
+            // Logging
         }
     }
 
@@ -99,6 +108,8 @@ public:
     }
 
     std::size_t TaskCount(){return _count;}
+
+
     
 private:
     static void threadEntry(void* arg1, void*, void*) {

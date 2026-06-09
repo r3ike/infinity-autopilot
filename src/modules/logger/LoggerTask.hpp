@@ -1,30 +1,35 @@
 #pragma once
 
 #include "Logger.hpp"
-#include "IModule.hpp"
+#include "ITask.hpp"
 
-#include "PeriodicTask.hpp"
-#include "Scheduler.hpp"
-
-class LoggerTask : public IModule
+namespace uav::tasks
+{
+    
+class LoggerTask : public scheduler::ITask
 {
 private:
     Logger _logger;
-    PeriodicTask _logger_task;
 
-    static void run_callback(void* context) {
-        static_cast<LoggerTask*>(context)->run();
-    }
-    
 public:
-    LoggerTask() : _logger_task(run_callback, this, &fast_wq, K_MSEC(10)) {};
+    /**
+     * TODO:
+     *  - modifcare la configurazione mediante KCONFIG
+     */
+    static constexpr scheduler::TaskConfig taskConf {
+        .name = "logger",
+        .priority = 8,
+        .policy = scheduler::SchedPolicy::RoundRobin,
+        .period_us = 5000,
+        -deadline_us = 5000,
+        .stack_size = 2048
+    }
+
+    LoggerTask() : ITask(taskConf) {};
     ~LoggerTask() = default;
 
-    void start() override {
-        _logger_task.start();
-    }
 
-    void init() override {
+    bool init() override {
         
     }
 
@@ -37,6 +42,9 @@ public:
         _logger_task.stop();
     }
 };
+} // namespace uav::tasks
+
+
 
 
 

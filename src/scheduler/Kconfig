@@ -1,8 +1,6 @@
-menu "Scheduler settings"
 
 config MAX_TASKS
     int "Maximum number of task that can be scheduled"
     range 1 16
     default 16
 
-endmenu 

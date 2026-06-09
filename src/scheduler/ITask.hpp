@@ -42,6 +42,13 @@ public:
     const int taskPriority(){return _cfg.priority;}
     k_tid_t taskTid(){return _tid;}
 
+protected:
+    void refreshDeadline() const {
+        if (_cfg.policy == SchedPolicy::EDF && _tid) {
+            k_thread_deadline_set(_tid, static_cast<int>(_cfg.deadline_us));
+        }
+    }
+
 private:
     TaskConfig _cfg;
     k_tid_t _tid {nullptr};
