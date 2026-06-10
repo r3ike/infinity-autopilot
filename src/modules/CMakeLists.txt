@@ -7,17 +7,22 @@ set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
 #---------------------------------
 
 
-add_subdirectory(imu_manager)
-list(APPEND MODULES_LINK_LIB modules_imu_manager)
+# add_subdirectory(imu_manager)
+# list(APPEND MODULES_LINK_LIB modules_imu_manager)
+
+add_subdirectory(modules_test1)
+list(APPEND MODULES_LINK_LIB modules_test1)
+add_subdirectory(modules_test2)
+list(APPEND MODULES_LINK_LIB modules_test2)
 
 #---------------------------------
 #       Moduli Facoltativi
 #---------------------------------
 
-if(CONFIG_LOGGER_ENABLED)
-    add_subdirectory(logger)
-    list(APPEND MODULES_LINK_LIB modules_logger)
-endif()
+# if(CONFIG_LOGGER_ENABLED)
+#     add_subdirectory(logger)
+#     list(APPEND MODULES_LINK_LIB modules_logger)
+# endif()
 
 target_include_directories(Modules INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(Modules INTERFACE ${MODULES_LINK_LIB})

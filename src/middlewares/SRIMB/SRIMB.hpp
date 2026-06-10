@@ -1,6 +1,15 @@
 #pragma once
 #include "srimb_topic.hpp"
+#include "SRIMBWorkItemSub.hpp"
 #include <array>
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
+
+/**
+     * TODO:
+     *  - rimuovere valore hard coded usare kconfig?
+     */
+#define MAX_WORK_ITEM 16
 
 namespace srimb
 {
@@ -10,19 +19,27 @@ class SRIMBTopic
 {
 
 public:
-    SRIMB();
-    ~SRIMB();
+    SRIMB() {};
+    ~SRIMB() {};
 
     void publish() {
-        notify_all();
+
+        submit_all_workitems();
     }
 
     void poll(){
 
     }
 
-    void register_work_item(){
+    bool register_work_item(SRIMBWorkItemSub* sub){
+        if (count_ >= MAX_WORK_ITEM)
+        {
+            return false;
+        }
 
+        work_items_[count_++] = sub;
+        return true;
+        
     }
 
     void unregister_callback(){
@@ -30,11 +47,35 @@ public:
     }
 
 private:
-    SRIMB_Topic<T> _topic;
+    
+    void submit_all_workitems(){
+        for (size_t i = 0; i < count_; i++)
+        {
+            SRIMBWorkItemSub* s = work_items_[i];
+            submit_single_workitems(s);
+        }
+        
+    }
 
-    // aggiungere array con le callback
+    void submit_single_workitems(SRIMBWorkItemSub* workitem){
+        struct k_work_q* queue = workitem->getWorkQueue();
+
+        if (queue)
+        {
+            k_work_submit_to_queue(queue, workitem->getWorkItem());
+        }else{
+            k_work_submit(workitem->getWorkItem());
+        }
+        
+    }
+
+    SRIMB_Topic<T> _topic {};
 
     
+    std::array<SRIMBWorkItemSub*, MAX_WORK_ITEM> work_items_ ;          // Array contenente i work item da chiamare al publish su un topic   
+    std::size_t count_ {0};
+
+    struct k_mutex mtx_{};
 };
 
 } // namespace srimb
