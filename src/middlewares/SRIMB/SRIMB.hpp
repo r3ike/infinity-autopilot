@@ -19,14 +19,27 @@ class SRIMBTopic
 {
 
 public:
-    SRIMB() {};
+    SRIMB() {
+        k_mutex_init(&mtx_);
+    };
     ~SRIMB() {};
 
-    void publish() {
+    
+    void publish(SRIMB_Topic& msg) {
+        k_mutex_lock(&mtx_, K_FOREVER);
+
+        topic_ = msg;
+
+        k_mutex_unlock(&mtx_);
 
         submit_all_workitems();
     }
 
+    /**
+     * TODO:
+     *  - capire se aggiungere il passaggio della struttura dati del sub per 
+     *    capire se il messaggio e nuovo o vecchio
+     */
     void poll(){
 
     }
@@ -69,9 +82,12 @@ private:
         
     }
 
-    SRIMB_Topic<T> _topic {};
+    SRIMB_Topic<T> topic_ {};
 
-    
+    /**
+     * TODO:
+     *  - capire se si può togliere la classe SRIMBWorkItemSub e usare solo quella workitem
+     */
     std::array<SRIMBWorkItemSub*, MAX_WORK_ITEM> work_items_ ;          // Array contenente i work item da chiamare al publish su un topic   
     std::size_t count_ {0};
 
