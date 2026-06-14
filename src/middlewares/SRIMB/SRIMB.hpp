@@ -1,5 +1,7 @@
 #pragma once
+#include <cstdint>
 #include "srimb_topic.hpp"
+#include "SRIMBSub.hpp"
 #include "SRIMBWorkItemSub.hpp"
 #include <array>
 #include <zephyr/kernel.h>
@@ -8,6 +10,7 @@
 /**
      * TODO:
      *  - rimuovere valore hard coded usare kconfig?
+     *  - capire se è meglio usare uno shared mutex al posto che un mutex normale
      */
 #define MAX_WORK_ITEM 16
 
@@ -19,16 +22,18 @@ class SRIMBTopic
 {
 
 public:
-    SRIMB() {
+    SRIMBTopic() {
         k_mutex_init(&mtx_);
     };
-    ~SRIMB() {};
+    ~SRIMBTopic() {};
 
     
-    void publish(SRIMB_Topic& msg) {
+    void publish(T& msg_data, uint64_t timestamp) {
         k_mutex_lock(&mtx_, K_FOREVER);
 
-        topic_ = msg;
+        data_ = msg_data;
+        timestamp_ = timestamp;
+        generation_++;
 
         k_mutex_unlock(&mtx_);
 
@@ -40,8 +45,19 @@ public:
      *  - capire se aggiungere il passaggio della struttura dati del sub per 
      *    capire se il messaggio e nuovo o vecchio
      */
-    void poll(){
+    bool poll(SRIMBSub& sub, T& out, uint64_t& timestamp){
+        k_mutex_lock(&mtx_, K_FOREVER);
+        if(sub.get_last_generation() == generation_){
+            return false;
+        }
 
+        out = data_;
+        timestamp = timestamp_;
+        sub.set_last_generation(generation_);
+
+        k_mutex_unlock(&mtx_);
+
+        return true;
     }
 
     bool register_work_item(SRIMBWorkItemSub* sub){
@@ -82,7 +98,9 @@ private:
         
     }
 
-    SRIMB_Topic<T> topic_ {};
+    T data_ {};
+    uint64_t timestamp_ {0};    // timestamp of the msg
+    uint64_t generation_ {0};   // generation id of the msg
 
     /**
      * TODO:

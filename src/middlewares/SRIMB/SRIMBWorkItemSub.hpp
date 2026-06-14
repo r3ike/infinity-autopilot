@@ -1,11 +1,15 @@
 #pragma once
 #include <zephyr/kernel.h>
+
+#include "SRIMBSub.hpp"
 /**
  * Classe che bisogna ereditare se un modulo vuole sottoscrivere un workitem ad una workqueue
  * e usare come trigger la pubblicazione su uno specifico topic.
  */
 
-class SRIMBWorkItemSub {
+namespace srimb
+{
+class SRIMBWorkItemSub : public SRIMBSub{
 public:
     // Restituisce il work item da sottomettere quando arriva un evento
     virtual struct k_work* getWorkItem() = 0;
@@ -13,5 +17,9 @@ public:
     virtual struct k_work_q* getWorkQueue() = 0;
     virtual ~SRIMBWorkItemSub() = default;
 };
+   
+} // namespace srimb
+ 
+
 
  
