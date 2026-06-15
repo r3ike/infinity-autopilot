@@ -6,7 +6,7 @@ LOG_MODULE_REGISTER(params_manager, LOG_LEVEL_DBG);
 #include <zephyr/sys/__assert.h>
 #include <cstring>
 
-namespace autopilot::params {
+namespace infinity::params {
 
 // ------------------------------------------------------------
 // DEFINIZIONE DELLA CACHE

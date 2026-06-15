@@ -5,9 +5,7 @@
 #include <zephyr/settings/settings.h>
 #include "param_defs.hpp"
 
-namespace autopilot::params {
-
-
+namespace infinity::params {
 
 // ------------------------------------------------------------
 // DICHIARAZIONI ESTERNE (definite in param_manager.cpp)
