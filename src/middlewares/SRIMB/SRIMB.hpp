@@ -12,7 +12,7 @@
      *  - rimuovere valore hard coded usare kconfig?
      *  - capire se è meglio usare uno shared mutex al posto che un mutex normale
      */
-#define MAX_WORK_ITEM 16
+#define MAX_WORK_ITEM 32
 
 namespace srimb
 {

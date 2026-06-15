@@ -4,6 +4,10 @@
 namespace srimb
 {
 
+    /**
+     * TODO:
+     *  - aggiungere subscriber name
+     */
 class SRIMBSub
 {
 private:

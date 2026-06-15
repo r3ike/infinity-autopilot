@@ -4,16 +4,17 @@
 #include <zephyr/logging/log.h>
 #include "ITask.hpp"
 #include "SRIMB.hpp"
+#include "uav_types.hpp"
 
 LOG_MODULE_REGISTER(test1, LOG_LEVEL_DBG);
 
-namespace uav::tasks
+namespace infinity::tasks
 {
 
 class Test1 : public scheduler::ITask
 {
 private:
-    srimb::SRIMBTopic imu_topic_
+    srimb::SRIMBTopic<ImuData>& imu_topic_
 public:
     static constexpr scheduler::TaskConfig taskConf {
         .name = "test1",
@@ -24,8 +25,8 @@ public:
         .stack_size = 2048
     }
 
-    Test1(srimb::SRIMBTopic topic) : ITask(taskConf), imu_topic_(topic);
-    ~Test1();
+    Test1(srimb::SRIMBTopic<ImuData>& topic) : ITask(taskConf), imu_topic_(topic) {};
+    ~Test1() = default;
 
     bool init() override {
         LOG_INF("Task test1 avviato con successo:");

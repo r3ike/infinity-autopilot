@@ -1,3 +1,3 @@
 add_library(modules_test1 INTERFACE)
 target_include_directories(modules_test1 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(modules_test1 INTERFACE zephyr_interface SRIMB srimb_topics scheduler)
+target_link_libraries(modules_test1 INTERFACE zephyr_interface SRIMB srimb_topics scheduler utils)
