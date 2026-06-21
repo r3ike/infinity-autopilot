@@ -18,6 +18,7 @@
         "scheduler",
         "EKF",
         "param_manager",
-        "mavlink"
+        "mavlink",
+        "SITL"
     ]
 }
