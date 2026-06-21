@@ -7,7 +7,7 @@ function(param_generation)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
     set(MODULES_DIR     ${CMAKE_SOURCE_DIR}/src/modules)
-    set(GENERATOR       ${CMAKE_SOURCE_DIR}/scripts/generate_params.py)
+    set(GENERATOR       ${CMAKE_SOURCE_DIR}/scripts/params/generate_params.py)
     set(OUT_HPP         ${CMAKE_BINARY_DIR}/generated/param_defs.hpp)
     set(OUT_CPP         ${CMAKE_BINARY_DIR}/generated/param_defs.cpp)
 
