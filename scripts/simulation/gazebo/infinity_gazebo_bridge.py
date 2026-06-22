@@ -136,7 +136,8 @@ class SensorBridge:
         # — Barometro —
         if self._baro is not None:
             abs_pressure_pa = self._baro.pressure          # Pa
-            temperature     = self._baro.temperature - 273.15  # °C
+            #temperature     = self._baro.temperature - 273.15  # °C
+            temperature = 0
         else:
             abs_pressure_pa = SEA_LEVEL_P
             temperature     = 25.0
