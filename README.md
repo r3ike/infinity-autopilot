@@ -20,19 +20,38 @@ Infinity è un autopilot avanzato totalmente open-source per UAV , permette comp
 - Simulazione SITL
 
 
-## Come compilare il progetto per la prima volta
+## Development setup
 
 Segui questi passaggi per impostare l'ambiente di sviluppo e compilare il firmware.
 
-### Prerequisiti
+### Prerequisites (Ubuntu 22.04)
+```bash
+sudo apt update
+sudo apt upgrade
 
-Assicurati di aver installato i prerequisiti di Zephyr RTOS: Python, CMake, Ninja, e il toolchain per il tuo target (es. ARM GCC). Segui la [Guida introduttiva ufficiale di Zephyr](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) fino al punto in cui si installano i pacchetti Python di base, **ma fermati prima di creare un nuovo workspace con `west init`** (lo faremo dopo con il nostro repository).
+```
+#### Zephyr installation
+L'installazione di zephyr è obbligatoria e si ocnsiglia di effetturala seguendo la [guida 
+ufficiale](https://docs.zephyrproject.org/latest/develop/getting_started/index.html).
+
+#### Gazebo installation (optional)
+Se si è interessati ad effettuare simulazioni SITL è necessaria l'installazione di gazebo
+attraverso la [guida ufficiale](https://gazebosim.org/docs/all/getstarted/).
+
+### Create and activate a virtual environment
+```bash
+python3 -m venv --system-site-packages venv
+source venv/bin/activate
+
+pip install -e .[dev]
+```
+
 
 ### Passaggi
 
 1.  **Clona il repository:**
     ```bash
-    git clone https://github.com/tuo-username/infinity-autopilot.git
+    git clone https://github.com/r3ike/infinity-autopilot.git
     cd infinity-autopilot
     ```
 
@@ -54,25 +73,19 @@ Assicurati di aver installato i prerequisiti di Zephyr RTOS: Python, CMake, Ninj
     west zephyr-export
     ```
 
-5.  **Attiva l'ambiente Python (se usi un virtual environment):**
-    Se hai installato i prerequisiti in un virtual environment (come raccomandato da Zephyr), attivalo:
-    ```bash
-    source venv/bin/activate  # O il percorso del tuo venv
-    ```
-
-6.  **Sorgente le variabili d'ambiente di Zephyr:**
+5.  **Sorgente le variabili d'ambiente di Zephyr:**
     ```bash
     source zephyr/zephyr-env.sh
     ```
 
-7.  **Compila l'applicazione:**
+6.  **Compila l'applicazione:**
     Ora puoi compilare il progetto normalmente. Poiché la tua applicazione è nella radice, il comando è semplicemente:
     ```bash
     west build -b <board_name> .
     ```
     (Sostituisci `<board_name>` con la tua board, es. `mio_drone_sim` per SITL o `mio_drone` per hardware).
 
-8.  **Flash (se su hardware reale):**
+7.  **Flash (se su hardware reale):**
     ```bash
     west flash
     ```

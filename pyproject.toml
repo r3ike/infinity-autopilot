@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "infinity-autopilot"
+version = "0.5.0"
+description = "Firmware C++ per UAV"
+readme = "README.md"
+license = {text = "BSD"}
+requires-python = ">=3.10"
+
+# Dipendenze BASE
+dependencies = [
+    "pyserial",        # se usata per comunicazione
+    "packaging",       # se usata per version checking
+]
+
+[project.optional-dependencies]
+# Tool di build
+build = [
+    "west",
+]
+
+# Simulazione SITL con Gazebo
+sim = [
+    "pymavlink",
+    "numpy",
+    "matplotlib",
+    "protobuf",
+]
+
+# Test e linting
+test = [
+    "pytest",
+    "pytest-cov",
+    "cpplint",
+]
+
+# Ambiente completo
+dev = [
+    "infinity-autopilot[build,sim,test]",
+]
