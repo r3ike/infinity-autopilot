@@ -40,11 +40,7 @@ public:
         submit_all_workitems();
     }
 
-    /**
-     * TODO:
-     *  - capire se aggiungere il passaggio della struttura dati del sub per 
-     *    capire se il messaggio e nuovo o vecchio
-     */
+    
     bool poll(SRIMBSub& sub, T& out, uint64_t& timestamp){
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
@@ -54,6 +50,17 @@ public:
         out = data_;
         timestamp = timestamp_;
         sub.set_last_generation(generation_);
+
+        k_mutex_unlock(&mtx_);
+
+        return true;
+    }
+
+    bool updated(SRIMBSub& sub){
+        k_mutex_lock(&mtx_, K_FOREVER);
+        if(sub.get_last_generation() == generation_){
+            return false;
+        }
 
         k_mutex_unlock(&mtx_);
 
