@@ -14,7 +14,7 @@ namespace infinity::tasks
 class Test1 : public scheduler::ITask
 {
 private:
-    srimb::SRIMBTopic<ImuData>& imu_topic_
+    srimb::SRIMBTopic<ImuData>& imu_topic_;
 public:
     static constexpr scheduler::TaskConfig taskConf {
         .name = "test1",
@@ -23,7 +23,7 @@ public:
         .period_us = 1000000,
         -deadline_us = 1000000,
         .stack_size = 2048
-    }
+    };
 
     Test1(srimb::SRIMBTopic<ImuData>& topic) : ITask(taskConf), imu_topic_(topic) {};
     ~Test1() = default;
