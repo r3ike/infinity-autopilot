@@ -42,6 +42,7 @@ static srimb::SRIMBTopic<ImuData> imu_topic;
 
 //static ImuManagerTask imuManagerTask;
 static Test1 moduleTest1(imu_topic);
+static Test2 moduleTest2(imu_topic);
 
 static Scheduler tasks_scheduler;
 

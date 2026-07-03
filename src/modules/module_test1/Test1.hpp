@@ -44,7 +44,7 @@ public:
         };
         imu_topic_.publish(data, timestamp);
 
-        printk("MSG published");
+        printk("MSG published\n");
     }
 };    
 

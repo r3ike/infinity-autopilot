@@ -25,15 +25,19 @@ public:
 
         if (!imu_topic_.poll(imu_sub_, data, timestamp))
         {
-            printk("no update");
+            printk("no update\n");
             return;
         }
 
-        printk("Msg sul topic imu data arrivato: %u, %u", data.imu_id, timestamp);
+        printk("Msg sul topic imu data arrivato: %u, %u \n", data.imu_id, timestamp);
     }
 
     struct k_work* getWorkItem() override {
         return &this->work_;
+    }
+
+    struct k_work_q* getWorkQueue() override {
+        return nullptr;
     }
 
     

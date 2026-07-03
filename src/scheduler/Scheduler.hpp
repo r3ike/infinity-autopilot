@@ -114,7 +114,11 @@ public:
 private:
     static void threadEntry(void* arg1, void*, void*) {
         auto* task = static_cast<ITask*>(arg1);
-        while (true) task->run();
+        const auto& cfg = task->taskConfig();
+        while (true){
+            task->run();
+            k_sleep(K_USEC(cfg.period_us));
+        } 
     }
 
     std::array<TaskEntry, CONFIG_MAX_TASKS> _tasks_entries {};
