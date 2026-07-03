@@ -22,7 +22,7 @@ class Scheduler
 {
 public:
     Scheduler() = default;
-    ~Scheduler();
+    ~Scheduler() = default;
 
     bool addTask(ITask* task, k_thread_stack_t* stack, std::size_t stack_size){
         if (_count >= CONFIG_MAX_TASKS)

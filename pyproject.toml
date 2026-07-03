@@ -22,6 +22,11 @@ build = [
     "west",
 ]
 
+# dependencies for ekf development
+#ekf = [
+#    # add symforce
+#]
+
 # Simulazione SITL con Gazebo
 sim = [
     "pymavlink",

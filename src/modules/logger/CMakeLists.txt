@@ -11,6 +11,7 @@ if(CONFIG_LOGGER_ENABLED)
         PUBLIC  SRIMB
                 hal
                 scheduler
+                utils
     )
     
 endif()

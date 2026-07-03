@@ -1,9 +1,6 @@
 #pragma once
-#pragma once
 #include <cstdint>
 #include "Vector3f.h"
-
-
 
 
 struct ImuData {
@@ -49,4 +46,12 @@ struct LidarData
     int16_t tfFlux;         // Qualità del segnale di ritorno
     int16_t tfTemp;         //temperatura del sensore
     uint8_t lidar_id = 0;
+};
+
+struct BaroData {
+    uint8_t baro_id = 0;
+};
+
+struct MagData {
+    uint8_t mag_id = 0;
 };
