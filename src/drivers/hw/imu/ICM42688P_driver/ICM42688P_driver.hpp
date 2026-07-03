@@ -14,7 +14,7 @@
 #include "HAL.hpp"
 #include "Vector3f.h"
 #include "Quaternion.h"
-#include "imu_topic/imu_topic.hpp"
+#include "uav_types.hpp"
 
 class ICM42688P_driver : public IHAL_IMU
 {

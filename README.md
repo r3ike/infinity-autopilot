@@ -43,6 +43,7 @@ attraverso la [guida ufficiale](https://gazebosim.org/docs/all/getstarted/).
 python3 -m venv --system-site-packages venv
 source venv/bin/activate
 
+pip install -r zephyr/scripts/requirements.txt
 pip install -e .[dev]
 ```
 

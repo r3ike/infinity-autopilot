@@ -2,7 +2,7 @@
 #include <BiquadFilter/BiquadFilter.hpp>
 #include <ExpFilter/ExpFilter.hpp>
 
-#include "imu_topic/ImuData.hpp"
+#include "uav_types.hpp"
 
 struct ImuLpfFilter
 {

@@ -43,19 +43,19 @@ static srimb::SRIMBTopic<ImuData> imu_topic;
 //static ImuManagerTask imuManagerTask;
 static Test1 moduleTest1(imu_topic);
 
-static Scheduler scheduler;
+static Scheduler tasks_scheduler;
 
 int main()
 {
-    scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
+    tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
 
-    bool allOk = scheduler.initAllTasks();
+    bool allOk = tasks_scheduler.initAllTasks();
     if (!allOk)
     {
         LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
     }
 
-    scheduler.start();
+    tasks_scheduler.start();
     
     return 0;
 }

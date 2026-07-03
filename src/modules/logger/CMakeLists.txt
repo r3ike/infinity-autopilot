@@ -10,7 +10,6 @@ if(CONFIG_LOGGER_ENABLED)
         PRIVATE zephyr_interface 
         PUBLIC  SRIMB
                 hal
-                srimb_topics
                 scheduler
     )
     

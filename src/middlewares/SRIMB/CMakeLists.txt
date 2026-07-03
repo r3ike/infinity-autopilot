@@ -10,4 +10,4 @@ target_include_directories(SRIMB INTERFACE
 )
 
 # Se la libreria avesse bisogno di altre librerie, le linkerebbe qui
-target_link_libraries(SRIMB PUBLIC zephyr_interface stdc++ )
+target_link_libraries(SRIMB INTERFACE zephyr_interface stdc++ )

@@ -4,7 +4,7 @@
 
 #include "srimb.hpp"
 #include "srimb_topic.hpp"
-#include "imu_topic/imu_topic.hpp"
+#include "uav_types.hpp"
 
 
 #include "HAL.hpp"

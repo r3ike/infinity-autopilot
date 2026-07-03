@@ -9,7 +9,7 @@
 
 namespace srimb
 {
-class SRIMBWorkItemSub : public SRIMBSub{
+class SRIMBWorkItemSub{
 public:
     // Restituisce il work item da sottomettere quando arriva un evento
     virtual struct k_work* getWorkItem() = 0;

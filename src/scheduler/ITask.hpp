@@ -11,7 +11,7 @@ enum class SchedPolicy : uint8_t {
     FixedPriority,
     RoundRobin,
     Cooperative
-}
+};
 
 struct TaskConfig
 {
@@ -27,7 +27,6 @@ class ITask
 {
 public:
     explicit ITask(const TaskConfig& cfg) : _cfg(cfg) {};
-    ~ITask();
 
     ITask(const ITask&)            = delete;
     ITask& operator=(const ITask&) = delete;

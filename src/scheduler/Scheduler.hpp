@@ -49,7 +49,7 @@ public:
         bool status = true;
         for (size_t i = 0; i < _count; i++)
         {
-            auto& e = _task_entries[i]
+            auto& e = _tasks_entries[i];
             e.initialized = e.task->init();
             if (!e.initialized)
             {

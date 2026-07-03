@@ -10,8 +10,7 @@
 //#include <config/parameters.h>
 #include "HAL_configs.hpp"
 #include "srimb.hpp"
-#include "imu_topic/imu_topic.hpp"
-#include "gps_topic/gps_topic.hpp"
+#include "uav_types.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
 

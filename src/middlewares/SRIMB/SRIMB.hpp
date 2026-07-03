@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include "srimb_topic.hpp"
 #include "SRIMBSub.hpp"
 #include "SRIMBWorkItemSub.hpp"
 #include <array>

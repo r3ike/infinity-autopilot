@@ -1,3 +1,7 @@
+#pragma once
+#include <zephyr/kernel.h>
+#include "WorkQueue.hpp"
+
 template<typename Derived>
 class WorkItemBase {
 public:

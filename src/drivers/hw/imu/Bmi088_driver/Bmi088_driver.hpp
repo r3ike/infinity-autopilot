@@ -15,7 +15,7 @@
 #include "Quaternion.h"
 // #include <config/board_configs.h>
 // #include <config/parameters.h>
-#include "imu_topic/imu_topic.hpp"
+#include "uav_types.hpp"
 
 
 class Bmi088_driver : public IHAL_IMU

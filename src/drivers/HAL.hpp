@@ -12,9 +12,7 @@
 
 #include "HAL_configs.hpp"
 
-#include "imu_topic/ImuData.hpp"
-#include "gps_topic/GpsData.hpp"
-#include "lidar_topic/LidarData.hpp"
+#include "uav_types.hpp"
 
 
 
