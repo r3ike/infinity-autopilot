@@ -1,0 +1,14 @@
+# dts/bindings/infinity-autopilot/bmi088-imu-group.yaml
+description: "Gruppo virtuale per BMI088 (accelerometro + giroscopio)"
+compatible: "infinity-autopilot,bmi088-imu"
+include: base.yaml           # eredita proprietà base (come status)
+
+properties:
+  accel:
+    type: phandle
+    required: true
+    description: "Riferimento all'accelerometro BMI08x"
+  gyro:
+    type: phandle
+    required: true
+    description: "Riferimento al giroscopio BMI08x"

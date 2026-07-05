@@ -3,93 +3,50 @@
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
 
+/**
+ * Macro che controlla se ci sono nodi con compat == ad un compatible di una imu
+ * e in caso positivo lancia la macro di registrazione specifica
+ */
+#define REGISTER_IMU_IF_COMPATIBLE(compat, driver_class)        \
+    COND_CODE_1(DT_HAS_COMPAT(compat),                          \
+            (DT_INST_FOREACH_STATUS_OKAY(                       \
+                REGISTER_##driver_class##_INST                  \
+            )), ())                                             \
 
 
+/**
+ * ----------------------------------------------------
+ * Macro specifiche per la registrazione dei singoli 
+ * modelli di imu
+ * ----------------------------------------------------
+ */
+
+
+ #define REGISTER_BMI088_INST(inst)                                                                 \
+    do{                                                                                             \
+       const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));     \
+       const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));       \ 
+       register_imu(std::make_unique<Bmi088_driver>(accel_device, gyro_device));                    \                             
+    }while(0)                                                                                       \
+
+
+#define REGISTER_ALL_IMUS()                                                                 \
+    REGISTER_IMU_IF_COMPATIBLE(infinity_autopilot_bmi088_imu, BMI088)                       \
+
+
+    
+    
 #ifdef CONFIG_TARGET_TEENSY41
+    
+#define NUM_BMI088_INSTANCES DT_NUM_INST_STATUS_OKAY(infinity_autopilot_bmi088_imu)
+#define NUM_ICM42688P_INSTANCES DT_NUM_INST_STATUS_OKAY(infinity_autopilot_icm42688p_imu)
 
-// BN280
-#ifdef CONFIG_BN280_DRIVER_ENABLED
-#define BN280_INSTANCES CONFIG_BN280_NUM_INSTANCES
-#else
-#define BN280_INSTANCES 0
-#endif
 
-// BMI088
-#ifdef CONFIG_BMI088_DRIVER_ENABLED
-#define BMI088_INSTANCES CONFIG_BMI088_NUM_INSTANCES
-#else
-#define BMI088_INSTANCES 0
-#endif
-
-// BMI088
-#ifdef CONFIG_ICM42688P_DRIVER_ENABLED
-#define ICM42688P_INSTANCES CONFIG_ICM42688P_NUM_INSTANCES
-#else
-#define ICM42688P_INSTANCES 0
-#endif
-
-#define IMU_INSTANCES (BMI088_INSTANCES + ICM42688P_INSTANCES)
-#define GPS_INSTANCES (BN280_INSTANCES + 0)
-#define MAG_INSTANCES 1
+#define IMU_INSTANCES NUM_BMI088_INSTANCES + NUM_ICM42688P_INSTANCES
+#define GPS_INSTANCES 1
 #define LIDAR_INSTANCES 1
 #define BARO_INSTANCES 1
-
-// Configurazioni per il multi-instance del Bmi088
-#ifdef CONFIG_BMI088_DRIVER_ENABLED 
-
-#define BMI088_ACCEL_0 DT_NODELABEL(bmi088_accel_0)
-#define BMI088_GYRO_0  DT_NODELABEL(bmi088_gyro_0)
-#define BMI088_ACCEL_1 DT_NODELABEL(bmi088_accel_1)
-#define BMI088_GYRO_1  DT_NODELABEL(bmi088_gyro_1)
-#define BMI088_ACCEL_2 DT_NODELABEL(bmi088_accel_2)
-#define BMI088_GYRO_2  DT_NODELABEL(bmi088_gyro_2)
-
-// Istanza 0
-#if (CONFIG_BMI088_NUM_INSTANCES >=1) && !DT_NODE_EXISTS(BMI088_ACCEL_0)
-#error "BMI088 instance 0 accelerometer node not found in device tree"
-#endif
-#if (CONFIG_BMI088_NUM_INSTANCES >=1) && !DT_NODE_EXISTS(BMI088_GYRO_0)
-#error "BMI088 instance 0 gyroscope node not found in device tree"
-#endif
-// Istanza 1
-#if (CONFIG_BMI088_NUM_INSTANCES >=2) && !DT_NODE_EXISTS(BMI088_ACCEL_1)
-#error "BMI088 instance 1 accelerometer node not found in device tree"
-#endif
-#if (CONFIG_BMI088_NUM_INSTANCES >=2) && !DT_NODE_EXISTS(BMI088_GYRO_1)
-#error "BMI088 instance 1 gyroscope node not found in device tree"
-#endif
-// Istanza 2
-#if (CONFIG_BMI088_NUM_INSTANCES >=3) && !DT_NODE_EXISTS(BMI088_ACCEL_2)
-#error "BMI088 instance 2 accelerometer node not found in device tree"
-#endif
-#if (CONFIG_BMI088_NUM_INSTANCES >=3) && !DT_NODE_EXISTS(BMI088_GYRO_2)
-#error "BMI088 instance 2 gyroscope node not found in device tree"
-#endif
-
-#endif
-
-// Configurazioni per il multi-instance del ICM42688P
-#ifdef CONFIG_ICM42688P_DRIVER_ENABLED 
-
-#define ICM42688P_0  DT_NODELABEL(icm42688p_0)
-#define ICM42688P_1  DT_NODELABEL(icm42688p_1)
-#define ICM42688P_2  DT_NODELABEL(icm42688p_2)
-
-// Istanza 0
-#if (CONFIG_ICM42688P_NUM_INSTANCES >=1) && !DT_NODE_EXISTS(ICM42688P_0)
-#error "ICM42688P instance 0 accelerometer node not found in device tree"
-#endif
-// Istanza 1
-#if (CONFIG_ICM42688P_NUM_INSTANCES >=2) && !DT_NODE_EXISTS(ICM42688P_1)
-#error "ICM42688P instance 1 accelerometer node not found in device tree"
-#endif
-// Istanza 2
-#if (CONFIG_ICM42688P_NUM_INSTANCES >=3) && !DT_NODE_EXISTS(ICM42688P_2)
-#error "ICM42688P instance 2 accelerometer node not found in device tree"
-#endif
-
-#endif
-
+#define MAG_INSTANCES 1
 
 #else
 

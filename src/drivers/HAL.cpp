@@ -7,49 +7,8 @@ HAL::HAL()
     _multi_instances_reset();
     
     #ifdef CONFIG_TARGET_TEENSY41
-    
-        #ifdef CONFIG_BMI088_DRIVER_ENABLED
-        
-        // Istanza 0
-        #if CONFIG_BMI088_NUM_INSTANCES >= 1
-        const struct device *accel0 = DEVICE_DT_GET(BMI088_ACCEL_0);
-        const struct device *gyro0  = DEVICE_DT_GET(BMI088_GYRO_0);
-        register_imu(std::make_unique<Bmi088_driver>(accel0, gyro0));
-        #endif
-        // Istanza 1
-        #if CONFIG_BMI088_NUM_INSTANCES >= 2
-        const struct device *accel1 = DEVICE_DT_GET(BMI088_ACCEL_1);
-        const struct device *gyro1  = DEVICE_DT_GET(BMI088_GYRO_1);
-        register_imu(std::make_unique<Bmi088_driver>(accel1, gyro1));
-        #endif
-        // Istanza 2
-        #if CONFIG_BMI088_NUM_INSTANCES >= 3
-        const struct device *accel2 = DEVICE_DT_GET(BMI088_ACCEL_2);
-        const struct device *gyro2  = DEVICE_DT_GET(BMI088_GYRO_2);
-        register_imu(std::make_unique<Bmi088_driver>(accel2, gyro2));
-        #endif
 
-        #endif
-
-        #ifdef CONFIG_ICM42688P_DRIVER_ENABLED
-        
-        // Istanza 0
-        #if CONFIG_ICM42688P_NUM_INSTANCES >= 1
-        const struct device *icm42688p_0 = DEVICE_DT_GET(ICM42688P_0);
-        register_imu(std::make_unique<ICM42688P_driver>(icm42688p_0));
-        #endif
-        // Istanza 1
-        #if CONFIG_ICM42688P_NUM_INSTANCES >= 2
-        const struct device *icm42688p_1 = DEVICE_DT_GET(ICM42688P_1);
-        register_imu(std::make_unique<ICM42688P_driver>(icm42688p_1));
-        #endif
-        // Istanza 2
-        #if CONFIG_ICM42688P_NUM_INSTANCES >= 3
-        const struct device *icm42688p_2 = DEVICE_DT_GET(ICM42688P_2);
-        register_imu(std::make_unique<ICM42688P_driver>(icm42688p_2));
-        #endif
-
-        #endif
+        REGISTER_ALL_IMUS();
 
         #ifdef CONFIG_BN280_DRIVER_ENABLED
         for (size_t i = 0; i < CONFIG_BN280_NUM_INSTANCES; i++)

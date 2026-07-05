@@ -40,7 +40,7 @@ public:
             .filtered_acc = {0,0,0},
             .filtered_gyro{0,0,0},
             .temp = 0.0,
-            .imu_id = 0
+            .imu_id = 1
         };
         imu_topic_.publish(data, timestamp);
 

@@ -6,10 +6,6 @@ menuconfig BMI088_DRIVER_ENABLED
 
 if BMI088_DRIVER_ENABLED
 
-config BMI088_NUM_INSTANCES
-    int "Numero di sensori BMI088"
-    range 1 3
-    default 1
 
 menu "BMI088 LPF settings"
 
