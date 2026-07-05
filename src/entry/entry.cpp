@@ -31,7 +31,8 @@ K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
  *              Topic instances
  ---------------------------------------------*/
 
-static srimb::SRIMBTopic<ImuData> imu_topic;
+static srimb::SRIMBTopic<RawImuData> raw_imus_topic[IMU_INSTANCES];
+static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
 /**---------------------------------------------
  *              Task instances
@@ -40,7 +41,7 @@ static srimb::SRIMBTopic<ImuData> imu_topic;
 //static LoggerTask loggerTask;
 #endif
 
-//static ImuManagerTask imuManagerTask;
+static ImuManager ImuManager<IMU_INSTANCES>(raw_imus_topic, imus_topic);
 static Test1 moduleTest1(imu_topic);
 static Test2 moduleTest2(imu_topic);
 

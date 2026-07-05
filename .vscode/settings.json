@@ -19,6 +19,7 @@
         "EKF",
         "param_manager",
         "mavlink",
-        "SITL"
+        "SITL",
+        "imu_manager"
     ]
 }

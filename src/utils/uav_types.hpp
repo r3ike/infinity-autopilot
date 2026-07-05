@@ -2,6 +2,9 @@
 #include <cstdint>
 #include "Vector3f.h"
 
+struct RawImuData {
+
+}
 
 struct ImuData {
     Vector3f raw_acc;
