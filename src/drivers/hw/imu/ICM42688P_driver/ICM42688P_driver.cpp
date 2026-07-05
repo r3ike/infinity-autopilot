@@ -16,9 +16,6 @@ bool ICM42688P_driver::init() {
     //LOG_INF("Accelerometro trovato: %s", accel_dev->name);
 
 
-    _lpf_filter->init_lpf_acc(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_ICM42688P_ACCEL_LPF);
-    _lpf_filter->init_lpf_gyro(CONFIG_IMU_SAMPLE_FREQUENCY, CONFIG_ICM42688P_GYRO_LPF);
-
     return true;
 }
 
@@ -75,7 +72,6 @@ ImuData ICM42688P_driver::get_imu()
         _getImuTemp()
     };
 
-    _lpf_filter->apply(data);
 
     return data;
 }

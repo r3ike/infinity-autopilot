@@ -3,5 +3,5 @@ if(CONFIG_ICM42688P_DRIVER_ENABLED)
     target_sources(driver_icm42699p PRIVATE ICM42688P_driver.cpp)
     target_include_directories(driver_icm42699p PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-    target_link_libraries(driver_icm42699p PUBLIC zephyr_interface hal utils stdc++ Lpf_filters)
+    target_link_libraries(driver_icm42699p PUBLIC zephyr_interface hal utils stdc++)
 endif()

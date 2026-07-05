@@ -10,7 +10,6 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/autoconf.h>
 
-#include "ImuLpfFilter.hpp"
 #include "HAL.hpp"
 #include "Vector3f.h"
 #include "Quaternion.h"
@@ -22,8 +21,6 @@ private:
     Vector3f _gyro_rate_calib;
     
     const struct device *_imu_dev;
-
-    std::unique_ptr<ImuLpfFilter> _lpf_filter;
 
     double _get_imu_temp(); 
 public:

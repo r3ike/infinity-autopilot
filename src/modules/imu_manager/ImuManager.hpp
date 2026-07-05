@@ -13,7 +13,6 @@
 
 /**
  * Questa classe si occupa di gestire le IMU, in particolare è il modulo addetto a pubblicare il topic ImuData e 
- * sarà il modulo addetto a gestire il Fault Detection and Isolation quando verrà implementato.
  */
 
 class ImuManager
@@ -27,8 +26,6 @@ public:
 
     void run();
 private:
-    HAL& _hal;
-
 
     void publish_single_imu(uint8_t instance);
 };
