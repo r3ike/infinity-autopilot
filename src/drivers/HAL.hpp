@@ -36,7 +36,12 @@ struct HALState{
     CLASSI INTERFACE PER HAL
 ----------------------------------*/
 class IHAL_IMU {
+private: 
+    uint8_t id_ {0};
+    // aggiungere tipo (es: bmi088, imu_sitl) e nome (bmi088_{id})
 public:
+    IHAL_IMU(uint8_t id) : id_(id) {};
+    
     virtual bool init() = 0;
     virtual void calib() = 0;
     virtual Vector3f get_raw_gyro() = 0;

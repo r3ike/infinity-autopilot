@@ -2,9 +2,6 @@
 #include "Bmi088_driver.hpp"
 
 
-Bmi088_driver::Bmi088_driver(const struct device *accel_dev, const struct device *gyro_dev):_accel_dev(accel_dev), _gyro_dev(gyro_dev) {
-    _lpf_filter = std::make_unique<ImuLpfFilter>();
-}
 
 bool Bmi088_driver::init() {
     _gyro_rate_calib = {0,0,0};
