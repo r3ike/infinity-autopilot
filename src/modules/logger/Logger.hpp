@@ -5,11 +5,11 @@
 #include <memory>
 
 #include <zephyr/kernel.h>
+#include "ringbuffer/RingBuffer.hpp"
 
 #include "LoggerMsgs.hpp"
-//#include <config/parameters.h>
 #include "HAL_configs.hpp"
-#include "srimb.hpp"
+#include "SRIMB.hpp"
 #include "uav_types.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5
@@ -26,18 +26,16 @@ class Logger
 private:
     /**
      * TODO:
-     *  - rendere head e tail std::atomic per evitare race condition o altre problematiche relative alla concorrenza
-     *  - togliere std::array e usare array normale (volendo si può usare utils/ringbuffer/RingBuffer.hpp)
      *  - capire come fare il write_to_buffer, se mantenere questo metodo o usare memcpy
      *  - scrivere drain
      */
 
     uint8_t _log_buffer[CONFIG_LOGGER_BUFFER_SIZE * 1024];
-    volatile uint32_t _head = 0; // Dove scrive il Producer
-    volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
+
+    RingBuffer<uint8_t> log_buffer_;
 
 
-    void write_to_buffer(const void* data, uint32_t length);
+    void write_to_buffer(const void* data, size_t length);
 
     void log_imu();
 
@@ -45,7 +43,7 @@ private:
     
     void log_tasks_trace(uint64_t frame_start, uint64_t hard_loop_finished, uint64_t soft_loop_started, uint64_t soft_loop_finished);
 public:
-    Logger();
+    Logger() : log_buffer_(CONFIG_LOGGER_BUFFER_SIZE * 1024);
     ~Logger() = default;
 
 

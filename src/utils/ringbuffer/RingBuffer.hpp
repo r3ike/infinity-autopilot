@@ -129,6 +129,16 @@ public:
     }
 
     /**
+     * Metodo che accetta un puntatore ad array e la sua lunghezza e copia gli elementi nel buffer circolare
+     */
+    void push_batch(const data_type* src, size_t len){
+        if (!data || len == 0) return;
+        k_mutex_lock(&mtx_, K_FOREVER);
+        
+        k_mutex_unlock(&mtx_);
+    }
+
+    /**
      * Metodo che copia nel buffer il numero di elementi specificati da len.
      * Ritorna il numero di elementi copiati
      */

@@ -17,14 +17,10 @@ Logger::Logger(){
  * void* data è un puntatore generico e universale,
  *  così che possiamo passare qualsiasi tipo di struct come parametro
  */
-void Logger::write_to_buffer(const void* data, uint32_t length)
+void Logger::write_to_buffer(const void* data, size_t length)
 {
-    const uint8_t* byte_ptr = static_cast<const uint8_t*>(data);    // Casting a puntatore di tipo uint8
-    for (unsigned int i = 0; i < length; i++)
-    {
-        _log_buffer[_head] = byte_ptr[i];
-        _head = (_head + 1) % sizeof(_log_buffer);
-    }
+    const uint8_t* src = reinterpret_cast<const uint8_t*>(&msg);
+    log_buffer_.push_batch(src, length);
 }
 
 void Logger::log_imu()
