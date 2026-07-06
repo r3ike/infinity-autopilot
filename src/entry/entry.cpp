@@ -37,14 +37,12 @@ static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 /**---------------------------------------------
  *              Task instances
  ---------------------------------------------*/
-#ifdef CONFIG_LOGGER_ENABLED
-
-#endif
 
 static ImuManager ImuManager<IMU_INSTANCES>(raw_imus_topic, imus_topic);
 static Test1 moduleTest1(imu_topic);
 static Test2 moduleTest2(imu_topic);
 
+static HAL hal;
 static Scheduler tasks_scheduler;
 
 int main()

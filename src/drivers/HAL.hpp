@@ -6,7 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
-#include <unistd.h>  
+#include <cstdint>  
 
 #include "Vector3f.h"
 
@@ -38,9 +38,10 @@ struct HALState{
 class IHAL_IMU {
 private: 
     uint8_t id_ {0};
+    char* name_;
     // aggiungere tipo (es: bmi088, imu_sitl) e nome (bmi088_{id})
 public:
-    IHAL_IMU(uint8_t id) : id_(id) {};
+    IHAL_IMU(uint8_t id, const char* name) : id_(id), name_(name) {};
     
     virtual bool init() = 0;
     virtual void calib() = 0;
@@ -89,9 +90,10 @@ public:
     virtual void test() = 0;
 };
 
-class IHAL_SD {
+class IHAL_Storage {
 public:
-    virtual unsigned long long write_log() = 0;
+    virtual uint64_t write() = 0;
+    virtual 
 };
 
 class IHAL_Radio {
@@ -129,7 +131,7 @@ public:
     HAL_BARO* get_baro_instance(uint8_t idx);
 
     HAL_MOTOR* get_motors_instance();
-    IHAL_SD* get_sd_instance();
+    IHAL_Storage* get_sd_instance();
     IHAL_Radio* get_telemetry_instance();
 
 private:
@@ -151,7 +153,7 @@ private:
 
     std::unique_ptr<HAL_MOTOR> _motor_instance;
     std::unique_ptr<IHAL_Radio> _radio_instance;
-    std::unique_ptr<IHAL_SD> _sd_instance;
+    std::unique_ptr<IHAL_Storage> _sd_instance;
 
     void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 

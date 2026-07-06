@@ -1,6 +1,7 @@
 #pragma once
 #include "ITask.hpp"
 #include "Logger.hpp"
+#include "HAL.hpp"
 
 class SDWriter : public infinity::scheduler::ITask
 {
@@ -14,7 +15,11 @@ public:
         .stack_size = 2048
     }
 
-    SDWriter(Logger& logger) :ITask(taskConf), logger_(logger) {};
+    SDWriter(Logger& logger, IHAL_Storage& sd_driver) :
+            ITask(taskConf), 
+            logger_(logger), 
+            sd_driver_(sd_driver){};
+            
     ~SDWriter() = default;
 
     bool init() override {
@@ -24,8 +29,10 @@ public:
     void run() override {
         
     };
+
 private:
     Logger& logger_ ;
+    IHAL_Storage& sd_driver_;
 };
 
 

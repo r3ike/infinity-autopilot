@@ -145,7 +145,7 @@ HAL_MOTOR *HAL::get_motors_instance()
     return _motor_instance.get();
 }
 
-IHAL_SD *HAL::get_sd_instance()
+IHAL_Storage *HAL::get_sd_instance()
 {
     return _sd_instance.get();
 }
