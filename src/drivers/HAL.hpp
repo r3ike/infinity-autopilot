@@ -37,11 +37,17 @@ struct HALState{
 ----------------------------------*/
 class IHAL_IMU {
 private: 
+    static constexpr size_t MAX_STR_LEN = 32;
+
     uint8_t id_ {0};
-    char* name_;
-    // aggiungere tipo (es: bmi088, imu_sitl) e nome (bmi088_{id})
+    char model_[MAX_STR_LEN];    // modello sensore (es: bmi088)
+    char name_[MAX_STR_LEN];     // nome sensore (es: bmi088_1)
 public:
-    IHAL_IMU(uint8_t id, const char* name) : id_(id), name_(name) {};
+    IHAL_IMU(uint8_t id, const char* model) : id_(id) {
+        
+        snprintk(model_, MAX_STR_LEN, "%s", model);
+        snprintk(name_, MAX_STR_LEN, "%s_%u", model_, id_);
+    };
     
     virtual bool init() = 0;
     virtual void calib() = 0;
@@ -52,11 +58,7 @@ public:
 
 class HAL_GPS {
 public:
-#ifdef CONFIG_TARGET_TEENSY41
     virtual bool init() = 0;
-#elif defined(CONFIG_TARGET_SITL)
-    virtual bool init() = 0;
-#endif
     virtual GpsData read() = 0;
 };
 
@@ -73,11 +75,7 @@ public:
 
 class HAL_LIDAR {
 public:
-#ifdef CONFIG_TARGET_TEENSY41
     virtual bool init() = 0;
-#elif defined(CONFIG_TARGET_SITL)
-    virtual bool init() = 0;
-#endif
     virtual void calib() = 0;
     virtual LidarData read() = 0;
 };
@@ -104,8 +102,6 @@ public:
 
     virtual long recive_from_GCS(uint8_t* buffer, size_t len) = 0;     // Metodo per ricevere dall Ground control station
 };
-
-
 
 
 class HAL{

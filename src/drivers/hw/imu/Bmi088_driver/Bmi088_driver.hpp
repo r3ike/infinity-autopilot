@@ -29,8 +29,8 @@ private:
     double _get_imu_temp(); 
     
 public:
-    Bmi088_driver(const uint8_t id, const char* name, const struct device *accel_dev, const struct device *gyro_dev) : 
-                        IHAL_IMU(id, name),
+    Bmi088_driver(const uint8_t id, const char* model, const struct device *accel_dev, const struct device *gyro_dev) : 
+                        IHAL_IMU(id, model),
                         _accel_dev(accel_dev), 
                         _gyro_dev(gyro_dev)  {};
 

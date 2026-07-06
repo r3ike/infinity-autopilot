@@ -26,7 +26,7 @@
     do{                                                                                             \
        const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));     \
        const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));       \ 
-       register_imu(std::make_unique<Bmi088_driver>(accel_device, gyro_device));                    \                             
+       register_imu(std::make_unique<Bmi088_driver>(inst, "bmi088", accel_device, gyro_device));                    \                             
     }while(0)                                                                                       \
 
 

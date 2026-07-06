@@ -37,10 +37,6 @@ private:
     volatile uint32_t _tail = 0; // Dove legge il Consumer (SD)
 
 
-    SRIMB_Sub _srimb_subs_imu[IMU_INSTANCES];
-    SRIMB_Sub _srimb_subs_gps[GPS_INSTANCES];
-    
-
     void write_to_buffer(const void* data, uint32_t length);
 
     void log_imu();
@@ -52,11 +48,6 @@ public:
     Logger();
     ~Logger() = default;
 
-    /**
-     * Cose da fare:
-     *  metterei a disposizione vari metodi:
-     *      - 
-     */
 
     void log();
 

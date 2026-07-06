@@ -24,7 +24,8 @@ private:
 
     double _get_imu_temp(); 
 public:
-    ICM42688P_driver();
+    ICM42688P_driver(uint8_t id, const char* model) :
+                        IHAL_IMU(id, model) {};
     ~ICM42688P_driver() = default;
 
     bool init() override;
