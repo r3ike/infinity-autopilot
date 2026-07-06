@@ -34,26 +34,5 @@ struct LoggerMsgs
     T payload;
 };
 
-/*
-struct LogImuMsg
-{
-    uint8_t sync;                   //BYTE PER IDENTIFICARE L'INIZIO DEL PACCHETTO
-    uint8_t msg_type;
-    uint32_t timestamp;
-    ImuData imu_data_raw;            //RAW
-    ImuData imu_data_filtered;       //FILTERED
-};
-*/
-/*
-struct LogTasksTraceMsg
-{
-    uint8_t sync;
-    uint8_t msg_type;
-    uint32_t frame_start;
-    uint32_t hard_loop_finished;
-    uint32_t soft_loop_started;
-    uint32_t soft_loop_finished;
-};
-*/
 
 #pragma pack(pop)

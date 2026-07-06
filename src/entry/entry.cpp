@@ -38,7 +38,7 @@ static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
  *              Task instances
  ---------------------------------------------*/
 #ifdef CONFIG_LOGGER_ENABLED
-//static LoggerTask loggerTask;
+
 #endif
 
 static ImuManager ImuManager<IMU_INSTANCES>(raw_imus_topic, imus_topic);
