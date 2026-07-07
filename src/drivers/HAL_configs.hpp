@@ -22,12 +22,14 @@
  */
 
 
- #define REGISTER_BMI088_INST(inst)                                                                 \
-    do{                                                                                             \
-       const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));     \
-       const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));       \ 
-       register_imu(std::make_unique<Bmi088_driver>(inst, "bmi088", accel_device, gyro_device));                    \                             
-    }while(0)                                                                                       \
+ #define REGISTER_BMI088_INST(inst)                                                                                             \
+    do{                                                                                                                         \
+       const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
+       const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \ 
+       const struct gpio_dt_spec accel_int = GPIO_DT_SPEC_GET(DT_PHANDLE(DT_DRV_INST(inst), accel), int_gpios);                 \
+        const struct gpio_dt_spec gyro_int  = GPIO_DT_SPEC_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro), int_gpios);                 \
+       register_imu(std::make_unique<Bmi088_driver>(inst, "bmi088", accel_device, gyro_device, &accel_int, &gyro_int));         \                             
+    }while(0)                                                                                                                   \
 
 
 #define REGISTER_ALL_IMUS()                                                                 \

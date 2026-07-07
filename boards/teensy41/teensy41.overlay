@@ -1,7 +1,7 @@
 / {
     imu_0: bmi088-imu-0 {
         compatible = "infinity-autopilot,bmi088-imu";
-        accel = <bmi088_accel_0>;
+        accel = <&bmi088_accel_0>;
         gyro = <&bmi088_gyro_0>;
     }
 };
@@ -14,6 +14,7 @@
     bmi088_gyro_0: bmi088-gyr@68 {
         compatible = "bosch,bmi08x-gyro";
         reg = <0x68>; /* Indirizzo I2C del giroscopio */
+        int-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
         gyro-hz = "1000_116"; 
         gyro-fs = <2000>;
         status = "okay";
@@ -22,10 +23,9 @@
     bmi088_accel_0: bmi088-acc@18 {
         compatible = "bosch,bmi08x-accel";
         reg = <0x18>; /* Indirizzo I2C dell'accelerometro */
+        int-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
         accel-hz = "1600";
         accel-fs = <8>;
         status = "okay";
     };
 };
-
-

@@ -50,10 +50,6 @@ public:
     };
     
     virtual bool init() = 0;
-    virtual void calib() = 0;
-    virtual Vector3f get_raw_gyro() = 0;
-    virtual Vector3f get_raw_accel() = 0;
-    virtual ImuData get_imu() = 0;
 };
 
 class HAL_GPS {
