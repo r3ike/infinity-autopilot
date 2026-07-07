@@ -134,7 +134,30 @@ public:
     void push_batch(const data_type* src, size_t len){
         if (!data || len == 0) return;
         k_mutex_lock(&mtx_, K_FOREVER);
+
+        size_t free_space = _size - _count;
+        if (len > free_space) {
+            // Spazio insufficiente: avanza la coda per liberare (len - free_space) elementi.
+            size_t to_advance = len - free_space;
+            _tail = (_tail + to_advance) % _size;
+            _count -= to_advance;
+        }
+
+        size_t first_part = _size - _head;
+
+        if (len <= first_part)
+        {
+            memcpy(_buffer + _head, src, len * sizeof(data_type));
+        }else{
+            memcpy(_buffer + _head, src, first_part * sizeof(data_type));
+
+            size_t second_part = len - first_part;
+            memcpy(_buffer, src + first_part , second_part * sizeof(data_type));
+        }
         
+        _head = (_head + len) % _size;
+        _count += len;
+
         k_mutex_unlock(&mtx_);
     }
 
