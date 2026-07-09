@@ -40,13 +40,12 @@ private:
     static constexpr size_t MAX_STR_LEN = 32;
 
     uint8_t id_ {0};
-    char model_[MAX_STR_LEN];    // modello sensore (es: bmi088)
+    const char* model_;    // modello sensore (es: bmi088)
     char name_[MAX_STR_LEN];     // nome sensore (es: bmi088_1)
 public:
-    IHAL_IMU(uint8_t id, const char* model) : id_(id) {
+    IHAL_IMU(const char* model) : id_(id), model_(model) {
         
-        snprintk(model_, MAX_STR_LEN, "%s", model);
-        snprintk(name_, MAX_STR_LEN, "%s_%u", model_, id_);
+        //snprintk(name_, MAX_STR_LEN, "%s_%u", model_, id_);
     };
     
     virtual bool init() = 0;

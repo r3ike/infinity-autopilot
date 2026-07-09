@@ -39,19 +39,15 @@ HAL::~HAL(){}
 HALState HAL::init()
 {
     HALState states;
+
+    // Imu init
+    for (size_t i = 0; i < IMU_INSTANCES; i++)
+    {
+        states.imu_state[i] = _imu_instances.at(i).get()->init(i);
+    }
+    
 #ifdef CONFIG_TARGET_TEENSY41
 
-
-    for (uint8_t i = 0; i < _imu_count; i++) states.imu_state[i] = (_imu_instances.at(i)->init());            // Init tutte le imu
-        
-
-    /**
-     * ATTENZIONE: La inizializzazione del gps è errata perchè sta passando a tutti la stessa seriale.
-     */
-    //for (uint8_t i = 0; i < _gps_count; i++) states.gps_state[i] = _gps_instances.at(i)->init(&GPS_SERIAL);     // Init tutti i gps
-    
-    
-    //states.lidar_state = lidar->init(&LIDAR_SERIAL);
 
 #elif defined(CONFIG_TARGET_SITL)
 

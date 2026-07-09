@@ -6,7 +6,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
-#include <zephyr/logging/log.h>
 #include <zephyr/autoconf.h>
 #include <cstdint>
 
@@ -14,46 +13,37 @@
 #include "WorkQueue.hpp"
 #include "SRIMB.hpp"
 #include "HAL.hpp"
-#include "Vector3f.h"
-#include "Quaternion.h"
 #include "uav_types.hpp"
 
+#include "Bmi088_acc_driver.hpp"
+#include "Bmi088_gyro_driver.hpp"
 
-class Bmi088_driver : public IHAL_IMU, public WorkItemBase<Bmi088_driver>
+
+class Bmi088_driver : public IHAL_IMU
 {
 
-    
 public:
-    Bmi088_driver(const uint8_t id, const char* model, const struct device *accel_dev, 
+    Bmi088_driver(const char* model, const struct device *accel_dev, 
                   const struct device *gyro_dev, const gpio_dt_spec* accel_int, 
-                  const gpio_dt_spec* gyro_int,
-                  srimb::SRIMBTopic<ImuData>& topic, WorkQueue &wq) 
-          : IHAL_IMU(id, model),
-            _accel_dev(accel_dev), 
-            _gyro_dev(gyro_dev),
-            accel_int_(accel_int),
-            gyro_int_(gyro_int)
+                  const gpio_dt_spec* gyro_int) 
+          : IHAL_IMU(model),
+            acc_driver_(model, accel_dev, accel_int),
+            gyro_driver_(model, gyro_dev, gyro_int)
         {};
 
     ~Bmi088_driver() = default;
 
-    bool init() override {
+    bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawAccData>& gyro_topic, WorkQueue& wq) override {
+        id_ = unique_id;
 
+        bool gyro_status = gyro_driver_.init(unique_id, gyro_topic, wq);
+        bool acc_status = acc_driver_.init(unique_id, acc_topic, wq);
+
+        return (gyro_status && acc_status);
     };
 
 
 private:
-    WorkQueue fast_sensors_wq_;
-    srimb::SRIMBTopic<ImuData>& raw_topic_;
-    
-    const struct device *_gyro_dev;
-    const struct device *_accel_dev;
-    struct gpio_dt_spec accel_int_;
-    struct gpio_dt_spec gyro_int_;
-    struct gpio_callback accel_cb_;
-    struct gpio_callback gyro_cb_;
-
-    double _get_imu_temp(); 
-
-    
+    Bmi088_acc_driver acc_driver_ ;
+    Bmi088_gyro_driver gyro_driver_ ;
 };

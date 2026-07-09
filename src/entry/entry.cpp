@@ -31,7 +31,9 @@ K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
  *              Topic instances
  ---------------------------------------------*/
 
-static srimb::SRIMBTopic<RawImuData> raw_imus_topic[IMU_INSTANCES];
+static srimb::SRIMBTopic<RawAccData> raw_acc_topic[IMU_INSTANCES];
+static srimb::SRIMBTopic<RawGyroData> raw_gyro_topic[IMU_INSTANCES];
+
 static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
 /**---------------------------------------------
