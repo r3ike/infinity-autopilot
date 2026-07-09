@@ -33,7 +33,7 @@ public:
 
     ~Bmi088_driver() = default;
 
-    bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawAccData>& gyro_topic, WorkQueue& wq) override {
+    bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) override {
         id_ = unique_id;
 
         bool gyro_status = gyro_driver_.init(unique_id, gyro_topic, wq);

@@ -21,8 +21,8 @@ public:
     
     
     ~Bmi088_acc_driver() {
-        if (_accel_int.port) {
-            gpio_remove_callback(_accel_int.port, &accel_cb_);
+        if (accel_int_.port) {
+            gpio_remove_callback(accel_int_.port, &accel_cb_);
         }
     };
 
@@ -84,8 +84,8 @@ private:
 
             .x = sensor_value_to_float(&accel[0]),
             .y = sensor_value_to_float(&accel[1]),
-            .z = sensor_value_to_float(&accel[2]),
-        }
+            .z = sensor_value_to_float(&accel[2])
+        };
 
         raw_acc_topic_->publish(data, timestamp_us);
     }

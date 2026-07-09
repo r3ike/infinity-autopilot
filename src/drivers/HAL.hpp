@@ -8,8 +8,9 @@
 #include <zephyr/sys/util.h>
 #include <cstdint>  
 
+#include "WorkQueue.hpp"
 #include "Vector3f.h"
-
+#include "SRIMB.hpp"
 #include "HAL_configs.hpp"
 
 #include "uav_types.hpp"
@@ -48,7 +49,7 @@ public:
         //snprintk(name_, MAX_STR_LEN, "%s_%u", model_, id_);
     };
     
-    virtual bool init() = 0;
+    virtual bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) = 0;
 };
 
 class HAL_GPS {
@@ -104,7 +105,11 @@ public:
     HAL();
     ~HAL();
 
-    HALState init();
+    HALState init(
+        srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[IMU_INSTANCES],
+        srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[IMU_INSTANCES],
+        WorkQueue& fast_sensors_wq
+    );
 
     bool register_imu(std::unique_ptr<IHAL_IMU> imu_instance );       // Metodo per registare una nuova  IMU
     IHAL_IMU* get_imu_instance(uint8_t idx);                               // Metodo per prendere l'instanza di una IMU
