@@ -1,7 +1,6 @@
 
 add_library(modules_imu_manager STATIC)
 target_sources(modules_imu_manager PRIVATE 
-                    ImuManager.cpp
                     imu_preprocessor/ImuPreprocessor.cpp
                 )
 

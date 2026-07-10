@@ -29,7 +29,9 @@ public:
 
     ~ImuManager() = default;
 
-    void init();
+    void init() {
+        
+    };
 
 private:
     srimb::SRIMBTopic<RawAccData> (&raw_acc_topic_)[NUM_IMU_INSTANCES];
