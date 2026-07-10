@@ -12,4 +12,5 @@ target_link_libraries(modules_imu_manager PUBLIC
                             hal 
                             scheduler 
                             utils
+                            stdc++
                         )

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <zephyr/kernel.h>
-
-#include "imu_preprocessor/ImuPreprocessor.hpp"
+#include <cstddef>
+#include <cstdint>
+//#include "imu_preprocessor/ImuPreprocessor.hpp"
 #include "SRIMB.hpp"
 #include "uav_types.hpp"
 
@@ -14,7 +15,7 @@
  * Questa classe si occupa di gestire le IMU, in particolare è il modulo addetto a pubblicare il topic ImuData e 
  */
 
-template <std::size_t NUM_IMU_INSTANCES>        // NUM_IMU_INSTANCES è il numero totale di instanze imu
+template <size_t NUM_IMU_INSTANCES>        // NUM_IMU_INSTANCES è il numero totale di instanze imu
 class ImuManager
 {
 public:
@@ -34,7 +35,7 @@ private:
     srimb::SRIMBTopic<RawAccData> (&raw_acc_topic_)[NUM_IMU_INSTANCES];
     srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic_)[NUM_IMU_INSTANCES];
 
-    ImuPreprocessor preprocessors_ [NUM_IMU_INSTANCES];
+    //ImuPreprocessor preprocessors_ [NUM_IMU_INSTANCES];
 };
 
 

@@ -12,6 +12,7 @@ if(CONFIG_LOGGER_ENABLED)
                 hal
                 scheduler
                 utils
-    )
+                stdc++
+                )
     
 endif()

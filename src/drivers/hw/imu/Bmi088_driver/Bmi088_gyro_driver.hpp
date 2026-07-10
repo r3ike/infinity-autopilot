@@ -50,22 +50,6 @@ public:
         return false;
     };
 
-private:
-    WorkQueue* fast_sensors_wq_;
-    srimb::SRIMBTopic<RawGyroData>* raw_gyro_topic_;
-
-    uint8_t id_;
-    const char* model_;
-
-    const struct device *gyro_dev_;
-    struct gpio_dt_spec gyro_int_;
-    struct gpio_callback gyro_cb_;
-
-    static void gyro_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
-        Bmi088_gyro_driver *self = CONTAINER_OF(cb, Bmi088_gyro_driver, gyro_cb_);
-        self->submitTo(*self->fast_sensors_wq_);
-    }
-
     // Eseguito nella work queue
     void handler() {
         uint64_t timestamp_us = k_cyc_to_us_floor32(k_cycle_get_32());
@@ -94,4 +78,22 @@ private:
 
         raw_gyro_topic_->publish(data, timestamp_us);
     }
+
+private:
+    WorkQueue* fast_sensors_wq_;
+    srimb::SRIMBTopic<RawGyroData>* raw_gyro_topic_;
+
+    uint8_t id_;
+    const char* model_;
+
+    const struct device *gyro_dev_;
+    struct gpio_dt_spec gyro_int_;
+    struct gpio_callback gyro_cb_;
+
+    static void gyro_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
+        Bmi088_gyro_driver *self = CONTAINER_OF(cb, Bmi088_gyro_driver, gyro_cb_);
+        self->submitTo(*self->fast_sensors_wq_);
+    }
+
+    
 };

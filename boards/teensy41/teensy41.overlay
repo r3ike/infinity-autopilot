@@ -29,3 +29,18 @@
         status = "okay";
     };
 };
+
+/* Partizione per le impostazioni persistenti (settings FCB) */
+&w25q64jvxgim {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        /* Partizione per le impostazioni */
+        storage_partition: partition@7c0000 {
+            label = "storage";
+            reg = <0x007c0000 0x00040000>; /* 256 KB */
+        };
+    };
+};

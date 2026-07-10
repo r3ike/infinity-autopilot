@@ -7,6 +7,7 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "SRIMB.hpp"
 #include "HAL.hpp"
+#include "HAL_configs.hpp"
 
 #include "uav_types.hpp"
 
@@ -49,7 +50,7 @@ static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
  *              Task instances
  ---------------------------------------------*/
 
-static ImuManager ImuManager<IMU_INSTANCES>(raw_acc_topic, raw_gyro_topic);
+static ImuManager<IMU_INSTANCES> imu_manager(raw_acc_topic, raw_gyro_topic);
 //static Test1 moduleTest1(imu_topic);
 //static Test2 moduleTest2(imu_topic);
 

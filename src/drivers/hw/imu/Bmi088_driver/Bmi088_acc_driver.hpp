@@ -50,22 +50,6 @@ public:
         return false;
     };
 
-private:
-    WorkQueue* fast_sensors_wq_ = nullptr;
-    srimb::SRIMBTopic<RawAccData>* raw_acc_topic_ = nullptr;
-
-    uint8_t id_;
-    const char* model_;
-
-    const struct device *accel_dev_;
-    struct gpio_dt_spec accel_int_;
-    struct gpio_callback accel_cb_;
-
-    static void accel_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
-        Bmi088_acc_driver *self = CONTAINER_OF(cb, Bmi088_acc_driver, accel_cb_);
-        self->submitTo(*self->fast_sensors_wq_);
-    }
-
     // Eseguito nella work queue
     void handler() {
         uint64_t timestamp_us = k_cyc_to_us_floor32(k_cycle_get_32());
@@ -90,5 +74,23 @@ private:
 
         raw_acc_topic_->publish(data, timestamp_us);
     }
+
+private:
+    WorkQueue* fast_sensors_wq_ = nullptr;
+    srimb::SRIMBTopic<RawAccData>* raw_acc_topic_ = nullptr;
+
+    uint8_t id_;
+    const char* model_;
+
+    const struct device *accel_dev_;
+    struct gpio_dt_spec accel_int_;
+    struct gpio_callback accel_cb_;
+
+    static void accel_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
+        Bmi088_acc_driver *self = CONTAINER_OF(cb, Bmi088_acc_driver, accel_cb_);
+        self->submitTo(*self->fast_sensors_wq_);
+    }
+
+    
 
 };
