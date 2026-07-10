@@ -4,7 +4,7 @@
 
 struct RawImuData {
 
-}
+};
 
 struct RawGyroData {
     uint64_t timestamp;
@@ -16,7 +16,7 @@ struct RawGyroData {
     float z;
 
     float temperature;
-}
+};
 
 struct RawAccData{
     uint64_t timestamp;
@@ -27,7 +27,7 @@ struct RawAccData{
     float y;
     float z;
 
-}
+};
 
 struct ImuData {
     Vector3f raw_acc;

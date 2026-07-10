@@ -11,21 +11,30 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 #include "uav_types.hpp"
 
 #ifdef CONFIG_LOGGER_ENABLED
-//#include "LoggerTask.hpp"
+//#include "Logger.hpp"
 #endif
 
-//#include "ImuManagerTask.hpp"
+#include "ImuManager.hpp"
 
 #include "Test1.hpp"
 #include "Test2.hpp"
 
 #include "Scheduler.hpp"
+#include "WorkQueue.hpp"
 
-using namespace infinity;
-using namespace infinity::tasks;
-using namespace infinity::scheduler;
+using namespace infinity_autopilot;
+using namespace infinity_autopilot::tasks;
+using namespace infinity_autopilot::scheduler;
 
 K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
+
+K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  2048);
+
+/**----------------------------------------
+ *              Work queue define
+ ------------------------------------------*/
+
+static WorkQueue fast_sensors_wq;
 
 /**---------------------------------------------
  *              Topic instances
@@ -40,24 +49,29 @@ static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
  *              Task instances
  ---------------------------------------------*/
 
-static ImuManager ImuManager<IMU_INSTANCES>(raw_imus_topic, imus_topic);
-static Test1 moduleTest1(imu_topic);
-static Test2 moduleTest2(imu_topic);
+static ImuManager ImuManager<IMU_INSTANCES>(raw_acc_topic, raw_gyro_topic);
+//static Test1 moduleTest1(imu_topic);
+//static Test2 moduleTest2(imu_topic);
 
 static HAL hal;
 static Scheduler tasks_scheduler;
 
 int main()
 {
-    tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
+    //tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
+//
+    //bool allOk = tasks_scheduler.initAllTasks();
+    //if (!allOk)
+    //{
+    //    LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
+    //}
 
-    bool allOk = tasks_scheduler.initAllTasks();
-    if (!allOk)
-    {
-        LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
-    }
+    fast_sensors_wq.start(stack_fast_sensors_wq, 2048, 3);
 
-    tasks_scheduler.start();
+    hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
+
+    
+    //tasks_scheduler.start();
     
     return 0;
 }

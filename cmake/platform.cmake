@@ -15,12 +15,12 @@ macro(configure_platform)
 
     if(TARGET_PLATFORM STREQUAL "TEENSY41")
         set(DTC_OVERLAY_FILE
-            ${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity-fc/teensy41.overlay
+            ${CMAKE_CURRENT_SOURCE_DIR}/boards/teensy41/teensy41.overlay
             CACHE INTERNAL ""
         )
         set(CONF_FILE
             ${CMAKE_CURRENT_SOURCE_DIR}/prj.conf
-            ${CMAKE_CURRENT_SOURCE_DIR}/boards/infinity-fc/teensy41.conf
+            ${CMAKE_CURRENT_SOURCE_DIR}/boards/teensy41/teensy41.conf
             CACHE INTERNAL ""
         )
         message(STATUS "[Platform] Target: Teensy 4.1 (hardware)")

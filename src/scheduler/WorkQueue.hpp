@@ -6,7 +6,7 @@
 class WorkQueue {
 public:
     // stack_size in bytes, priority: thread priority
-    WorkQueue(size_t stack_size, int priority) : started_(false){
+    WorkQueue() : started_(false){
         k_work_queue_init(&queue_);
     }
 

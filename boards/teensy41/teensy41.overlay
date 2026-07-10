@@ -3,7 +3,7 @@
         compatible = "infinity-autopilot,bmi088-imu";
         accel = <&bmi088_accel_0>;
         gyro = <&bmi088_gyro_0>;
-    }
+    };
 };
 
 

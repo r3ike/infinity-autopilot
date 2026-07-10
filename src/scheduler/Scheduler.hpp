@@ -6,7 +6,7 @@
 #include <zephyr/logging/log.h>
 
 
-namespace infinity::scheduler
+namespace infinity_autopilot::scheduler
 {
 
 // Struct con le info dei singoli thread 

@@ -3,6 +3,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/autoconf.h>
 #include <cstdint>
 
@@ -27,9 +28,9 @@ public:
     };
 
     bool init (uint8_t unique_id, srimb::SRIMBTopic<RawGyroData>& topic, WorkQueue& wq) {
-        id_ = unique_id
+        id_ = unique_id;
 
-        raw_acc_topic_ = &topic;
+        raw_gyro_topic_ = &topic;
         fast_sensors_wq_ = &wq;
 
         // Configura interrupt giroscopio
@@ -47,7 +48,7 @@ public:
         }
         
         return false;
-    }:
+    };
 
 private:
     WorkQueue* fast_sensors_wq_;
@@ -62,7 +63,7 @@ private:
 
     static void gyro_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
         Bmi088_gyro_driver *self = CONTAINER_OF(cb, Bmi088_gyro_driver, gyro_cb_);
-        self->submitTo(self->fast_sensors_wq_);
+        self->submitTo(*self->fast_sensors_wq_);
     }
 
     // Eseguito nella work queue
@@ -79,7 +80,7 @@ private:
         sensor_channel_get(gyro_dev_, SENSOR_CHAN_ACCEL_XYZ, gyro);
         sensor_channel_get(gyro_dev_, SENSOR_CHAN_DIE_TEMP, &temp_value);
 
-        RawAccData data = {
+        RawGyroData data = {
             .timestamp = timestamp_us,
             .id = id_,
             // aggiunger anche il modello

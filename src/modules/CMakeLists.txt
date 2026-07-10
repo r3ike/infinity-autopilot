@@ -7,8 +7,8 @@ set(MODULES_LINK_LIB "")    #Lista di librerie da linkare a Modules
 #---------------------------------
 
 
-# add_subdirectory(imu_manager)
-# list(APPEND MODULES_LINK_LIB modules_imu_manager)
+add_subdirectory(imu_manager)
+list(APPEND MODULES_LINK_LIB modules_imu_manager)
 
 add_subdirectory(module_test1)
 list(APPEND MODULES_LINK_LIB module_test1)

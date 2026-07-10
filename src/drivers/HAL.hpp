@@ -6,6 +6,9 @@
 #include <zephyr/kernel.h>
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 #include <cstdint>  
 
 #include "WorkQueue.hpp"
@@ -44,10 +47,12 @@ private:
     const char* model_;    // modello sensore (es: bmi088)
     char name_[MAX_STR_LEN];     // nome sensore (es: bmi088_1)
 public:
-    IHAL_IMU(const char* model) : id_(id), model_(model) {
+    IHAL_IMU(const char* model) : id_(0xFF), model_(model) {
         
         //snprintk(name_, MAX_STR_LEN, "%s_%u", model_, id_);
     };
+
+    void set_id(uint8_t id){id_ = id;}
     
     virtual bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) = 0;
 };
@@ -87,7 +92,6 @@ public:
 class IHAL_Storage {
 public:
     virtual uint64_t write() = 0;
-    virtual 
 };
 
 class IHAL_Radio {

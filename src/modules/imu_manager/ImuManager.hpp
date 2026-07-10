@@ -22,8 +22,8 @@ public:
         srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[NUM_IMU_INSTANCES],
         srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[NUM_IMU_INSTANCES]
     ) : 
-    raw_imus_topic_(raw_imus_topic),
-    imus_topic_(imus_topic)
+    raw_acc_topic_(raw_acc_topic),
+    raw_gyro_topic_(raw_gyro_topic)
     {};
 
     ~ImuManager() = default;
@@ -31,8 +31,8 @@ public:
     void init();
 
 private:
-    srimb::SRIMBTopic<RawAccData>& raw_acc_topic_[NUM_IMU_INSTANCES];
-    srimb::SRIMBTopic<RawGyroData>& raw_gyro_topic_[NUM_IMU_INSTANCES];
+    srimb::SRIMBTopic<RawAccData> (&raw_acc_topic_)[NUM_IMU_INSTANCES];
+    srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic_)[NUM_IMU_INSTANCES];
 
     ImuPreprocessor preprocessors_ [NUM_IMU_INSTANCES];
 };

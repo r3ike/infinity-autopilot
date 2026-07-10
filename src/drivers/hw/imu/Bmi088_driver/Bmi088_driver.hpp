@@ -6,6 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/autoconf.h>
 #include <cstdint>
 
@@ -34,7 +35,7 @@ public:
     ~Bmi088_driver() = default;
 
     bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) override {
-        id_ = unique_id;
+        set_id(unique_id);
 
         bool gyro_status = gyro_driver_.init(unique_id, gyro_topic, wq);
         bool acc_status = acc_driver_.init(unique_id, acc_topic, wq);

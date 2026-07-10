@@ -3,6 +3,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/autoconf.h>
 #include <cstdint>
 
@@ -62,7 +63,7 @@ private:
 
     static void accel_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
         Bmi088_acc_driver *self = CONTAINER_OF(cb, Bmi088_acc_driver, accel_cb_);
-        self->submitTo(self->fast_sensors_wq_);
+        self->submitTo(*self->fast_sensors_wq_);
     }
 
     // Eseguito nella work queue

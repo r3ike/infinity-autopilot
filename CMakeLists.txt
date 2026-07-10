@@ -23,7 +23,6 @@ add_subdirectory(lib)
 
 add_subdirectory(src/middlewares/SRIMB)
 add_subdirectory(src/utils)
-add_subdirectory(src/filters)
 add_subdirectory(src/modules)
 add_subdirectory(src/drivers)
 add_subdirectory(src/scheduler)

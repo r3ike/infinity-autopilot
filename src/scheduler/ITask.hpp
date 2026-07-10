@@ -3,7 +3,7 @@
 #include <zephyr/kernel.h>
 #include <cstdint>
 
-namespace infinity::scheduler
+namespace infinity_autopilot::scheduler
 {
 
 enum class SchedPolicy : uint8_t {

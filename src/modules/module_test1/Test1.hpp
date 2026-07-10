@@ -7,7 +7,7 @@
 #include "uav_types.hpp"
 
 
-namespace infinity::tasks
+namespace infinity_autopilot::tasks
 {
 
 class Test1 : public scheduler::ITask
