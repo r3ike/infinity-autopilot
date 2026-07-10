@@ -3,6 +3,8 @@
 #include <zephyr/sys/util.h>
 #include <zephyr/logging/log.h>
 
+#include <zephyr/usb/usb_device.h>
+
 LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "SRIMB.hpp"
@@ -58,7 +60,12 @@ static HAL hal;
 static Scheduler tasks_scheduler;
 
 int main()
-{
+{   
+    LOG_INF("----------------------------------------------------------");
+    LOG_INF("------------------- Infinity-Autopilot -------------------");
+    LOG_INF("----------------------------------------------------------");
+    LOG_INF("Author: Riccardo Pogliacomi");
+    LOG_INF("Version: 0.5");
     //tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
 //
     //bool allOk = tasks_scheduler.initAllTasks();
@@ -69,10 +76,14 @@ int main()
 
     fast_sensors_wq.start(stack_fast_sensors_wq, 2048, 3);
 
-    hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
+    //hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
 
     
     //tasks_scheduler.start();
     
+    while (1) {
+        k_sleep(K_SECONDS(1));
+    }
+
     return 0;
 }
