@@ -36,7 +36,7 @@ HAL::HAL()
 }
 HAL::~HAL(){}
 
-HALState HAL::init(
+void HAL::init(
     srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[IMU_INSTANCES],
     srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[IMU_INSTANCES],
     WorkQueue& fast_sensors_wq
@@ -49,15 +49,7 @@ HALState HAL::init(
     {
         states.imu_state[i] = _imu_instances.at(i).get()->init(i, raw_acc_topic[i], raw_gyro_topic[i], fast_sensors_wq);
     }
-    
-#ifdef CONFIG_TARGET_TEENSY41
 
-
-#elif defined(CONFIG_TARGET_SITL)
-
-#endif
-
-    return states;
 }
 
 

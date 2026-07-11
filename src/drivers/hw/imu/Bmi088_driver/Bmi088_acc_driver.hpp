@@ -33,6 +33,19 @@ public:
         raw_acc_topic_ = &topic;
         fast_sensors_wq_ = &wq;
 
+        if (accel_dev_ == nullptr) {
+            printk("gyro_dev null");
+            return false;
+        }
+
+        if (!device_is_ready(accel_dev_)) {
+            printk("Acc non pronto!!! \n");
+            return false;
+        }else{
+            printk("Acc pronto!!! \n");
+        }
+
+        /*
         // Interrupt configuration
         if (accel_int_.port != NULL) {
             int ret = gpio_pin_configure_dt(&accel_int_, GPIO_INPUT);
@@ -45,7 +58,7 @@ public:
             gpio_add_callback(accel_int_.port, &accel_cb_);
 
             return true;
-        }
+        }*/
 
         return false;
     };

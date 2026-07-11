@@ -31,7 +31,7 @@ using namespace infinity_autopilot::scheduler;
 
 K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
 
-K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  2048);
+K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  4096);
 
 /**----------------------------------------
  *              Work queue define
@@ -61,6 +61,7 @@ static Scheduler tasks_scheduler;
 
 int main()
 {   
+    k_sleep(K_MSEC(100));
     LOG_INF("----------------------------------------------------------");
     LOG_INF("------------------- Infinity-Autopilot -------------------");
     LOG_INF("----------------------------------------------------------");
@@ -74,9 +75,11 @@ int main()
     //    LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
     //}
 
-    fast_sensors_wq.start(stack_fast_sensors_wq, 2048, 3);
+    LOG_INF("imu count: %d", IMU_INSTANCES);
 
-    //hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
+    fast_sensors_wq.start(stack_fast_sensors_wq, 4096, 3);
+
+    hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
 
     
     //tasks_scheduler.start();

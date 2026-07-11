@@ -20,8 +20,10 @@
 };
 
 &lpi2c1 {
+    pinctrl-0 = <&pinmux_lpi2c1>;
+    pinctrl-names = "default";
     status = "okay";
-    clock-frequency = <I2C_BITRATE_FAST>;
+    clock-frequency = <100000>;
 
     bmi088_gyro_0: bmi088-gyr@68 {
         compatible = "bosch,bmi08x-gyro";
@@ -35,7 +37,7 @@
     bmi088_accel_0: bmi088-acc@18 {
         compatible = "bosch,bmi08x-accel";
         reg = <0x18>; /* Indirizzo I2C dell'accelerometro */
-        int-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+        int-gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>;
         accel-hz = "1600";
         accel-fs = <8>;
         status = "okay";

@@ -109,7 +109,7 @@ public:
     HAL();
     ~HAL();
 
-    HALState init(
+    void init(
         srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[IMU_INSTANCES],
         srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[IMU_INSTANCES],
         WorkQueue& fast_sensors_wq

@@ -33,6 +33,18 @@ public:
         raw_gyro_topic_ = &topic;
         fast_sensors_wq_ = &wq;
 
+        if (gyro_dev_ == nullptr) {
+            printk("gyro_dev null");
+            return false;
+        }
+
+        if (!device_is_ready(gyro_dev_)) {
+            printk("Gyro non pronto!!! \n");
+            return false;
+        }else{
+            printk("Gyro pronto!!! \n");
+        }
+        /*
         // Configura interrupt giroscopio
         if (gyro_int_.port != NULL) {
             int ret = gpio_pin_configure_dt(&gyro_int_, GPIO_INPUT);
@@ -45,7 +57,7 @@ public:
             gpio_add_callback(gyro_int_.port, &gyro_cb_);
 
             return true;
-        }
+        }*/
         
         return false;
     };
@@ -61,7 +73,7 @@ public:
             // Errore, capire come gestirlo
             return;
         }
-        sensor_channel_get(gyro_dev_, SENSOR_CHAN_ACCEL_XYZ, gyro);
+        sensor_channel_get(gyro_dev_, SENSOR_CHAN_GYRO_XYZ, gyro);
         sensor_channel_get(gyro_dev_, SENSOR_CHAN_DIE_TEMP, &temp_value);
 
         RawGyroData data = {
