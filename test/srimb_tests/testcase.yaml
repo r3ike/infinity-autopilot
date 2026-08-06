@@ -1,0 +1,4 @@
+tests:
+  srimb.topic:
+    platform_allow: native_sim
+    tags: srimb
