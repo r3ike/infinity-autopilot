@@ -15,16 +15,12 @@
 class Bmi088_gyro_driver : public WorkItemBase<Bmi088_gyro_driver>
 {
 public:
-    Bmi088_gyro_driver(const char* model, const struct device *gyro_dev, const gpio_dt_spec* gyro_int)
+    Bmi088_gyro_driver(const char* model, const struct device *gyro_dev)
                         : model_(model), id_(0xFF),
-                        gyro_dev_(gyro_dev),
-                        gyro_int_(*gyro_int)
+                        gyro_dev_(gyro_dev)
                         {};
     
     ~Bmi088_gyro_driver() {
-        if (gyro_int_.port) {
-            gpio_remove_callback(gyro_int_.port, &gyro_cb_);
-        }
     };
 
     bool init (uint8_t unique_id, srimb::SRIMBTopic<RawGyroData>& topic, WorkQueue& wq) {
@@ -99,7 +95,6 @@ private:
     const char* model_;
 
     const struct device *gyro_dev_;
-    struct gpio_dt_spec gyro_int_;
     struct gpio_callback gyro_cb_;
 
     static void gyro_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {

@@ -32,6 +32,9 @@
         gyro-hz = "1000_116"; 
         gyro-fs = <2000>;
         status = "okay";
+
+        int3-4-map-io = <0x01>;   /* abilita data-ready su INT3 */
+        int3-4-conf-io = <0x0A>;
     };
 
     bmi088_accel_0: bmi088-acc@18 {
@@ -41,6 +44,11 @@
         accel-hz = "1600";
         accel-fs = <8>;
         status = "okay";
+
+        int1-map-io = <0x01>;   /* abilita data-ready su INT1 */
+        int1-conf-io = <0x0A>;  /* active high, push-pull */
+        int2-map-io = <0x00>;   /* INT2 non usato: disabilita mappature */
+        int2-conf-io = <0x00>;
     };
 };
 

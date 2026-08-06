@@ -14,10 +14,9 @@
 class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>
 {
 public:
-    Bmi088_acc_driver(const char* model, const struct device *accel_dev, const gpio_dt_spec* accel_int)
+    Bmi088_acc_driver(const char* model, const struct device *accel_dev)
                         :model_(model), id_(0xFF),
-                        accel_dev_(accel_dev),
-                        accel_int_(*accel_int)
+                        accel_dev_(accel_dev)
                         {};
     
     
@@ -96,7 +95,6 @@ private:
     const char* model_;
 
     const struct device *accel_dev_;
-    struct gpio_dt_spec accel_int_;
     struct gpio_callback accel_cb_;
 
     static void accel_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
