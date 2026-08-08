@@ -21,11 +21,11 @@ param_generation()   # setta PARAM_DEFS_HPP e PARAM_DEFS_CPP
 
 add_subdirectory(lib)
 
-add_subdirectory(src/middlewares/SRIMB)
+add_subdirectory(platform/infinity)
+
 add_subdirectory(src/utils)
 add_subdirectory(src/modules)
 add_subdirectory(src/drivers)
-add_subdirectory(src/scheduler)
 
 # Aggiungi entry point
 add_subdirectory(src/entry)

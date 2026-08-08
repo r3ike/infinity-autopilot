@@ -21,6 +21,7 @@
         "mavlink",
         "SITL",
         "imu_manager",
-        "logger"
+        "logger",
+        "infinty-platform"
     ]
 }
