@@ -10,20 +10,24 @@
 #include "SRIMB.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
+#include "Loggable.hpp"
 
-class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>
+class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>, public Loggable
 {
 public:
     Bmi088_acc_driver(const char* model, const struct device *accel_dev)
                         :model_(model), id_(0xFF),
                         accel_dev_(accel_dev)
-                        {};
+                        {
+                            trig_accel_ = {
+                                .type = SENSOR_TRIG_DATA_READY,
+                                .chan = SENSOR_CHAN_ACCEL_XYZ,
+                            };
+                        };
     
     
     ~Bmi088_acc_driver() {
-        if (accel_int_.port) {
-            gpio_remove_callback(accel_int_.port, &accel_cb_);
-        }
+        
     };
 
     bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& topic, WorkQueue& wq) {
@@ -32,34 +36,23 @@ public:
         raw_acc_topic_ = &topic;
         fast_sensors_wq_ = &wq;
 
-        if (accel_dev_ == nullptr) {
-            printk("gyro_dev null");
+        init_logging(model_, id_);
+
+        if (!device_is_ready(accel)) {
+            log_err("Accel device not ready!");
             return false;
         }
 
-        if (!device_is_ready(accel_dev_)) {
-            printk("Acc non pronto!!! \n");
+        log_inf("Accel ready.");    // capire se metterli dbg
+
+        if(sensor_trigger_set(accel_, &trig_accel_, accel_isr_handler) < 0){
+            log_err("Impossibile impostare il trigger acc!");
             return false;
-        }else{
-            printk("Acc pronto!!! \n");
         }
 
-        /*
-        // Interrupt configuration
-        if (accel_int_.port != NULL) {
-            int ret = gpio_pin_configure_dt(&accel_int_, GPIO_INPUT);
-            if (ret < 0) return false;
+        log_inf("Accel's trigger configured."); // capire se metterli dbg
 
-            ret = gpio_pin_interrupt_configure_dt(&accel_int_, GPIO_INT_EDGE_TO_ACTIVE);
-            if (ret < 0) return false;
-
-            gpio_init_callback(&accel_cb_, accel_isr_handler, BIT(accel_int_.pin));
-            gpio_add_callback(accel_int_.port, &accel_cb_);
-
-            return true;
-        }*/
-
-        return false;
+        return true;
     };
 
     // Eseguito nella work queue
@@ -70,6 +63,7 @@ public:
 
         if (sensor_sample_fetch(accel_dev_) < 0) {
             // Errore, capire come gestirlo
+            log_err("Errore nella lettura del sample.");
             return;
         }
         sensor_channel_get(accel_dev_, SENSOR_CHAN_ACCEL_XYZ, accel);
@@ -95,13 +89,12 @@ private:
     const char* model_;
 
     const struct device *accel_dev_;
-    struct gpio_callback accel_cb_;
+    
+    struct sensor_trigger trig_accel_ = nullptr;
 
-    static void accel_isr_handler(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
-        Bmi088_acc_driver *self = CONTAINER_OF(cb, Bmi088_acc_driver, accel_cb_);
+    static void accel_isr_handler(const struct device *dev, const struct sensor_trigger *trig) {
+        Bmi088_acc_driver *self = CONTAINER_OF(trig, Bmi088_acc_driver, trig_accel_);
         self->submitTo(*self->fast_sensors_wq_);
     }
-
-    
 
 };
