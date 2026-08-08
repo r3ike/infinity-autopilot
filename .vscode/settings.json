@@ -20,6 +20,7 @@
         "param_manager",
         "mavlink",
         "SITL",
-        "imu_manager"
+        "imu_manager",
+        "logger"
     ]
 }
