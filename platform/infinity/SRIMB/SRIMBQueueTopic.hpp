@@ -2,6 +2,7 @@
 #include "SRIMBSub.hpp"
 #include "SRIMBWorkItemSub.hpp"
 #include "ringbuffer/RingBuffer.hpp"
+#include <array>
 #include <zephyr/kernel.h>
 #include <cstdint>
 
@@ -13,6 +14,13 @@ struct Topic
 {
     T data;
     uint64_t generation = 0;
+};
+
+struct WorkItemSchedule
+{
+    SRIMBWorkItemSub* work_item;
+    uint8_t required_updates{1};        // numero di update richiesti per il submit del workitem
+    uint8_t updates_count{0};           // numero di update effettuati  => quando required_updates == updates_count il workitem viene inviato alla wq
 };
 
     
@@ -98,6 +106,9 @@ private:
 
     uint64_t generation_ {0};
     uint64_t oldest_generation_ {0};
+
+    std::array<WorkItemSchedule, MAX_WORK_ITEM> work_items_ ;          // Array contenente i work item da chiamare al publish su un topic   
+    std::size_t count_ {0};
 };
 
 
