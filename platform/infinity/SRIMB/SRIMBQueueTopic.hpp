@@ -24,6 +24,7 @@ public:
     SRIMBQueueTopic(size_t queue_len) :
         msg_queue_(queue_len) 
     {
+        k_mutex_init(&mtx_);
         queue_len_ = queue_len;
     };
 
@@ -33,6 +34,8 @@ public:
     };
 
     void publish(T& msg_data){
+        k_mutex_lock(&mtx_, K_FOREVER);
+
         msg_queue_.push({
             .data = msg_data,
             .generation = generation_++
@@ -44,17 +47,30 @@ public:
         msg_queue_.get(tail_idx, msg);
         oldest_generation_ = msg.generation;
 
+        k_mutex_unlock(&mtx_, K_FOREVER);
     }
 
     bool updated(SRIMBSub& sub){
-        return sub.get_last_generation() < generation_;
+        k_mutex_lock(&mtx_, K_FOREVER);
+        bool has_new = sub.get_last_generation() < generation_;
+        k_mutex_unlock(&mtx_);
+        return has_new;
     }
 
     bool poll(SRIMBSub& sub, T& out){
+        k_mutex_lock(&mtx_, K_FOREVER);
+
         if (sub.get_last_generation() == generation_)
         {
+            k_mutex_unlock(&mtx_, K_FOREVER);
             return false;
         }
+
+        if (sub.get_last_generation() + 1 < oldest_generation_)
+        {
+            sub.set_last_generation(oldest_generation_ - 1);
+        }
+        
         
         uint32_t offset = (sub.get_last_generation() - oldest_generation_ + 1) % queue_len;
         uint32_t tail_idx =  msg_queue_.get_tail_idx();
@@ -67,12 +83,15 @@ public:
         out = msg.data;
 
         sub.set_last_generation(msg.generation);
+        k_mutex_unlock(&mtx_, K_FOREVER);
         return true;
     }
 
 
 
 private:
+    struct k_mutex mtx_{};
+
     RingBuffer<Topic<T>> msg_queue_;
     size_t queue_len_ {0};
 
