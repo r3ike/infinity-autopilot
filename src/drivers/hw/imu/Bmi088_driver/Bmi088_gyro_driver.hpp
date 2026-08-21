@@ -60,7 +60,7 @@ public:
 
     // Eseguito nella work queue
     void handler() {
-        uint64_t timestamp_us = k_cyc_to_us_floor32(k_cycle_get_32());
+        uint64_t timestamp_us = k_cyc_to_us_floor64(k_cycle_get_64());
 
         struct sensor_value gyro[3];
         struct sensor_value temp_value;
