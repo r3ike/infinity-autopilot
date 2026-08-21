@@ -27,11 +27,10 @@ public:
     ~SRIMBTopic() {};
 
     
-    void publish(T& msg_data, uint64_t timestamp) {
+    void publish(T& msg_data) {
         k_mutex_lock(&mtx_, K_FOREVER);
 
         data_ = msg_data;
-        timestamp_ = timestamp;
         generation_++;
 
         k_mutex_unlock(&mtx_);
@@ -40,9 +39,10 @@ public:
     }
 
     
-    bool poll(SRIMBSub& sub, T& out, uint64_t& timestamp){
+    bool poll(SRIMBSub& sub, T& out){
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
+            k_mutex_unlock(&mtx_);
             return false;
         }
 
@@ -58,6 +58,7 @@ public:
     bool updated(SRIMBSub& sub){
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
+            k_mutex_unlock(&mtx_);
             return false;
         }
 
@@ -77,7 +78,7 @@ public:
         
     }
 
-    void unregister_callback(){
+    void unregister_work_item(){
 
     }
 
@@ -105,7 +106,6 @@ private:
     }
 
     T data_ {};
-    uint64_t timestamp_ {0};    // timestamp of the msg
     uint64_t generation_ {0};   // generation id of the msg
 
     /**
