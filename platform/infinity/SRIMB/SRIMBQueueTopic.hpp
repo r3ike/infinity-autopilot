@@ -38,7 +38,7 @@ public:
 
         msg_queue_.push({
             .data = msg_data,
-            .generation = generation_++
+            .generation = ++generation_
         });
 
         //update oldest generation
@@ -47,10 +47,10 @@ public:
         msg_queue_.get(tail_idx, msg);
         oldest_generation_ = msg.generation;
 
-        k_mutex_unlock(&mtx_, K_FOREVER);
+        k_mutex_unlock(&mtx_);
     }
 
-    bool updated(SRIMBSub& sub){
+    bool updated(const SRIMBSub& sub){
         k_mutex_lock(&mtx_, K_FOREVER);
         bool has_new = sub.get_last_generation() < generation_;
         k_mutex_unlock(&mtx_);
@@ -62,17 +62,18 @@ public:
 
         if (sub.get_last_generation() == generation_)
         {
-            k_mutex_unlock(&mtx_, K_FOREVER);
+            k_mutex_unlock(&mtx_);
             return false;
         }
 
         if (sub.get_last_generation() + 1 < oldest_generation_)
         {
+            sub.set_missed(true);
             sub.set_last_generation(oldest_generation_ - 1);
         }
         
         
-        uint32_t offset = (sub.get_last_generation() - oldest_generation_ + 1) % queue_len;
+        uint32_t offset = (sub.get_last_generation() - oldest_generation_ + 1) % queue_len_;
         uint32_t tail_idx =  msg_queue_.get_tail_idx();
 
         uint32_t idx = (tail_idx + offset) % queue_len_;
@@ -83,7 +84,7 @@ public:
         out = msg.data;
 
         sub.set_last_generation(msg.generation);
-        k_mutex_unlock(&mtx_, K_FOREVER);
+        k_mutex_unlock(&mtx_);
         return true;
     }
 
