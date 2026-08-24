@@ -26,16 +26,16 @@ struct WorkItemSchedule
 };
 
     
-template <typename T>
+template <typename T, uint8_t QUEUE_LEN>
 class SRIMBQueueTopic
 {
  
 public:
-    SRIMBQueueTopic(size_t queue_len) :
-        msg_queue_(queue_len) 
+    SRIMBQueueTopic():
+        msg_queue_(QUEUE_LEN)
     {
         k_mutex_init(&mtx_);
-        queue_len_ = queue_len;
+        queue_len_ = QUEUE_LEN;
     };
 
 

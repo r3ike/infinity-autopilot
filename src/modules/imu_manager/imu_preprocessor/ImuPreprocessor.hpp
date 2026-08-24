@@ -20,10 +20,31 @@ class ImuPreprocessor : public WorkItemBase<Test2>, public srimb::SRIMBWorkItemS
 {
 
 public:
-    ImuPreprocessor();
+    ImuPreprocessor(srimb::SRIMBTopic<RawGyroData> &raw_gyro_topic, srimb::SRIMBTopic<RawAccData> &raw_acc_topic):
+        raw_gyro_topic_(raw_gyro_topic),
+        raw_acc_topic_(raw_acc_topic)
+            {
+                raw_gyro_topic_.register_work_item(this);
+            };
     ~ImuPreprocessor() = default;
 
+    void handler(){
+
+    }
+
+    struct k_work* getWorkItem() override {
+        return &this->work_;
+    }
+
+    struct k_work_q* getWorkQueue() override {
+        return nullptr;
+    }
+
 private:
-    /* data */
+    srimb::SRIMBTopic<RawGyroData>& raw_gyro_topic_;
+    srimb::SRIMBTopic<RawAccData>& raw_acc_topic_;
+
+    srimb::SRIMBSub gyro_sub_;
+    srimb::SRIMBSub acc_sub_;
 };
 

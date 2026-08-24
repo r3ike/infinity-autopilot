@@ -8,6 +8,7 @@
 LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "SRIMB.hpp"
+#include "SRIMBQueueTopic.hpp"
 #include "HAL.hpp"
 #include "HAL_configs.hpp"
 
@@ -43,8 +44,8 @@ static WorkQueue fast_sensors_wq;
  *              Topic instances
  ---------------------------------------------*/
 
-static srimb::SRIMBTopic<RawAccData> raw_acc_topic[IMU_INSTANCES];
-static srimb::SRIMBTopic<RawGyroData> raw_gyro_topic[IMU_INSTANCES];
+static srimb::SRIMBQueueTopic<RawAccData, 8> raw_acc_topic[IMU_INSTANCES];
+static srimb::SRIMBQueueTopic<RawGyroData, 8> raw_gyro_topic[IMU_INSTANCES];
 
 static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
