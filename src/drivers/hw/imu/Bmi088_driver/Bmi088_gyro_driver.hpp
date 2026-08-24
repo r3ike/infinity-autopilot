@@ -84,7 +84,7 @@ public:
             .temperature = sensor_value_to_float(&temp_value)
         };
 
-        raw_gyro_topic_->publish(data, timestamp_us);
+        raw_gyro_topic_->publish(data);
     }
 
 private:

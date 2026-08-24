@@ -1,14 +1,10 @@
 if(CONFIG_BMI088_DRIVER_ENABLED)
-    add_library(driver_bmi088 STATIC)
+    add_library(driver_bmi088 INTERFACE)
 
-    target_sources(driver_bmi088 PRIVATE 
-            Bmi088_acc_driver.cpp
-            Bmi088_gyro_driver.cpp
-    )
 
-    target_include_directories(driver_bmi088 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(driver_bmi088 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-    target_link_libraries(driver_bmi088 PUBLIC zephyr_interface 
+    target_link_libraries(driver_bmi088 INTERFACE zephyr_interface 
                                                infinity_platform
                                                hal
                                                utils

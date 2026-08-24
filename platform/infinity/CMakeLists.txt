@@ -1,6 +1,6 @@
 
 add_subdirectory(SRIMB)
-add_subdirectory(params_manager)
+# add_subdirectory(params_manager)
 add_subdirectory(scheduler)
 
 add_library(infinity_platform INTERFACE)

@@ -47,7 +47,6 @@ public:
         }
 
         out = data_;
-        timestamp = timestamp_;
         sub.set_last_generation(generation_);
 
         k_mutex_unlock(&mtx_);

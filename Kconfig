@@ -27,5 +27,5 @@ source "../src/modules/Kconfig"
 endmenu
 
 menu "Scheduler Configuration"
-source "../src/scheduler/Kconfig"
+source "../platform/infinity/scheduler/Kconfig"
 endmenu

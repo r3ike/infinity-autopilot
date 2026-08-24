@@ -78,7 +78,7 @@ public:
             .z = sensor_value_to_float(&accel[2])
         };
 
-        raw_acc_topic_->publish(data, timestamp_us);
+        raw_acc_topic_->publish(data);
     }
 
 private:

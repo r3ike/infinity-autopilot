@@ -19,8 +19,8 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "ImuManager.hpp"
 
-#include "Test1.hpp"
-#include "Test2.hpp"
+//#include "Test1.hpp"
+//#include "Test2.hpp"
 
 #include "Scheduler.hpp"
 #include "WorkQueue.hpp"
@@ -29,7 +29,7 @@ using namespace infinity_autopilot;
 using namespace infinity_autopilot::tasks;
 using namespace infinity_autopilot::scheduler;
 
-K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
+//K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
 
 K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  4096);
 
