@@ -12,22 +12,21 @@ function(topic_generation)
     set(OUT_HPP         ${CMAKE_BINARY_DIR}/generated/param_defs.hpp)
     set(OUT_CPP         ${CMAKE_BINARY_DIR}/generated/param_defs.cpp)
 
+    # Raccoglie tutti i .topic come dipendenze esplicite
+    file(GLOB TOPIC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/topic/*.topic")
+
     set(GENERATED_HEADERS)
-    foreach(msg ${MSG_FILES})
+    foreach(msg ${TOPIC_FILES})
         get_filename_component(name ${msg} NAME_WE)
         list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topic/${name}.h)
     endforeach()
-
-
-    # Raccoglie tutti i .topic come dipendenze esplicite
-    file(GLOB TOPIC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/topic/*.topic")
 
     add_custom_command(
         OUTPUT ${GENERATED_HEADERS}
         COMMAND python3 ${GENERATOR}
             --input-dir ${INPUT_DIR}
             --output-dir ${OUTPUT_DIR}
-        DEPENDS ${MSG_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_topic.py
+        DEPENDS ${TOPIC_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_topic.py
         COMMENT "Generating message headers from .topic files"
     )
 
