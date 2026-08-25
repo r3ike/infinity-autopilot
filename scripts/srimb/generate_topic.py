@@ -91,7 +91,35 @@ def main():
     metadata.append("namespace srimb{")
     metadata.append("")
 
-    os.makedirs(args.output_dir, exist_ok=True)
+    # header of TopicTypes.h file
+    aliases = []
+    aliases.append(f"// Auto-generated from topic folder - DO NOT EDIT")
+    aliases.append(f"//                   Infinity-Autopilot")
+    aliases.append("#pragma once")
+    aliases.append("#include <cstdint>")
+    aliases.append("#include <cstddef>")
+    # Includi il file che definisce SRIMBQueueTopic (assumendo che sia in un header separato)
+    aliases.append('#include "SRIMBQueueTopic.hpp"')
+    aliases.append('#include "SRIMB.hpp"')
+    aliases.append('#include "data_types/DataTypes.h"')
+    
+    # Includi il file TopicMetadata.h (serve per avere le costanti QUEUE_LENGTH)
+    aliases.append('#include "TopicMetadata.h"')
+    aliases.append("")
+    aliases.append("namespace srimb {")
+    aliases.append("")
+
+    #header of DataTypes inclde file
+    data_types_lines = []
+    data_types_lines.append(f"// Auto-generated from topic folder - DO NOT EDIT")
+    data_types_lines.append(f"//                   Infinity-Autopilot")
+    data_types_lines.append("#pragma once")  
+
+    
+    srimb_topics_dir = os.path.join(args.output_dir,"srimb_topics")
+    data_types_dir = os.path.join(args.output_dir,"data_types")
+    os.makedirs(srimb_topics_dir, exist_ok=True)
+    os.makedirs(data_types_dir, exist_ok=True)
 
     for fname in os.listdir(args.input_dir):
         if not fname.endswith('.topic'):
@@ -101,17 +129,36 @@ def main():
 
         metadata.append(generate_metadata(struct_name, queue_len, topic_name))
 
+        data_types_lines.append(f'#include "{struct_name}.h"')
+
+        if queue_len:
+            aliases.append(f'using {topic_name if topic_name else struct_name} = SRIMBQueueTopic<{struct_name}Data, {struct_name}Metadata::QUEUE_LENGTH>')
+        else:
+            aliases.append(f'using {topic_name if topic_name else struct_name} = SRIMBTopic<{struct_name}Data>')
+
+
         header = generate_header(struct_name, fields)
-        out_path = os.path.join(args.output_dir, f"{struct_name}.h")
+        out_path = os.path.join(data_types_dir, f"{struct_name}.h")
         with open(out_path, 'w') as f:
             f.write(header)
 
     # Generate metadata
     metadata.append("")
     metadata.append("}")
-    out_path = os.path.join(args.output_dir, f"TopicMetadata.h")
+
+    out_path = os.path.join(srimb_topics_dir, f"TopicMetadata.h")
     with open(out_path, 'w') as f:
         f.write("\n".join(metadata))
+
+    out_path = os.path.join(data_types_dir, f"DataTypes.h")
+    with open(out_path, 'w') as f:
+            f.write("\n".join(data_types_lines))
+
+    aliases.append("")
+    aliases.append("}")
+    out_path = os.path.join(srimb_topics_dir, f"TopicTypes.h")
+    with open(out_path, 'w') as f:
+            f.write("\n".join(aliases))
 
 
 

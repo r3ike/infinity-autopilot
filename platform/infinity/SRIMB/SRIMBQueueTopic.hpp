@@ -35,7 +35,6 @@ public:
         msg_queue_(QUEUE_LEN)
     {
         k_mutex_init(&mtx_);
-        queue_len_ = QUEUE_LEN;
     };
 
 
@@ -85,10 +84,10 @@ public:
         }
         
         
-        uint32_t offset = (sub.get_last_generation() - oldest_generation_ + 1) % queue_len_;
+        uint32_t offset = (sub.get_last_generation() - oldest_generation_ + 1) % QUEUE_LEN;
         uint32_t tail_idx =  msg_queue_.get_tail_idx();
 
-        uint32_t idx = (tail_idx + offset) % queue_len_;
+        uint32_t idx = (tail_idx + offset) % QUEUE_LEN;
 
         Topic<T> msg;
         msg_queue_.get(idx, msg);
@@ -164,7 +163,6 @@ private:
     struct k_mutex mtx_{};
 
     RingBuffer<Topic<T>> msg_queue_;
-    size_t queue_len_ {0};
 
     uint64_t generation_ {0};
     uint64_t oldest_generation_ {0};
@@ -181,8 +179,8 @@ private:
         uint8_t submited_count = 0;
         for (size_t i = 0; i < workitem_count_; i++)
         {
-            w->updates_count++;
             WorkItemSchedule* w = &work_items_[i];
+            w->updates_count++;
             if (w->updates_count >= w->required_updates)
             {
                 submit_single_workitems(w->work_item);
