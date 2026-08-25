@@ -17,7 +17,6 @@ struct RawAccMetadata {
     static constexpr const char* TOPIC_NAME = "RawAcc";
     static constexpr size_t TOPIC_SIZE = sizeof(RawAcc);
     static constexpr uint32_t TOPIC_HASH = 0x69fb8237;
-    static constexpr uint8_t QUEUE_LENGTH = 8;
 };
 
 }

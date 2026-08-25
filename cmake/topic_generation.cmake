@@ -6,7 +6,7 @@
 function(topic_generation)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
-    set(GENERATOR       ${CMAKE_SOURCE_DIR}/script/srimb/generate_topic.py)
+    set(GENERATOR       ${CMAKE_SOURCE_DIR}/scripts/srimb/generate_topic.py)
     set(INPUT_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/topic)
     set(OUTPUT_DIR      ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topic)
     set(OUT_HPP         ${CMAKE_BINARY_DIR}/generated/param_defs.hpp)
@@ -16,8 +16,8 @@ function(topic_generation)
     file(GLOB TOPIC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/topic/*.topic")
 
     set(GENERATED_HEADERS)
-    foreach(msg ${TOPIC_FILES})
-        get_filename_component(name ${msg} NAME_WE)
+    foreach(topic ${TOPIC_FILES})
+        get_filename_component(name ${topic} NAME_WE)
         list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topic/${name}.h)
     endforeach()
 
@@ -26,7 +26,7 @@ function(topic_generation)
         COMMAND python3 ${GENERATOR}
             --input-dir ${INPUT_DIR}
             --output-dir ${OUTPUT_DIR}
-        DEPENDS ${TOPIC_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_topic.py
+        DEPENDS ${TOPIC_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/srimb/generate_topic.py
         COMMENT "Generating message headers from .topic files"
     )
 
