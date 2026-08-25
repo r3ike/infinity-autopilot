@@ -13,6 +13,7 @@ if(CONFIG_LOGGER_ENABLED)
                 scheduler
                 utils
                 stdc++
+                lib
                 )
     
 endif()

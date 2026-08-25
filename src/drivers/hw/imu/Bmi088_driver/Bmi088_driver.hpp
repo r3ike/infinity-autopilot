@@ -14,7 +14,9 @@
 #include "WorkQueue.hpp"
 #include "SRIMB.hpp"
 #include "HAL.hpp"
-#include "uav_types.hpp"
+#include "data_types/DataTypes.h"
+
+#include "srimb_topics/TopicTypes.h"
 
 #include "Bmi088_acc_driver.hpp"
 #include "Bmi088_gyro_driver.hpp"
@@ -33,7 +35,7 @@ public:
 
     ~Bmi088_driver() = default;
 
-    bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) override {
+    bool init(uint8_t unique_id, srimb::RawAccTopic& acc_topic, srimb::RawGyroTopic& gyro_topic, WorkQueue& wq) override {
         set_id(unique_id);
 
         bool gyro_status = gyro_driver_.init(unique_id, gyro_topic, wq);

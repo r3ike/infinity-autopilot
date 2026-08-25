@@ -1,4 +1,5 @@
-
+QUEUE_LENGTH 8
+TOPIC_NAME raw_gyro_topic
 
 uint64 timestamp
 

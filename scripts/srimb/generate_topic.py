@@ -41,7 +41,6 @@ def parse_msg_file(path):
     return fields, queue_len, topic_name
 
 def generate_header(data_struct_name, fields):
-    topic_hash = hashlib.md5(data_struct_name.encode()).hexdigest()[:8]
     lines = []
     lines.append(f"// Auto-generated from {data_struct_name}.topic - DO NOT EDIT")
     lines.append(f"//                   Infinity-Autopilot")
@@ -67,7 +66,7 @@ def generate_metadata(struct_name, queue_len, topic_name):
     lines.append("")
     lines.append(f"struct {struct_name}Metadata {{")
     lines.append(f"    static constexpr const char* TOPIC_NAME = \"{srimb_name}\";")
-    lines.append(f"    static constexpr size_t TOPIC_SIZE = sizeof({srimb_name});")
+    lines.append(f"    static constexpr size_t TOPIC_SIZE = sizeof({struct_name}Data);")
     lines.append(f"    static constexpr uint32_t TOPIC_HASH = 0x{topic_hash};")
     if queue_len:
         lines.append(f"    static constexpr uint8_t QUEUE_LENGTH = {queue_len};")
@@ -88,6 +87,8 @@ def main():
     metadata.append("#pragma once")
     metadata.append("#include <cstdint>")
     metadata.append("#include <cstddef>")
+
+    metadata.append('#include "data_types/DataTypes.h"')
     metadata.append("namespace srimb{")
     metadata.append("")
 
@@ -104,7 +105,7 @@ def main():
     aliases.append('#include "data_types/DataTypes.h"')
     
     # Includi il file TopicMetadata.h (serve per avere le costanti QUEUE_LENGTH)
-    aliases.append('#include "TopicMetadata.h"')
+    aliases.append('#include "srimb_topics/TopicMetadata.h"')
     aliases.append("")
     aliases.append("namespace srimb {")
     aliases.append("")
@@ -132,9 +133,9 @@ def main():
         data_types_lines.append(f'#include "{struct_name}.h"')
 
         if queue_len:
-            aliases.append(f'using {topic_name if topic_name else struct_name} = SRIMBQueueTopic<{struct_name}Data, {struct_name}Metadata::QUEUE_LENGTH>')
+            aliases.append(f'using {struct_name}Topic = SRIMBQueueTopic<{struct_name}Data, {struct_name}Metadata::QUEUE_LENGTH>;')
         else:
-            aliases.append(f'using {topic_name if topic_name else struct_name} = SRIMBTopic<{struct_name}Data>')
+            aliases.append(f'using {struct_name}Topic = SRIMBTopic<{struct_name}Data>;')
 
 
         header = generate_header(struct_name, fields)

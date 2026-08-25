@@ -12,7 +12,10 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 #include "HAL.hpp"
 #include "HAL_configs.hpp"
 
-#include "uav_types.hpp"
+
+#include "data_types/DataTypes.h"
+
+#include "srimb_topics/TopicTypes.h"
 
 #ifdef CONFIG_LOGGER_ENABLED
 //#include "Logger.hpp"
@@ -27,7 +30,7 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 #include "WorkQueue.hpp"
 
 using namespace infinity_autopilot;
-using namespace infinity_autopilot::tasks;
+//using namespace infinity_autopilot::tasks;
 using namespace infinity_autopilot::scheduler;
 
 //K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
@@ -44,10 +47,10 @@ static WorkQueue fast_sensors_wq;
  *              Topic instances
  ---------------------------------------------*/
 
-static srimb::SRIMBQueueTopic<RawAccData, 8> raw_acc_topic[IMU_INSTANCES];
-static srimb::SRIMBQueueTopic<RawGyroData, 8> raw_gyro_topic[IMU_INSTANCES];
+static srimb::RawAccTopic raw_acc_topic[IMU_INSTANCES];
+static srimb::RawGyroTopic raw_gyro_topic[IMU_INSTANCES];
 
-static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
+//static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
 /**---------------------------------------------
  *              Task instances

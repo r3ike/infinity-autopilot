@@ -8,18 +8,26 @@ function(topic_generation)
 
     set(GENERATOR       ${CMAKE_SOURCE_DIR}/scripts/srimb/generate_topic.py)
     set(INPUT_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/topic)
-    set(OUTPUT_DIR      ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topic)
-    set(OUT_HPP         ${CMAKE_BINARY_DIR}/generated/param_defs.hpp)
-    set(OUT_CPP         ${CMAKE_BINARY_DIR}/generated/param_defs.cpp)
+    set(OUTPUT_DIR      ${CMAKE_CURRENT_BINARY_DIR}/generated)
 
     # Raccoglie tutti i .topic come dipendenze esplicite
-    file(GLOB TOPIC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/topic/*.topic")
+    # CONFIGURE_DEPENDS aggiorna automaticamente la lista qunado si aggiungono/rimuovono file .topic
+    file(GLOB TOPIC_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/topic/*.topic")
+
+    if(NOT TOPIC_FILES)
+        message(WARNING "No .topic files found in ${CMAKE_CURRENT_SOURCE_DIR}/topic")
+        return()
+    endif()
 
     set(GENERATED_HEADERS)
     foreach(topic ${TOPIC_FILES})
         get_filename_component(name ${topic} NAME_WE)
-        list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topic/${name}.h)
+        list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/data_types/${name}.h)
     endforeach()
+
+    list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/data_types/DataTypes.h)
+    list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topics/TopicMetadata.h)
+    list(APPEND GENERATED_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/generated/srimb_topics/TopicTypes.h)
 
     add_custom_command(
         OUTPUT ${GENERATED_HEADERS}
@@ -30,12 +38,10 @@ function(topic_generation)
         COMMENT "Generating message headers from .topic files"
     )
 
-    add_custom_target(generate_params
-        DEPENDS ${OUT_HPP} ${OUT_CPP}
+    add_custom_target(generate_topic
+        DEPENDS ${GENERATED_HEADERS}
     )
     
-    # Espone le variabili al chiamante tramite PARENT_SCOPE
-    set(PARAM_DEFS_HPP ${OUT_HPP} PARENT_SCOPE)
-    set(PARAM_DEFS_CPP ${OUT_CPP} PARENT_SCOPE)
+    set(TOPIC_GENERATED_HEADERS ${GENERATED_HEADERS} PARENT_SCOPE)
 
 endfunction()

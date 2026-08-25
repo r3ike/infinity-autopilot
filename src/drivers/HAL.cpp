@@ -37,8 +37,8 @@ HAL::HAL()
 HAL::~HAL(){}
 
 void HAL::init(
-    srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[IMU_INSTANCES],
-    srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[IMU_INSTANCES],
+    srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
+    srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
     WorkQueue& fast_sensors_wq
 )
 {

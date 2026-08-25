@@ -61,7 +61,7 @@ public:
         k_mutex_unlock(&mtx_);
     }
 
-    bool updated(const SRIMBSub& sub){
+    bool updated(SRIMBSub& sub){
         k_mutex_lock(&mtx_, K_FOREVER);
         bool has_new = sub.get_last_generation() < generation_;
         k_mutex_unlock(&mtx_);

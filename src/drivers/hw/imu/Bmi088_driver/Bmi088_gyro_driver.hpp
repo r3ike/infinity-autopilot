@@ -10,7 +10,9 @@
 #include "WorkQueue.hpp"
 #include "WorkItem.hpp"
 #include "SRIMB.hpp"
-#include "uav_types.hpp"
+#include "data_types/DataTypes.h"
+
+#include "srimb_topics/TopicTypes.h"
 
 class Bmi088_gyro_driver : public WorkItemBase<Bmi088_gyro_driver>
 {
@@ -23,7 +25,7 @@ public:
     ~Bmi088_gyro_driver() {
     };
 
-    bool init (uint8_t unique_id, srimb::SRIMBTopic<RawGyroData>& topic, WorkQueue& wq) {
+    bool init (uint8_t unique_id, srimb::RawGyroTopic& topic, WorkQueue& wq) {
         id_ = unique_id;
 
         raw_gyro_topic_ = &topic;
@@ -89,7 +91,7 @@ public:
 
 private:
     WorkQueue* fast_sensors_wq_;
-    srimb::SRIMBTopic<RawGyroData>* raw_gyro_topic_;
+    srimb::RawGyroTopic* raw_gyro_topic_;
 
     uint8_t id_;
     const char* model_;

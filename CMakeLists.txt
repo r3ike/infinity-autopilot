@@ -19,6 +19,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(params_generation)
 param_generation()   # setta PARAM_DEFS_HPP e PARAM_DEFS_CPP
 
+# ── Generazione codice parametri
+include(topic_generation)
+topic_generation()   # setta TOPIC_GENERATED_HEADERS
+
 add_subdirectory(lib)
 
 add_subdirectory(platform/infinity)
@@ -33,3 +37,4 @@ add_subdirectory(src/entry)
 target_sources(app PRIVATE ${PARAM_DEFS_CPP})
 zephyr_include_directories(${CMAKE_BINARY_DIR}/generated)
 add_dependencies(app generate_params)
+add_dependencies(app generate_topic)

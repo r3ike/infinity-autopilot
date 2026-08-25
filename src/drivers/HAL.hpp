@@ -18,6 +18,10 @@
 
 #include "uav_types.hpp"
 
+#include "data_types/DataTypes.h"
+
+#include "srimb_topics/TopicTypes.h"
+
 
 
 struct HALState{
@@ -54,7 +58,7 @@ public:
 
     void set_id(uint8_t id){id_ = id;}
     
-    virtual bool init(uint8_t unique_id, srimb::SRIMBTopic<RawAccData>& acc_topic, srimb::SRIMBTopic<RawGyroData>& gyro_topic, WorkQueue& wq) = 0;
+    virtual bool init(uint8_t unique_id, srimb::RawAccTopic& acc_topic, srimb::RawGyroTopic& gyro_topic, WorkQueue& wq) = 0;
 };
 
 class HAL_GPS {
@@ -110,8 +114,8 @@ public:
     ~HAL();
 
     void init(
-        srimb::SRIMBTopic<RawAccData> (&raw_acc_topic)[IMU_INSTANCES],
-        srimb::SRIMBTopic<RawGyroData> (&raw_gyro_topic)[IMU_INSTANCES],
+        srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
+        srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
         WorkQueue& fast_sensors_wq
     );
 

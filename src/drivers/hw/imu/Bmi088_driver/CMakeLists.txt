@@ -5,7 +5,7 @@ if(CONFIG_BMI088_DRIVER_ENABLED)
     target_include_directories(driver_bmi088 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
     target_link_libraries(driver_bmi088 INTERFACE zephyr_interface 
-                                               infinity_platform
+                                               
                                                hal
                                                utils
                                                stdc++

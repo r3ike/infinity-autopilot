@@ -3,7 +3,7 @@
 #include <zephyr/kernel.h>
 #include <cstdint>
 #include <cstring>
-
+#include <new>
 
 template <typename data_type>
 class RingBuffer
@@ -132,7 +132,7 @@ public:
      * Metodo che accetta un puntatore ad array e la sua lunghezza e copia gli elementi nel buffer circolare
      */
     void push_batch(const data_type* src, size_t len){
-        if (!data || len == 0) return;
+        if (!src || len == 0) return;
         k_mutex_lock(&mtx_, K_FOREVER);
 
         size_t free_space = _size - _count;

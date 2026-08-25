@@ -6,9 +6,12 @@
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
 #include "SRIMB.hpp"
+#include "SRIMBQueueTopic.hpp"
 #include "SRIMBWorkItemSub.hpp"
 
-#include "uav_types.hpp"
+#include "data_types/DataTypes.h"
+
+#include "srimb_topics/TopicTypes.h"
 
 /**
  * Classe che si occupa di effettuare il preprocessing dei sample delle imu:
@@ -16,11 +19,11 @@
  *  - calibration
  *  - checks (...)
  */
-class ImuPreprocessor : public WorkItemBase<Test2>, public srimb::SRIMBWorkItemSub
+class ImuPreprocessor : public WorkItemBase<ImuPreprocessor>, public srimb::SRIMBWorkItemSub
 {
 
 public:
-    ImuPreprocessor(srimb::SRIMBTopic<RawGyroData> &raw_gyro_topic, srimb::SRIMBTopic<RawAccData> &raw_acc_topic):
+    ImuPreprocessor(srimb::RawGyroTopic &raw_gyro_topic, srimb::RawAccTopic &raw_acc_topic):
         raw_gyro_topic_(raw_gyro_topic),
         raw_acc_topic_(raw_acc_topic)
             {
@@ -41,8 +44,8 @@ public:
     }
 
 private:
-    srimb::SRIMBTopic<RawGyroData>& raw_gyro_topic_;
-    srimb::SRIMBTopic<RawAccData>& raw_acc_topic_;
+    srimb::RawGyroTopic& raw_gyro_topic_;
+    srimb::RawAccTopic& raw_acc_topic_;
 
     srimb::SRIMBSub gyro_sub_;
     srimb::SRIMBSub acc_sub_;
