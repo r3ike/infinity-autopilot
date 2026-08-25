@@ -12,7 +12,6 @@
 
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMB.hpp"
 #include "HAL.hpp"
 #include "data_types/DataTypes.h"
 

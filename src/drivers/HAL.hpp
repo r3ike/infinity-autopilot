@@ -13,7 +13,6 @@
 
 #include "WorkQueue.hpp"
 #include "Vector3f.h"
-#include "SRIMB.hpp"
 #include "HAL_configs.hpp"
 
 #include "uav_types.hpp"

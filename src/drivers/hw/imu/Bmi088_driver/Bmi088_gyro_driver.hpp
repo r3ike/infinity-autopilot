@@ -9,7 +9,6 @@
 
 #include "WorkQueue.hpp"
 #include "WorkItem.hpp"
-#include "SRIMB.hpp"
 #include "data_types/DataTypes.h"
 
 #include "srimb_topics/TopicTypes.h"

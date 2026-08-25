@@ -7,7 +7,6 @@
 #include <zephyr/autoconf.h>
 #include <cstdint>
 
-#include "SRIMB.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
 

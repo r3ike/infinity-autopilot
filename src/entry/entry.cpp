@@ -7,11 +7,8 @@
 
 LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
-#include "SRIMB.hpp"
-#include "SRIMBQueueTopic.hpp"
 #include "HAL.hpp"
 #include "HAL_configs.hpp"
-
 
 #include "data_types/DataTypes.h"
 
