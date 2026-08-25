@@ -102,7 +102,7 @@ def main():
         metadata.append(generate_metadata(struct_name, queue_len, topic_name))
 
         header = generate_header(struct_name, fields)
-        out_path = os.path.join(args.output_dir, f"{topic_name}.h")
+        out_path = os.path.join(args.output_dir, f"{struct_name}.h")
         with open(out_path, 'w') as f:
             f.write(header)
 
