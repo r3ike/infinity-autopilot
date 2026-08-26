@@ -28,7 +28,7 @@ assignees: ''
 - **OS**: [es. Linux/Windows/macOS]
 - **Versione OS**: [es. Ubuntu 22.04]
 - **Hardware**: [es. Teensy 4.1]
-- **Versione Branch**: [es. main/develop]
+- **Versione Branch**: [es. main, feature/gps-integration]
 - **Compilatore**: [es. arm-none-eabi-gcc 11.3]
 - **CMake Version**: 
 - **Zephyr Version**: 
