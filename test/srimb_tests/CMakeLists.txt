@@ -4,6 +4,8 @@ project(srimb_topic_test)
 
 FILE(GLOB test_sources src/*.cpp)  # includi i sorgenti del modulo
 
-target_link_libraries(app PRIVATE SRIMB)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../platform/infinity/SRIMB srimb_build)
+
+target_link_libraries(app PRIVATE SRIMB zephyr_interface stdc++ lib)
 
 target_sources(app PRIVATE ${test_sources})

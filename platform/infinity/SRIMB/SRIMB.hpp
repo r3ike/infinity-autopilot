@@ -2,7 +2,6 @@
 #include <cstdint>
 #include "SRIMBSub.hpp"
 #include "SRIMBWorkItemSub.hpp"
-#include <array>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
@@ -111,8 +110,8 @@ private:
      * TODO:
      *  - capire se si può togliere la classe SRIMBWorkItemSub e usare solo quella workitem
      */
-    std::array<SRIMBWorkItemSub*, MAX_WORK_ITEM> work_items_ ;          // Array contenente i work item da chiamare al publish su un topic   
-    std::size_t count_ {0};
+    SRIMBWorkItemSub* work_items_ [MAX_WORK_ITEM];          // Array contenente i work item da chiamare al publish su un topic   
+    size_t count_ {0};
 
     struct k_mutex mtx_{};
 };
