@@ -25,3 +25,8 @@ Una volta modificate le configurazione interessate è necessario eseguire nuovam
 ```bash
 west build -t clean
 ```
+
+## Launch
+```bash
+west twister -T test/srimb_tests -p native_sim/native/64 -v
+```
