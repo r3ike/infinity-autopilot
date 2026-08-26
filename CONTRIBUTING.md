@@ -18,7 +18,7 @@ Innanzitutto, grazie per aver considerato di contribuire a Infinity Autopilot! �
 ## Come Posso Contribuire?
 
 ### Segnalare Bug
-- Controlla prima se il bug è già stato segnalato nelle [issue aperte](https://github.com/reike94/infinity-autopilot/issues)
+- Controlla prima se il bug è già stato segnalato nelle [issue aperte](https://github.com/r3ike/infinity-autopilot/issues)
 - Se è un bug nuovo, usa il template "Bug Report"
 - Includi tutti i dettagli: OS, versione, hardware, step di riproduzione, log
 - Se possibile, fornisci un minimal reproducible example
@@ -55,7 +55,7 @@ git clone https://github.com/YOUR-USERNAME/infinity-autopilot.git
 cd infinity-autopilot
 
 # 3. Aggiungi il repository originale come upstream
-git remote add upstream https://github.com/reike/infinity-autopilot.git
+git remote add upstream https://github.com/r3ike/infinity-autopilot.git
 
 # 4. Sincronizza il tuo fork
 git fetch upstream
@@ -81,10 +81,9 @@ pip install -r requirements.txt  # se presente
 ### Naming Convention per i Branch
 
 ```
-stable                    # Branch di rilascio stabile
-main                 # Branch di sviluppo
+main                    # Branch di sviluppo predefinito
 feature/DESCRIPTION     # Nuove feature (es: feature/gps-integration)
-fix/DESCRIPTION      # Bug fix (es: bugfix/sensor-calibration)
+fix/DESCRIPTION         # Bug fix (es: fix/sensor-calibration)
 docs/DESCRIPTION        # Documentazione (es: docs/api-guide)
 refactor/DESCRIPTION    # Refactoring (es: refactor/scheduler-cleanup)
 ```
@@ -121,7 +120,7 @@ CATTIVO: New thing
 1. **Sincronizza con upstream**
    ```bash
    git fetch upstream
-   git rebase upstream/develop
+   git rebase upstream/main
    ```
 
 2. **Crea un branch descrittivo**
@@ -296,8 +295,8 @@ Seguiamo [Semantic Versioning](https://semver.org/):
 
 ## Domande?
 
-- 📖 Consulta la [Wiki](https://github.com/reike/infinity-autopilot/wiki)
-- 💬 Apri una [Discussion](https://github.com/reike/infinity-autopilot/discussions)
+- 📖 Consulta la [Wiki](https://github.com/r3ike/infinity-autopilot/wiki)
+- 💬 Apri una [Discussion](https://github.com/r3ike/infinity-autopilot/discussions)
 - 📧 Contatta i maintainer
 - 🐛 Segnala un bug se qualcosa non è chiaro
 
