@@ -3,7 +3,7 @@
 #include "param_manager.hpp"
 #include <vector>
 
-namespace infinity {
+namespace infinity::params {
 
 // Classe base astratta per tutti i moduli che hanno parametri
 class ModuleParams {

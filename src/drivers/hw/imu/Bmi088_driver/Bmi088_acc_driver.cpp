@@ -10,7 +10,7 @@ Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t instance_id, con
     unique_id_(0xFF),
     accel_dev_(accel_dev)
 {
-    init_logging(imu_bmi088_log_instance_get(instance_id));
+    init_logging(imu_bmi088_acc_log_instance_get(instance_id));
 
     trig_accel_ = {
         .type = SENSOR_TRIG_DATA_READY,
@@ -25,21 +25,20 @@ bool Bmi088_acc_driver::init(uint8_t unique_id, srimb::RawAccTopic& topic, WorkQ
     raw_acc_topic_ = &topic;
     fast_sensors_wq_ = &wq;
 
-    //init_logging(model_, id_);
 
     if (!device_is_ready(accel_dev_)) {
-        //log_err("Accel device not ready!");
+        log_err("Accel device not ready!");
         return false;
     }
 
-    //log_inf("Accel ready.");    // capire se metterli dbg
+    log_inf("Accel ready.");    // capire se metterli dbg
 
     if(sensor_trigger_set(accel_dev_, &trig_accel_, accel_isr_handler) < 0){
-        //log_err("Impossibile impostare il trigger acc!");
+        log_err("Impossibile impostare il trigger acc!");
         return false;
     }
 
-    //log_inf("Accel's trigger configured."); // capire se metterli dbg
+    log_inf("Accel's trigger configured."); // capire se metterli dbg
     return true; 
 }
 
@@ -58,7 +57,7 @@ void Bmi088_acc_driver::handler() {
 
     RawAccData data = {
         .timestamp = timestamp_us,
-        .id = id_,
+        .id = unique_id_,
         // aggiunger anche il modello
         .x = sensor_value_to_float(&accel[0]),
         .y = sensor_value_to_float(&accel[1]),

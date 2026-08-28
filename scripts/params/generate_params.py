@@ -34,7 +34,7 @@ def generate(schema_root, output_dir):
     # Genera param_defs.hpp
     with open(os.path.join(output_dir, 'param_defs.hpp'), 'w') as f:
         f.write("#pragma once\n#include <cstdint>\n\n")
-        f.write("namespace autopilot::params {\n\n")
+        f.write("namespace infinity::params {\n\n")
         f.write("enum class ID : uint16_t {\n")
         for i, p in enumerate(params):
             f.write(f"    {p['name']} = {i},\n")
@@ -50,12 +50,12 @@ def generate(schema_root, output_dir):
         f.write("    const char* desc;\n")
         f.write("};\n\n")
         f.write("extern const Metadata g_param_metadata[];\n\n")
-        f.write("} // namespace autopilot::params\n")
+        f.write("} // namespace infinity::params\n")
     
     # Genera param_defs.cpp
     with open(os.path.join(output_dir, 'param_defs.cpp'), 'w') as f:
         f.write('#include "param_defs.hpp"\n\n')
-        f.write("namespace autopilot::params {\n\n")
+        f.write("namespace infinity::params {\n\n")
         f.write("const Metadata g_param_metadata[] = {\n")
         for p in params:
             default_str = ""

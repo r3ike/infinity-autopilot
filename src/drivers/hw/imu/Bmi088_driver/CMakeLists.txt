@@ -9,8 +9,7 @@ if(CONFIG_BMI088_DRIVER_ENABLED)
                                                hal
                                                utils
                                                stdc++
-                                               SRIMB
-                                               scheduler
+                                               infinity_platform
                                                )
     add_dependencies(driver_bmi088 offsets_h)
 endif()

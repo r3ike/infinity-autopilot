@@ -1,7 +1,9 @@
 // loggable.cpp
-#include "loggable.hpp"
+#include "Loggable.hpp"
 #include <zephyr/logging/log.h>
 #include <cstdio>
+
+LOG_LEVEL_SET(LOG_LEVEL_DBG); 
 
 bool Loggable::init_logging(const struct log_source_const_data* inst) {
     log_inst = inst;

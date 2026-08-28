@@ -25,12 +25,11 @@ class Bmi088_driver : public IHAL_IMU
 {
 
 public:
-    Bmi088_driver(const char* model, const struct device *accel_dev, 
-                  const struct device *gyro_dev) 
-          : IHAL_IMU(model),
-            acc_driver_(model, accel_dev),
-            gyro_driver_(model, gyro_dev)
-        {};
+    Bmi088_driver(const char* model, uint8_t instance_id, const struct device *accel_dev, const struct device *gyro_dev):
+        IHAL_IMU(model),
+        acc_driver_(model, instance_id, accel_dev),
+        gyro_driver_(model, instance_id, gyro_dev)
+    {};
 
     ~Bmi088_driver() = default;
 

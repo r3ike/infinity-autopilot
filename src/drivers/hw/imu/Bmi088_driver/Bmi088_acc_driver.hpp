@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "HAL_configs.hpp"
+#include "Loggable.hpp"
 
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
@@ -37,7 +38,6 @@ private:
     const char* model_;
 
     const struct device *accel_dev_;
-    
     struct sensor_trigger trig_accel_ {};
 
     static void accel_isr_handler(const struct device *dev, const struct sensor_trigger *trig) {
