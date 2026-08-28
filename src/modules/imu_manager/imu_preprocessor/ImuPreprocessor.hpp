@@ -3,6 +3,8 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <cstdint>
+
+#include "Loggable.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
 #include "SRIMB.hpp"
@@ -19,7 +21,7 @@
  *  - calibration
  *  - checks (...)
  */
-class ImuPreprocessor : public WorkItemBase<ImuPreprocessor>, public srimb::SRIMBWorkItemSub
+class ImuPreprocessor : public WorkItemBase<ImuPreprocessor>, public srimb::SRIMBWorkItemSub, public Loggable
 {
 
 public:

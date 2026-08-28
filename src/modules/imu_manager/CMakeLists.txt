@@ -6,10 +6,9 @@ target_sources(modules_imu_manager PRIVATE
 
 target_include_directories(modules_imu_manager PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(modules_imu_manager PUBLIC 
-                            zephyr_interface 
-                            SRIMB 
-                            hal 
-                            scheduler 
+                            zephyr_interface
+                            hal
                             utils
                             stdc++
+                            infinity_platform
                         )
