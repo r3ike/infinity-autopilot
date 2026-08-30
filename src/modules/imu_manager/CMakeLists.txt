@@ -11,4 +11,5 @@ target_link_libraries(modules_imu_manager PUBLIC
                             utils
                             stdc++
                             infinity_platform
+                            Eigen3::Eigen
                         )

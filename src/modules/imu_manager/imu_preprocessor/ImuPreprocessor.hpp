@@ -28,9 +28,10 @@ public:
     ImuPreprocessor(srimb::RawGyroTopic &raw_gyro_topic, srimb::RawAccTopic &raw_acc_topic):
         raw_gyro_topic_(raw_gyro_topic),
         raw_acc_topic_(raw_acc_topic)
-            {
-                raw_gyro_topic_.register_work_item(this);
-            };
+    {
+        raw_gyro_topic_.register_work_item(this);
+    };
+    
     ~ImuPreprocessor() = default;
 
     void handler(){

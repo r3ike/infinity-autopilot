@@ -1,4 +1,3 @@
-find_package(Eigen3 REQUIRED)
 
 add_library(modules_ekf STATIC)
 target_sources(modules_ekf PRIVATE ekf.cpp)

@@ -7,6 +7,16 @@ configure_platform()
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
 
+include(FetchContent)
+
+FetchContent_Declare(
+    eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG        master  # O un tag specifico come 3.4.0
+)
+
+FetchContent_MakeAvailable(eigen)
+
 #set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 project(Infinity-Autopilot VERSION 0.5 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
