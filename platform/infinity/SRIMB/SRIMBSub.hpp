@@ -8,6 +8,15 @@ namespace srimb
      * TODO:
      *  - aggiungere subscriber name
      */
+
+struct WorkItemCallback
+{
+    WorkItemBase* work_item {nullptr};
+    WorkQueue* work_queue {nullptr};
+    uint8_t required_updates{1};        // numero di update richiesti per il submit del workitem
+    uint8_t updates_count{0};
+};
+
 class SRIMBSub
 {
 private:

@@ -1,6 +1,8 @@
 #pragma once
 
-
+namespace srimb
+{
+    
 /**
  * La classe SRIMB si occupa di gestire in modo centralizzato tutti i topic
  */
@@ -14,4 +16,8 @@ public:
 private:
     /* data */
 };
+
+} // namespace srimb
+
+
 

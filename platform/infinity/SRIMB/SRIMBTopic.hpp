@@ -110,7 +110,7 @@ private:
         
     }
 
-    void submit_single_workitems(WorkItemCallback& cb){
+    void submit_single_workitem(WorkItemCallback& cb){
         WorkQueue* wq = cb.work_queue;
 
         if (wq)
