@@ -7,9 +7,8 @@
 #include "Loggable.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMB.hpp"
+#include "SRIMBTopic"
 #include "SRIMBQueueTopic.hpp"
-#include "SRIMBWorkItemSub.hpp"
 
 #include "data_types/DataTypes.h"
 
@@ -21,7 +20,7 @@
  *  - calibration
  *  - checks (...)
  */
-class ImuPreprocessor : public WorkItemBase<ImuPreprocessor>, public srimb::SRIMBWorkItemSub, public Loggable
+class ImuPreprocessor : public WorkItem<ImuPreprocessor>, public Loggable
 {
 
 public:
@@ -38,13 +37,6 @@ public:
 
     }
 
-    struct k_work* getWorkItem() override {
-        return &this->work_;
-    }
-
-    struct k_work_q* getWorkQueue() override {
-        return nullptr;
-    }
 
 private:
     srimb::RawGyroTopic& raw_gyro_topic_;

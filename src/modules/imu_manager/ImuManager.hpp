@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include "imu_preprocessor/ImuPreprocessor.hpp"
-#include "SRIMB.hpp"
+#include "SRIMBTopic"
 #include "SRIMBQueueTopic.hpp"
 #include "data_types/DataTypes.h"
 

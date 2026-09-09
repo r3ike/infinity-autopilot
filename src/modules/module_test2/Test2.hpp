@@ -4,12 +4,11 @@
 #include <cstdint>
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMB.hpp"
-#include "SRIMBWorkItemSub.hpp"
+#include "SRIMBTopic"
 
 #include "uav_types.hpp"
 
-class Test2 : public WorkItemBase<Test2>, public srimb::SRIMBWorkItemSub
+class Test2 : public WorkItem<Test2>
 {
 public:
     Test2(srimb::SRIMBTopic<ImuData>& topic) : imu_topic_(topic) {

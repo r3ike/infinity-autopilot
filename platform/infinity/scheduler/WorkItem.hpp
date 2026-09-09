@@ -2,15 +2,17 @@
 #include <zephyr/kernel.h>
 #include "WorkQueue.hpp"
 
-template<typename Derived>
-class WorkItemBase {
+#include "WorkItemBase.hpp"
+
+template<typename Derived> : public WorkItemBase
+class WorkItem {
 public:
     WorkItemBase() {
-        k_work_init(&work_, &WorkItemBase::trampoline);
+        k_work_init(&work_, &WorkItem::trampoline);
     }
 
-    int submit() { return k_work_submit(&work_); }
-    int submitTo(WorkQueue &wq) {
+    int submit() override { return k_work_submit(&work_); }
+    int submitTo(WorkQueue &wq) override {
         return k_work_submit_to_queue(wq.c_ptr(), &work_);
     }
     // ... altri metodi ...

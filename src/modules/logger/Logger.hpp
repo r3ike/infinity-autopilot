@@ -9,7 +9,7 @@
 
 #include "LoggerMsgs.hpp"
 #include "HAL_configs.hpp"
-#include "SRIMB.hpp"
+#include "SRIMBTopic"
 #include "uav_types.hpp"
 
 #define MAGIC_CHECK_BYTE 0xA5

@@ -101,7 +101,7 @@ def main():
     aliases.append("#include <cstddef>")
     # Includi il file che definisce SRIMBQueueTopic (assumendo che sia in un header separato)
     aliases.append('#include "SRIMBQueueTopic.hpp"')
-    aliases.append('#include "SRIMB.hpp"')
+    aliases.append('#include "SRIMBTopic"')
     aliases.append('#include "data_types/DataTypes.h"')
     
     # Includi il file TopicMetadata.h (serve per avere le costanti QUEUE_LENGTH)

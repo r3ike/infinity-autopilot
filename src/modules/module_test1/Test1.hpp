@@ -3,7 +3,7 @@
 #include <zephyr/logging/log.h>
 #include <cstdint>
 #include "ITask.hpp"
-#include "SRIMB.hpp"
+#include "SRIMBTopic"
 #include "uav_types.hpp"
 
 

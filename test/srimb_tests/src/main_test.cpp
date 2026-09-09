@@ -1,5 +1,5 @@
 #include <zephyr/ztest.h>
-#include "SRIMB.hpp"
+#include "SRIMBTopic"
 #include "SRIMBSub.hpp"
 #include "test_fakes.hpp"
 
