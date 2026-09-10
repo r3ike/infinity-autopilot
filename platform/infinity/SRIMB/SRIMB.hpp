@@ -13,6 +13,8 @@ public:
     SRIMBTopicManager(/* args */);
     ~SRIMBTopicManager();
 
+    void getTopic();
+
 private:
     /* data */
 };
