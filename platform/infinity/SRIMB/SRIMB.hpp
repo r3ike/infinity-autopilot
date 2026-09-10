@@ -1,4 +1,13 @@
 #pragma once
+#include <zephyr/kernel.h>
+#include <cstdint>
+
+#include <unordered_map>
+#include <vector>
+#include <string>   // TODO: cercare di togliere allocazione dinamnica
+
+#include "SRIMBTopicBase.hpp"
+#include "SRIMBSub.hpp"
 
 namespace srimb
 {
@@ -13,10 +22,11 @@ public:
     SRIMBTopicManager(/* args */);
     ~SRIMBTopicManager();
 
-    void getTopic();
+    SRIMBTopicBase& getTopic(const char *name, uint8_t instance_id);
 
 private:
-    /* data */
+    
+    std::unordered_map<std::string, std::vector<SRIMBTopicBase>> topics_ ;
 };
 
 } // namespace srimb

@@ -1,10 +1,13 @@
 #pragma once
-#include "SRIMBSub.hpp"
-#include "SRIMBWorkItemSub.hpp"
+
 #include "ringbuffer/RingBuffer.hpp"
 #include <array>
 #include <zephyr/kernel.h>
 #include <cstdint>
+
+#include "SRIMBSub.hpp"
+#include "SRIMBTopicBase.hpp"
+#include "SRIMBWorkItemScheduling.hpp"
 
 #define MAX_WORK_ITEM 32
 
@@ -18,12 +21,7 @@ struct Topic
     uint64_t generation = 0;
 };
 
-struct WorkItemSchedule
-{
-    SRIMBWorkItemSub* work_item;
-    uint8_t required_updates{1};        // numero di update richiesti per il submit del workitem
-    uint8_t updates_count{0};
-};
+
 
     
 template <typename T, uint8_t QUEUE_LEN>
@@ -37,10 +35,7 @@ public:
         k_mutex_init(&mtx_);
     };
 
-
-    ~SRIMBQueueTopic() {
-
-    };
+    ~SRIMBQueueTopic() = default;
 
     void publish(T& msg_data){
         k_mutex_lock(&mtx_, K_FOREVER);
@@ -57,7 +52,7 @@ public:
         oldest_generation_ = msg.generation;
 
 
-        submit_workitems();     // aggiungere il logging (level dbg) del numero di workitem inviati
+        submitWorkitems();     // aggiungere il logging (level dbg) del numero di workitem inviati
         k_mutex_unlock(&mtx_);
     }
 
@@ -99,64 +94,7 @@ public:
         return true;
     }
 
-    bool register_work_item(SRIMBWorkItemSub* sub){
-        k_mutex_lock(&mtx_, K_FOREVER);
-        if (workitem_count_ >= MAX_WORK_ITEM)
-        {
-            k_mutex_unlock(&mtx_);
-            return false;
-        }
-
-        work_items_[workitem_count_++] = {
-            .work_item = sub,
-            .required_updates = 1,
-            .updates_count = 0
-        };
-        k_mutex_unlock(&mtx_);
-        return true;
-        
-    }
-
-    bool register_work_item(SRIMBWorkItemSub* sub, uint8_t required_updates){
-        k_mutex_lock(&mtx_, K_FOREVER);
-        if (workitem_count_ >= MAX_WORK_ITEM)
-        {
-            k_mutex_unlock(&mtx_);
-            return false;
-        }
-
-        work_items_[workitem_count_++] = {
-            .work_item = sub,
-            .required_updates = required_updates,
-            .updates_count = 0
-        };
-        k_mutex_unlock(&mtx_);
-        return true;
-        
-    }
-
-    bool set_required_updates(SRIMBWorkItemSub* sub, uint8_t required_updates){
-        k_mutex_lock(&mtx_, K_FOREVER);
-        for (size_t i = 0; i < workitem_count_; i++)
-        {
-            WorkItemSchedule* w = &work_items_[i];
-            if (w->work_item == sub)
-            {
-                w->required_updates = required_updates;
-                w->updates_count = 0;
-                k_mutex_unlock(&mtx_);
-                return true;
-            }
-            
-        }
-        k_mutex_unlock(&mtx_);
-        return false;
-    }
-
-    void unregister_work_item(){
-
-    }
-
+ 
 
 
 private:
@@ -167,43 +105,6 @@ private:
     uint64_t generation_ {0};
     uint64_t oldest_generation_ {0};
 
-    std::array<WorkItemSchedule, MAX_WORK_ITEM> work_items_ ;          // Array contenente i work item da chiamare al publish su un topic   
-    std::size_t workitem_count_ {0};
-
-    /**
-     * Metodo privato per fare il submit dei workitem registrati.
-     * il submit sarà effettuato solo se la condizione di invio è rispettata
-     * Il metodo ritorna il numero di workitem inviati alla workqueue
-     */
-    uint8_t submit_workitems(){
-        uint8_t submited_count = 0;
-        for (size_t i = 0; i < workitem_count_; i++)
-        {
-            WorkItemSchedule* w = &work_items_[i];
-            w->updates_count++;
-            if (w->updates_count >= w->required_updates)
-            {
-                submit_single_workitems(w->work_item);
-                submited_count++;
-                w->updates_count=0;
-            }
-        }
-        
-
-        return submited_count;
-    }
-
-    void submit_single_workitems(SRIMBWorkItemSub* workitem){
-        struct k_work_q* queue = workitem->getWorkQueue();
-
-        if (queue)
-        {
-            k_work_submit_to_queue(queue, workitem->getWorkItem());
-        }else{
-            k_work_submit(workitem->getWorkItem());
-        }
-        
-    }
 };
 
 

@@ -1,13 +1,13 @@
 #pragma once
 #include <cstdint>
-#include "SRIMBSub.hpp"
-#include "WorkItemBase.hpp"
-#include "WorkQueue.hpp"
+
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
 #include "SRIMBTopicBase.hpp"
 #include "SRIMBWorkItemScheduling.hpp"
+#include "SRIMBSub.hpp"
+
 
 /**
      * TODO:
@@ -45,7 +45,7 @@ public:
 
         k_mutex_unlock(&mtx_);
 
-        submit_all_workitems();
+        submitWorkitems();
     }
 
     
@@ -77,15 +77,11 @@ public:
     }
 
 
-
 private:
-
 
     T data_ {};
     uint64_t generation_ {0};   // generation id of the msg
 
-    
-    
 };
 
 } // namespace srimb
