@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/zephyrproject-rtos/ci:v0.28.7
+      options: --entrypoint /bin/bash
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: firmware
+          submodules: recursive
+
+      - name: Installa dipendenze
+        run: |
+          sudo apt-get update
+          
+          west init -l .
+          west update
+
+          python3 -m venv --system-site-packages venv
+          source venv/bin/activate
+
+          pip install -r zephyr/scripts/requirements.txt
+          pip install -e .[dev]
+
+      - name: Compila
+        run: west build -b native_sim/native/64  . -- -DTARGET_PLATFORM=SITL
+
+      - name: Carica artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: infinity-autopilot-build-sitl
+          path: build
+          retention-days: 7
