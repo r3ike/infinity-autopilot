@@ -1,0 +1,23 @@
+name: First Infinity CI test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Stampa messaggio
+        run: echo "Ciao da Infinity-autopilot! Commit ${{ github.sha }}"
+
+      - name: Mostra info runner
+        run: |
+          echo "OS: ${{ runner.os }}"
+          echo "Architettura: ${{ runner.arch }}"
+          nproc
+          free -h
