@@ -16,14 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: firmware
+          path: infinity
           submodules: recursive
 
       - name: Installa dipendenze
         run: |
           sudo apt-get update
           
-          west init -l .
+          west init -l infinity
+
+          cd infinity
           west update
 
           python3 -m venv --system-site-packages venv
