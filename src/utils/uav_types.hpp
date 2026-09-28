@@ -6,8 +6,6 @@ struct RawImuData {
 
 };
 
-
-
 struct ImuData {
     Vector3f raw_acc;
     Vector3f raw_gyro;
