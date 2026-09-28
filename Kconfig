@@ -19,13 +19,13 @@ config TARGET_TEENSY41
 endchoice
 
 menu "Drivers Configuration"
-source "../src/drivers/Kconfig"
+rsource "src/drivers/Kconfig"
 endmenu
 
 menu "Modules Configuration"
-source "../src/modules/Kconfig"
+rsource "src/modules/Kconfig"
 endmenu
 
 menu "Scheduler Configuration"
-source "../platform/infinity/scheduler/Kconfig"
+rsource "platform/infinity/scheduler/Kconfig"
 endmenu

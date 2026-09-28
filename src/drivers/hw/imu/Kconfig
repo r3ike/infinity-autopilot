@@ -6,7 +6,7 @@ config IMU_SAMPLE_FREQUENCY
     default 500
     
 
-source "../src/drivers/hw/imu/Bmi088_driver/Kconfig"
+rsource "Bmi088_driver/Kconfig"
 
-source "../src/drivers/hw/imu/ICM42688P_driver/Kconfig"
+rsource "ICM42688P_driver/Kconfig"
 endmenu
