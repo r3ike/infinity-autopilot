@@ -22,7 +22,7 @@ jobs:
 
       # Cache dell'SDK e del workspace west
       - name: Cache SDK e west
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             /home/runner/zephyr-sdk
