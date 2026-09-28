@@ -29,7 +29,7 @@ jobs:
             /home/runner/.cache/pip
             ${{ github.workspace }}/modules
             ${{ github.workspace }}/zephyr
-          key: zephyr-${{ runner.os }}-${{ hashFiles('app/west.yml') }}
+          key: zephyr-${{ runner.os }}-${{ hashFiles('infinity/west.yml') }}
           restore-keys: |
             zephyr-${{ runner.os }}-
 
@@ -42,3 +42,16 @@ jobs:
       - name: Build
         working-directory: infinity
         run: west build -b native_sim/native/64 -p always  . -- -DTARGET_PLATFORM=SITL
+
+      - name: Upload artifact
+        if: always()                       # carica anche se la build fallisce (log utili)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zephyr-native-sim-${{ github.sha }}
+          path: |
+            infinity/build/zephyr/zephyr.elf
+            infinity/build/zephyr/zephyr.exe
+            infinity/build/zephyr/zephyr.map
+            infinity/build/compile_commands.json
+          if-no-files-found: error         # fallisce se la build non ha prodotto nulla
+          retention-days: 7
