@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           path: infinity
+          submodules: 'recursive' 
 
       # Cache dell'SDK e del workspace west
       - name: Cache SDK e west
