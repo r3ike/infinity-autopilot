@@ -1,0 +1,6 @@
+name: Build Infinity-autopilot
+
+inputs:
+  target:
+    description: 'Build target'
+    required: true

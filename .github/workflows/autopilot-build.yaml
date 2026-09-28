@@ -1,45 +1,44 @@
-name: Build
+name: Zephyr Build
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/zephyrproject-rtos/ci:v0.28.7
-      options: --entrypoint /bin/bash
+
     env:
-      CMAKE_PREFIX_PATH: /opt/toolchains
+      ZEPHYR_SDK_INSTALL_DIR: /home/runner/zephyr-sdk
+      ZEPHYR_TOOLCHAIN_VARIANT: zephyr
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           path: infinity
-          submodules: recursive
 
-      - name: Installa dipendenze
-        run: |
-          sudo apt-get update
-          
-          west init -l infinity
-
-          cd infinity
-          west update
-
-          python3 -m venv --system-site-packages venv
-          source venv/bin/activate
-
-          pip install -r zephyr/scripts/requirements.txt
-          pip install -e .[dev]
-
-      - name: Compila
-        run: west build -b native_sim/native/64  . -- -DTARGET_PLATFORM=SITL
-
-      - name: Carica artefatto
-        uses: actions/upload-artifact@v4
+      # Cache dell'SDK e del workspace west
+      - name: Cache SDK e west
+        uses: actions/cache@v4
         with:
-          name: infinity-autopilot-build-sitl
-          path: build
-          retention-days: 7
+          path: |
+            /home/runner/zephyr-sdk
+            /home/runner/.cache/pip
+            /home/runner/work/<tuo-repo>/<tuo-repo>/modules
+            /home/runner/work/<tuo-repo>/<tuo-repo>/zephyr
+          key: zephyr-${{ runner.os }}-${{ hashFiles('app/west.yml') }}
+          restore-keys: |
+            zephyr-${{ runner.os }}-
+
+      - name: Setup Zephyr
+        uses: zephyrproject-rtos/action-zephyr-setup@v1
+        with:
+          app-path: infinity
+          toolchains: arm-zephyr-eabi   # cambia se usi un'altra architettura
+
+      - name: Build
+        working-directory: infinity
+        run: west build -b native_sim/native/64  . -- -DTARGET_PLATFORM=SITL
