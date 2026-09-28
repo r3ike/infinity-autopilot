@@ -27,8 +27,8 @@ jobs:
           path: |
             /home/runner/zephyr-sdk
             /home/runner/.cache/pip
-            /home/runner/work/<tuo-repo>/<tuo-repo>/modules
-            /home/runner/work/<tuo-repo>/<tuo-repo>/zephyr
+            ${{ github.workspace }}/modules
+            ${{ github.workspace }}/zephyr
           key: zephyr-${{ runner.os }}-${{ hashFiles('app/west.yml') }}
           restore-keys: |
             zephyr-${{ runner.os }}-

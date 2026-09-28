@@ -7,7 +7,7 @@
 #include <zephyr/autoconf.h>
 #include <zephyr/sys/util.h>
 #include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
+
 #include <zephyr/drivers/gpio.h>
 #include <cstdint>  
 
