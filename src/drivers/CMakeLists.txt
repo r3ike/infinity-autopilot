@@ -13,3 +13,5 @@ else()
 
     target_link_libraries(hal PUBLIC drivers_sitl)
 endif()
+
+add_dependencies(hal offsets_h)

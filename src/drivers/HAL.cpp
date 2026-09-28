@@ -1,5 +1,4 @@
 #include "HAL.hpp"
-#include <zephyr/drivers/sensor.h>
 
 
 HAL::HAL()
