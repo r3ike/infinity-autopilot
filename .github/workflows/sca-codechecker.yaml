@@ -1,0 +1,70 @@
+name: Infinity-autopilot SCA
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'platform/**'
+      - 'lib/**'
+  pull_request:
+  workflow_dispatch:
+
+strategy:
+  fail-fast: true
+  matrix:
+    build-configs:
+      - {zephyr-board: "native_sim/native/64", target-platform: "SITL"}
+      - {zephyr-board: "teensy41", target-platform: "TEENSY41"}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      ZEPHYR_SDK_INSTALL_DIR: /home/runner/zephyr-sdk
+      ZEPHYR_TOOLCHAIN_VARIANT: zephyr
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          path: infinity
+          submodules: 'recursive' 
+
+      # Cache dell'SDK e del workspace west
+      - name: Cache SDK e west
+        uses: actions/cache@v6
+        with:
+          path: |
+            /home/runner/zephyr-sdk
+            /home/runner/.cache/pip
+            ${{ github.workspace }}/modules
+            ${{ github.workspace }}/zephyr
+          key: zephyr-${{ runner.os }}-${{ hashFiles('infinity/west.yml') }}
+          restore-keys: |
+            zephyr-${{ runner.os }}-
+
+      - name: Setup Zephyr
+        uses: zephyrproject-rtos/action-zephyr-setup@v1
+        with:
+          app-path: infinity
+          toolchains: arm-zephyr-eabi   # cambia se usi un'altra architettura
+
+      - name: Build with SCA and CodeChecker
+        working-directory: infinity
+        run: west build -b ${{ matrix.build-configs.zephyr-board }} -p always . -- \
+          -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }}
+          -DZEPHYR_SCA_VARIANT=codechecker \
+          -DCODECHECKER_PARSE_EXIT_STATUS=y \
+          -DCODECHECKER_EXPORT=html \
+          -DCODECHECKER_ANALYZE_JOBS=4
+
+      - name: Upload artifact
+        if: always()                       # carica anche se la build fallisce (log utili)
+        uses: actions/upload-artifact@v7
+        with:
+          name: codechecker-reports-${{ github.sha }}
+          path: build/sca/codechecker/
+          if-no-files-found: error         # fallisce se la build non ha prodotto nulla
+          retention-days: 7
