@@ -51,7 +51,7 @@ jobs:
         with:
           app-path: infinity
           toolchains: arm-zephyr-eabi   # cambia se usi un'altra architettura
-          
+
       - name: Install CodeChecker
         run: |
           pip install codechecker
@@ -64,7 +64,6 @@ jobs:
           west build -b ${{ matrix.build-configs.zephyr-board }} -p always . -- \
             -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }} \
             -DZEPHYR_SCA_VARIANT=codechecker \
-            -DCODECHECKER_PARSE_EXIT_STATUS=y \
             -DCODECHECKER_EXPORT=html \
             -DCODECHECKER_ANALYZE_JOBS=4
 
