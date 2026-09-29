@@ -51,6 +51,12 @@ jobs:
         with:
           app-path: infinity
           toolchains: arm-zephyr-eabi   # cambia se usi un'altra architettura
+          
+      - name: Install CodeChecker
+        run: |
+          pip install codechecker
+          # verifica che sia nel PATH
+          which CodeChecker || codechecker --version
 
       - name: Build with SCA and CodeChecker
         working-directory: infinity
