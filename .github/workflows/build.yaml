@@ -10,17 +10,16 @@ on:
   pull_request:
   workflow_dispatch:
 
-strategy:
-  fail-fast: true
-  matrix:
-    build-configs:
-      - {zephyr-board: "native_sim/native/64", target-platform: "SITL"}
-      - {zephyr-board: "teensy41", target-platform: "TEENSY41"}
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: true
+      matrix:
+        build-configs:
+          - {zephyr-board: "native_sim/native/64", target-platform: "SITL"}
+          - {zephyr-board: "teensy41", target-platform: "TEENSY41"}
+          
     env:
       ZEPHYR_SDK_INSTALL_DIR: /home/runner/zephyr-sdk
       ZEPHYR_TOOLCHAIN_VARIANT: zephyr
