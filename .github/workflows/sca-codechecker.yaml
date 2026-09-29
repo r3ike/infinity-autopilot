@@ -54,12 +54,13 @@ jobs:
 
       - name: Build with SCA and CodeChecker
         working-directory: infinity
-        run: west build -b ${{ matrix.build-configs.zephyr-board }} -p always . -- \
-          -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }} \
-          -DZEPHYR_SCA_VARIANT=codechecker \
-          -DCODECHECKER_PARSE_EXIT_STATUS=y \
-          -DCODECHECKER_EXPORT=html \
-          -DCODECHECKER_ANALYZE_JOBS=4
+        run: |
+          west build -b ${{ matrix.build-configs.zephyr-board }} -p always . -- \
+            -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }} \
+            -DZEPHYR_SCA_VARIANT=codechecker \
+            -DCODECHECKER_PARSE_EXIT_STATUS=y \
+            -DCODECHECKER_EXPORT=html \
+            -DCODECHECKER_ANALYZE_JOBS=4
 
       - name: Upload artifact
         if: always()                       # carica anche se la build fallisce (log utili)
