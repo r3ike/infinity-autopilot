@@ -21,7 +21,7 @@ jobs:
         build-configs:
           - {zephyr-board: "native_sim/native/64", target-platform: "SITL"}
           - {zephyr-board: "teensy41", target-platform: "TEENSY41"}
-          
+
     env:
       ZEPHYR_SDK_INSTALL_DIR: /home/runner/zephyr-sdk
       ZEPHYR_TOOLCHAIN_VARIANT: zephyr
@@ -55,7 +55,7 @@ jobs:
       - name: Build with SCA and CodeChecker
         working-directory: infinity
         run: west build -b ${{ matrix.build-configs.zephyr-board }} -p always . -- \
-          -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }}
+          -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }} \
           -DZEPHYR_SCA_VARIANT=codechecker \
           -DCODECHECKER_PARSE_EXIT_STATUS=y \
           -DCODECHECKER_EXPORT=html \
