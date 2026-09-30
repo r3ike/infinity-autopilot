@@ -65,7 +65,8 @@ jobs:
             -DTARGET_PLATFORM=${{ matrix.build-configs.target-platform }} \
             -DZEPHYR_SCA_VARIANT=codechecker \
             -DCODECHECKER_EXPORT=html \
-            -DCODECHECKER_ANALYZE_JOBS=4
+            -DCODECHECKER_ANALYZE_JOBS=4\
+            -DCODECHECKER_ANALYZE_OPTS="--ignore;${GITHUB_WORKSPACE}/infinity/codechecker_skip.txt"
 
       - name: Upload artifact
         if: always()
