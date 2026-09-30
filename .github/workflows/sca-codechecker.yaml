@@ -68,10 +68,10 @@ jobs:
             -DCODECHECKER_ANALYZE_JOBS=4
 
       - name: Upload artifact
-        if: always()                       # carica anche se la build fallisce (log utili)
+        if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: codechecker-reports-${{ github.sha }}
-          path: build/sca/codechecker/
-          if-no-files-found: error         # fallisce se la build non ha prodotto nulla
+          name: codechecker-reports-${{ matrix.build-configs.target-platform }}-${{ github.sha }}
+          path: ${{ github.workspace }}/infinity/build/sca/codechecker/
+          if-no-files-found: error
           retention-days: 7
