@@ -19,30 +19,30 @@
 class Bmi088_gyro_driver : public WorkItemBase<Bmi088_gyro_driver>, public Loggable
 {
 public:
-    Bmi088_gyro_driver(const char* model,uint8_t instance_id, const struct device *gyro_dev);
-    
-    ~Bmi088_gyro_driver();
+	Bmi088_gyro_driver(const char* model,uint8_t instance_id, const struct device *gyro_dev);
+	
+	~Bmi088_gyro_driver();
 
-    bool init (uint8_t unique_id, srimb::RawGyroTopic& topic, WorkQueue& wq);
+	bool init (uint8_t unique_id, srimb::RawGyroTopic& topic, WorkQueue& wq);
 
-    // Eseguito nella work queue
-    void handler();
+	// Eseguito nella work queue
+	void handler();
 
 private:
-    WorkQueue* fast_sensors_wq_;
-    srimb::RawGyroTopic* raw_gyro_topic_;
+	WorkQueue* fast_sensors_wq_;
+	srimb::RawGyroTopic* raw_gyro_topic_;
 
-    uint8_t unique_id_;
-    uint8_t instance_id_;
-    const char* model_;
+	uint8_t unique_id_;
+	uint8_t instance_id_;
+	const char* model_;
 
-    const struct device *gyro_dev_;
-    struct sensor_trigger trig_gyro_ {};
+	const struct device *gyro_dev_;
+	struct sensor_trigger trig_gyro_ {};
 
-    static void gyro_isr_handler(const struct device *dev, const struct sensor_trigger *trig) {
-        Bmi088_gyro_driver *self = CONTAINER_OF(trig, Bmi088_gyro_driver, trig_gyro_);
-        self->submitTo(*self->fast_sensors_wq_);
-    }
+	static void gyro_isr_handler(const struct device *dev, const struct sensor_trigger *trig) {
+		Bmi088_gyro_driver *self = CONTAINER_OF(trig, Bmi088_gyro_driver, trig_gyro_);
+		self->submitTo(*self->fast_sensors_wq_);
+	}
 
-    
+	
 };

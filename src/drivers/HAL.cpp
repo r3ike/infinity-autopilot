@@ -3,51 +3,51 @@
 
 HAL::HAL()
 {
-    _multi_instances_reset();
-    
-    #ifdef CONFIG_TARGET_TEENSY41
+	_multi_instances_reset();
+	
+	#ifdef CONFIG_TARGET_TEENSY41
 
-        REGISTER_ALL_IMUS();
+		REGISTER_ALL_IMUS();
 
-        #ifdef CONFIG_BN280_DRIVER_ENABLED
-        for (size_t i = 0; i < CONFIG_BN280_NUM_INSTANCES; i++)
-        {
-            register_gps(std::make_unique<Bn280_driver>());
-        }
-        
-        #endif
-        //registerBaro(std::make_unique);
-        //registerLidar(std::make_unique<TFLuna_driver>());
-        //registerMag(std::make_unique<HAL_MAG_Teensy>());
+		#ifdef CONFIG_BN280_DRIVER_ENABLED
+		for (size_t i = 0; i < CONFIG_BN280_NUM_INSTANCES; i++)
+		{
+			register_gps(std::make_unique<Bn280_driver>());
+		}
+		
+		#endif
+		//registerBaro(std::make_unique);
+		//registerLidar(std::make_unique<TFLuna_driver>());
+		//registerMag(std::make_unique<HAL_MAG_Teensy>());
 
-        //_motor_instance = std::make_unique<HAL_MOTOR_Teensy>();
-        //_time_instance = std::make_unique<HAL_TIME_INTERRUPTS_Teensy>();
-        //_telemetry_instance
-        //_sd_logging_instance
+		//_motor_instance = std::make_unique<HAL_MOTOR_Teensy>();
+		//_time_instance = std::make_unique<HAL_TIME_INTERRUPTS_Teensy>();
+		//_telemetry_instance
+		//_sd_logging_instance
 
-    #elif defined(CONFIG_TARGET_SITL)
-        //registerImu(new HAL_IMU_SITL());
-        //pwm = new HAL_MOTOR_SITL();
-        //telemetry = new HAL_Telemetry_SITL();
-        //logging = new HAL_Logging_SITL();
-        //time = new HAL_TIME_INTERRUPTS_SITL();
-    #endif
+	#elif defined(CONFIG_TARGET_SITL)
+		//registerImu(new HAL_IMU_SITL());
+		//pwm = new HAL_MOTOR_SITL();
+		//telemetry = new HAL_Telemetry_SITL();
+		//logging = new HAL_Logging_SITL();
+		//time = new HAL_TIME_INTERRUPTS_SITL();
+	#endif
 }
 HAL::~HAL(){}
 
 void HAL::init(
-    srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
-    srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
-    WorkQueue& fast_sensors_wq
+	srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
+	srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
+	WorkQueue& fast_sensors_wq
 )
 {
-    HALState states;
+	HALState states;
 
-    // Imu init
-    for (size_t i = 0; i < IMU_INSTANCES; i++)
-    {
-        states.imu_state[i] = _imu_instances.at(i).get()->init(i, raw_acc_topic[i], raw_gyro_topic[i], fast_sensors_wq);
-    }
+	// Imu init
+	for (size_t i = 0; i < IMU_INSTANCES; i++)
+	{
+		states.imu_state[i] = _imu_instances.at(i).get()->init(i, raw_acc_topic[i], raw_gyro_topic[i], fast_sensors_wq);
+	}
 
 }
 
@@ -55,95 +55,95 @@ void HAL::init(
 
 bool HAL::register_imu(std::unique_ptr<IHAL_IMU> imu_instance )
 {
-    if (_imu_count >= IMU_INSTANCES) return false;
-    
-    _imu_instances[_imu_count++] = std::move(imu_instance);
-    
-    return true;
+	if (_imu_count >= IMU_INSTANCES) return false;
+	
+	_imu_instances[_imu_count++] = std::move(imu_instance);
+	
+	return true;
 }
 
 IHAL_IMU* HAL::get_imu_instance(uint8_t idx){
-    if(idx >= _imu_count) return nullptr;
+	if(idx >= _imu_count) return nullptr;
 
-    return _imu_instances.at(idx).get();
+	return _imu_instances.at(idx).get();
 }
 
 bool HAL::register_gps(std::unique_ptr<HAL_GPS> gps_instance)
 {
-    if (_gps_count >= GPS_INSTANCES) return false;
-    
-    _gps_instances[_gps_count++] = std::move(gps_instance);
-    
-    return true;
+	if (_gps_count >= GPS_INSTANCES) return false;
+	
+	_gps_instances[_gps_count++] = std::move(gps_instance);
+	
+	return true;
 }
 
 HAL_GPS* HAL::get_gps_instance(uint8_t idx){
-    if(idx >= _gps_count) return nullptr;
+	if(idx >= _gps_count) return nullptr;
 
-    return _gps_instances.at(idx).get();
+	return _gps_instances.at(idx).get();
 }
 
 bool HAL::register_lidar(std::unique_ptr<HAL_LIDAR> lidar_instance)
 {
-    if (_lidar_count >= LIDAR_INSTANCES) return false;
-    
-    _lidar_instances[_lidar_count++] = std::move(lidar_instance);
-    
-    return true;
+	if (_lidar_count >= LIDAR_INSTANCES) return false;
+	
+	_lidar_instances[_lidar_count++] = std::move(lidar_instance);
+	
+	return true;
 }
 
 HAL_LIDAR *HAL::get_lidar_instance(uint8_t idx)
 {
-    if(idx >= _lidar_count) return nullptr;
+	if(idx >= _lidar_count) return nullptr;
 
-    return _lidar_instances.at(idx).get();
+	return _lidar_instances.at(idx).get();
 }
 
 bool HAL::register_mag(std::unique_ptr<HAL_MAG> mag_instance)
 {
-    if (_mag_count >= MAG_INSTANCES) return false;
-    
-    _mag_instances[_mag_count++] = std::move(mag_instance);
-    
-    return true;
+	if (_mag_count >= MAG_INSTANCES) return false;
+	
+	_mag_instances[_mag_count++] = std::move(mag_instance);
+	
+	return true;
 }
 
 HAL_MAG *HAL::get_mag_instance(uint8_t idx)
 {
-    if(idx >= _mag_count) return nullptr;
+	if(idx >= _mag_count) return nullptr;
 
-    return _mag_instances.at(idx).get();
+	return _mag_instances.at(idx).get();
 }
 
 bool HAL::register_baro(std::unique_ptr<HAL_BARO> baro_instance)
 {
-    if (_mag_count >= BARO_INSTANCES) return false;
-    
-    _baro_instances[_baro_count++] = std::move(baro_instance);
-    
-    return true;
+	if (_mag_count >= BARO_INSTANCES) return false;
+	
+	_baro_instances[_baro_count++] = std::move(baro_instance);
+	
+	return true;
 }
 
 HAL_BARO *HAL::get_baro_instance(uint8_t idx)
 {
-    if(idx >= _baro_count) return nullptr;
+	if(idx >= _baro_count) return nullptr;
 
-    return _baro_instances.at(idx).get();
+	return _baro_instances.at(idx).get();
 }
 
 HAL_MOTOR *HAL::get_motors_instance()
 {
-    return _motor_instance.get();
+	return _motor_instance.get();
 }
 
 IHAL_Storage *HAL::get_sd_instance()
 {
-    return _sd_instance.get();
+	return _sd_instance.get();
 }
 
 IHAL_Radio *HAL::get_telemetry_instance()
 {
-    return _radio_instance.get();
+	return _radio_instance.get();
 }
 
 
@@ -151,23 +151,23 @@ IHAL_Radio *HAL::get_telemetry_instance()
 
 void HAL::_multi_instances_reset()
 {
-    /*
-    _imu_instances.fill(nullptr);
-    _gps_instances.fill(nullptr);
-    _lidar_instances.fill(nullptr);
-    _baro_instances.fill(nullptr);
-    _mag_instances.fill(nullptr);
-    */
-    
-    _imu_count = 0;
-    _gps_count = 0;
-    _mag_count = 0;
-    _baro_count = 0;
-    _lidar_count = 0;
-    /*
-    _motor_instance = nullptr;
-    _telemetry_instance = nullptr;
-    _sd_logging_instance = nullptr;
-    _time_instance = nullptr;
-    */
+	/*
+	_imu_instances.fill(nullptr);
+	_gps_instances.fill(nullptr);
+	_lidar_instances.fill(nullptr);
+	_baro_instances.fill(nullptr);
+	_mag_instances.fill(nullptr);
+	*/
+	
+	_imu_count = 0;
+	_gps_count = 0;
+	_mag_count = 0;
+	_baro_count = 0;
+	_lidar_count = 0;
+	/*
+	_motor_instance = nullptr;
+	_telemetry_instance = nullptr;
+	_sd_logging_instance = nullptr;
+	_time_instance = nullptr;
+	*/
 }
