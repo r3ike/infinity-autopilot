@@ -12,7 +12,7 @@ class SITLSensors
 private:
 	/* data */
 public:
-	SITLSensors(/* args */);
+	SITLSensors();
 	~SITLSensors();
 };
 
