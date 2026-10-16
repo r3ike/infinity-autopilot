@@ -3,12 +3,6 @@
 #include <memory>
 #include <array>
 
-#include <zephyr/kernel.h>
-#include <zephyr/autoconf.h>
-#include <zephyr/sys/util.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/gpio.h>
 #include <cstdint>  
 
 #include "WorkQueue.hpp"
@@ -20,6 +14,13 @@
 #include "data_types/DataTypes.h"
 
 #include "srimb_topics/TopicTypes.h"
+
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 
 
 

@@ -1,10 +1,14 @@
 // param_manager.cpp
+#include <cstring>
+#include <cstdio>
+#include <cstdint>
+#include "param_manager.hpp"
+
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(params_manager, LOG_LEVEL_DBG);
-#include "param_manager.hpp"
 #include <zephyr/kernel.h>
 #include <zephyr/sys/__assert.h>
-#include <cstring>
+
 
 namespace infinity::params {
 
@@ -117,4 +121,4 @@ void init() {
     settings_load();
 }
 
-} // namespace autopilot::params
+} // namespace infinity::params

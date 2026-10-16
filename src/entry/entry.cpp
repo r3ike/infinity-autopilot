@@ -1,11 +1,4 @@
-#include <zephyr/kernel.h>
-#include <zephyr/autoconf.h>
-#include <zephyr/sys/util.h>
-#include <zephyr/logging/log.h>
 
-#include <zephyr/usb/usb_device.h>
-
-LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "HAL.hpp"
 #include "HAL_configs.hpp"
@@ -25,6 +18,15 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 #include "Scheduler.hpp"
 #include "WorkQueue.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/logging/log.h>
+
+#include <zephyr/usb/usb_device.h>
+
+LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 
 using namespace infinity_autopilot;
 //using namespace infinity_autopilot::tasks;

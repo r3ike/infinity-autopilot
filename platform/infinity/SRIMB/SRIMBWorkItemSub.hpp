@@ -1,7 +1,7 @@
 #pragma once
+#include "SRIMBSub.hpp"
 #include <zephyr/kernel.h>
 
-#include "SRIMBSub.hpp"
 /**
  * Classe che bisogna ereditare se un modulo vuole sottoscrivere un workitem ad una workqueue
  * e usare come trigger la pubblicazione su uno specifico topic.

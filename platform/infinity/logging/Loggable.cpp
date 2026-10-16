@@ -1,7 +1,8 @@
 // loggable.cpp
 #include "Loggable.hpp"
-#include <zephyr/logging/log.h>
 #include <cstdio>
+#include <zephyr/logging/log.h>
+
 
 LOG_LEVEL_SET(LOG_LEVEL_DBG); 
 

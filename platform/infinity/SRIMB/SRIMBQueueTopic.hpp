@@ -3,8 +3,8 @@
 #include "SRIMBWorkItemSub.hpp"
 #include "ringbuffer/RingBuffer.hpp"
 #include <array>
-#include <zephyr/kernel.h>
 #include <cstdint>
+#include <zephyr/kernel.h>
 
 #define MAX_WORK_ITEM 32
 

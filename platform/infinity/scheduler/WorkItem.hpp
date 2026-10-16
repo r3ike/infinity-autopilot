@@ -1,6 +1,6 @@
 #pragma once
-#include <zephyr/kernel.h>
 #include "WorkQueue.hpp"
+#include <zephyr/kernel.h>
 
 template<typename Derived>
 class WorkItemBase {

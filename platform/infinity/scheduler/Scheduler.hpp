@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ITask.hpp"
 #include <array>
+#include "ITask.hpp"
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
