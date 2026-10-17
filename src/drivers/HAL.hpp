@@ -107,6 +107,33 @@ public:
 	virtual long recive_from_GCS(uint8_t* buffer, size_t len) = 0;     // Metodo per ricevere dall Ground control station
 };
 
+// Include delle implementazioni concrete DOPO le definizioni delle interfacce
+#ifdef CONFIG_TARGET_TEENSY41
+
+	#ifdef CONFIG_BMI088_DRIVER_ENABLED
+	#include "Bmi088_driver.hpp"
+	#endif
+
+	#ifdef CONFIG_ICM42688P_DRIVER_ENABLED
+	#include "ICM42688P_driver.hpp"
+	#endif
+
+	#ifdef CONFIG_BN280_DRIVER_ENABLED
+	#include "Bn280_driver.hpp"
+	#endif
+
+	//#include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
+	//#include <hal/teensy/drivers/motor/Motor.hpp>
+	
+	//#include <hal/teensy/drivers/mag/Mag.hpp>
+#elif defined(CONFIG_TARGET_SITL)
+	
+
+	#ifdef CONFIG_RADIO_SITL_DRIVER_ENABLED
+	#include "Radio_sitl.hpp"
+	#endif
+#endif
+
 
 class HAL{
 public:
@@ -159,32 +186,9 @@ private:
 	std::unique_ptr<IHAL_Radio> _radio_instance;
 	std::unique_ptr<IHAL_Storage> _sd_instance;
 
+
 	void _multi_instances_reset();      // Funzione che inserisce nullptr in tutte le celle degli array delle instanze dei sensori.
 
 };
 
 
-// Include delle implementazioni concrete DOPO le definizioni delle interfacce
-#ifdef CONFIG_TARGET_TEENSY41
-
-	#ifdef CONFIG_BMI088_DRIVER_ENABLED
-	#include "Bmi088_driver.hpp"
-	#endif
-
-	#ifdef CONFIG_ICM42688P_DRIVER_ENABLED
-	#include "ICM42688P_driver.hpp"
-	#endif
-
-	#ifdef CONFIG_BN280_DRIVER_ENABLED
-	#include "Bn280_driver.hpp"
-	#endif
-
-	//#include <hal/teensy/drivers/lidar/TFLuna_driver/TFLuna_driver.hpp>
-	//#include <hal/teensy/drivers/motor/Motor.hpp>
-	
-	//#include <hal/teensy/drivers/mag/Mag.hpp>
-#elif defined(CONFIG_TARGET_SITL)
-	#ifdef CONFIG_RADIO_SITL_DRIVER_ENABLED
-	#include "Radio_sitl.hpp"
-	#endif
-#endif

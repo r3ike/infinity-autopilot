@@ -11,7 +11,7 @@ public:
         .priority = 8,
         .policy = scheduler::SchedPolicy::RoundRobin,
         .period_us = 5000,
-        -deadline_us = 5000,
+        .deadline_us = 5000,
         .stack_size = 2048
     }
 

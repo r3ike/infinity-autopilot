@@ -1,6 +1,6 @@
 menuconfig RADIO_SITL_DRIVER_ENABLED
     bool "Supporto BMI088 driver"
-    default y
+    default n
 
 
 

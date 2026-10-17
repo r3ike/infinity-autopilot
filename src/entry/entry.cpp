@@ -16,6 +16,10 @@
 //#include "Test1.hpp"
 //#include "Test2.hpp"
 
+#ifdef CONFIG_SENSORS_SITL_DRIVER_ENABLED
+	#include "SITLSensors.hpp"
+#endif
+
 #include "Scheduler.hpp"
 #include "WorkQueue.hpp"
 
@@ -32,7 +36,7 @@ using namespace infinity_autopilot;
 //using namespace infinity_autopilot::tasks;
 using namespace infinity_autopilot::scheduler;
 
-//K_THREAD_STACK_DEFINE(stack_test1,  Test1::taskConf.stack_size);
+K_THREAD_STACK_DEFINE(stack_sitl_sensors,  SITLSensors::taskConf.stack_size);
 
 K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  4096);
 
@@ -59,6 +63,10 @@ static ImuManager<IMU_INSTANCES> imu_manager(raw_acc_topic, raw_gyro_topic);
 //static Test1 moduleTest1(imu_topic);
 //static Test2 moduleTest2(imu_topic);
 
+#ifdef CONFIG_TARGET_SITL
+static SITLSensors sitl_sensors;
+#endif
+
 static HAL hal;
 static Scheduler tasks_scheduler;
 
@@ -70,13 +78,13 @@ int main()
     LOG_INF("----------------------------------------------------------");
     LOG_INF("Author: Riccardo Pogliacomi");
     LOG_INF("Version: 0.5");
-    //tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
-//
-    //bool allOk = tasks_scheduler.initAllTasks();
-    //if (!allOk)
-    //{
-    //    LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
-    //}
+    tasks_scheduler.addTask(&sitl_sensors, stack_sitl_sensors, SITLSensors::taskConf.stack_size);
+
+    bool allOk = tasks_scheduler.initAllTasks();
+    if (!allOk)
+    {
+        LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
+    }
 
     LOG_INF("imu count: %d", IMU_INSTANCES);
 
@@ -85,7 +93,7 @@ int main()
     hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
 
     
-    //tasks_scheduler.start();
+    tasks_scheduler.start();
     
     while (1) {
         k_sleep(K_SECONDS(1));

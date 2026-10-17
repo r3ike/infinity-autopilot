@@ -6,7 +6,7 @@ endmenu
 # Imponi che una e una sola piattaforma sia selezionata
 choice
     prompt "Target choice"
-    default TARGET_TEENSY41
+    default TARGET_SITL
     help
       Choose the target platform for the build.
 

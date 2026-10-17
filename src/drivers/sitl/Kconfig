@@ -1,3 +1,4 @@
 if TARGET_SITL
+rsource "sensors/Kconfig"
 rsource "radio/Kconfig"
 endif
