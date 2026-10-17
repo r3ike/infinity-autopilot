@@ -37,6 +37,10 @@ add_subdirectory(lib)
 
 add_subdirectory(platform/infinity)
 
+if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
+add_subdirectory(platform/posix)
+endif()
+
 add_subdirectory(src/utils)
 add_subdirectory(src/modules)
 add_subdirectory(src/drivers)

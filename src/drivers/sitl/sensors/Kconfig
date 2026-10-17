@@ -1,0 +1,48 @@
+menuconfig SENSORS_SITL_DRIVER_ENABLED
+    bool "Supporto driver per SITL"
+    default y
+
+
+
+if SENSORS_SITL_DRIVER_ENABLED
+
+config SIM_PORT
+	int "Porta UDP sulla quale ascolta il simulatore."
+	range 14000 16000
+	default 14560
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+config AUTOPILOT_PORT
+	int "Porta UDP sulla quale sarà in ascolto Infinity-autopilot."
+	range 14000 16000
+	default 14570
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+
+config SITL_IMU_ENABLED
+	bool "Enable the use of simulated IMU."
+	default y
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+config SITL_GPS_ENABLED
+	bool "Enable the use of simulated GPS."
+	default y
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+config SITL_BARO_ENABLED
+	bool "Enable the use of simulated BARO."
+	default y
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+config SITL_MAG_ENABLED
+	bool "Enable the use of simulated MAG."
+	default y
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+config SITL_LIDAR_ENABLED
+	bool "Enable the use of simulated LIDAR."
+	default y
+	depends on SENSORS_SITL_DRIVER_ENABLED
+
+
+endif # SENSORS_SITL_DRIVER_ENABLED

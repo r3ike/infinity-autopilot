@@ -6,14 +6,20 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/autoconf.h>
 
+#include "udp_socket/UdpSocket.hpp"
+
+#include <zephyr/kernel.h>
+
 
 class SITLSensors
 {
-private:
-	/* data */
+
 public:
 	SITLSensors();
 	~SITLSensors();
+
+private:
+	UdpSocket sim_{0};
 };
 
 
