@@ -47,6 +47,7 @@ private:
 
 	void handle_hil_sensor(mavlink_hil_sensor_t& sensors_msg);
 	void handle_hil_gps();
+
 };
 
 

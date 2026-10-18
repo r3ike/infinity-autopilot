@@ -68,6 +68,22 @@ void SITLSensors::run(){
             }
 
 		}
+
+		mavlink_message_t actuators_commands;
+
+		float controls[16] = {0.0f}; 
+		// Esempio: imposta i primi 4 canali con valori tra -1.0 e 1.0
+		controls[0] = 0.0f;
+		controls[1] = 0.0f;
+		controls[2] = 0.0f;
+		controls[3] = 0.0f;
+		mavlink_msg_hil_actuator_controls_pack(
+			1, MAV_COMP_ID_AUTOPILOT1, &actuators_commands,
+			k_uptime_get(), controls, MAV_MODE_FLAG_SAFETY_ARMED, 0
+		);
+
+		send_mavlink_msg(actuators_commands);
+
 		
 		k_yield();
 	}

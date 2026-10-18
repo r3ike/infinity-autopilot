@@ -9,7 +9,7 @@ MAVLink HIL <-> Gazebo Bridge — 5 sensori
   Gazebo     ← HIL_ACTUATOR_CONTROLS (motor_speed)
 """
 
-import time, math, threading
+import time, math, threading, queue
 from pymavlink import mavutil
 
 try:
@@ -20,6 +20,9 @@ try:
     from gz.msgs10.fluid_pressure_pb2 import FluidPressure
     from gz.msgs10.magnetometer_pb2   import Magnetometer
     from gz.msgs10.actuators_pb2      import Actuators
+    from gz.msgs10.world_control_pb2 import WorldControl
+    from gz.msgs10.boolean_pb2 import Boolean
+    from gz.msgs10.clock_pb2 import Clock
     GZ = True
 except ImportError:
     print("[WARN] gz.transport non trovato — usa ROS 2 bridge")
@@ -47,16 +50,18 @@ NUM_MOTORS = 4
 MAX_RADS   = 1100.0   # rad/s al 100% throttle — calibra sul tuo modello
 
 # Topic Gazebo
-WORLD = "default"
+WORLD = "my_world"
 BASE  = f"/world/{WORLD}/model/{MODEL}/link/base_link/sensor"
+CONTROL_SERVICE = f"/world/{WORLD}/control"
 
 GZ_TOPICS = {
-    "imu":  f"{BASE}/imu_sensor/imu",
-    "gps":  f"{BASE}/navsat_sensor/navsat",
+    "imu":  f"/imu",
+    "gps":  f"/gps",
     "baro": f"{BASE}/baro_sensor/fluid_pressure",
-    "mag":  f"{BASE}/mag_sensor/magnetometer",
+    "mag":  f"/magnetometer",
     "lidar":f"{BASE}/lidar_sensor/scan",
-    "motors": f"/model/{MODEL}/command/motor_speed",
+    "motors": f"/infinity_quadrotor/gazebo/command/motor_speed",
+    "clock":f"/world/{WORLD}/clock"
 }
 
 
@@ -71,14 +76,31 @@ class SensorBridge:
         print(f"[MAVLink] Connesso (sys={self.mav.target_system})")
 
         # Cache dati sensore per il fuso HIL_SENSOR
+        self._sensor_lock = threading.Lock()
         self._imu  = None
         self._baro = None
         self._mag  = None
         self._running = True
 
+        self._sim_time_us = 0
+
+        self._step_queue = queue.Queue()
+        threading.Thread(target=self._step_worker, daemon=True).start()
+
         # ── Gazebo transport ──
         if GZ:
             self.gz = Node()
+            pause_req = WorldControl()
+            pause_req.pause = True
+            # Chiamata RPC per mettere in pausa
+            executed, response = self.gz.request(CONTROL_SERVICE, pause_req, WorldControl ,Boolean, timeout=2000)
+            time.sleep(1) # Diamo il tempo alla fisica di fermarsi
+            print(f"[DEBUG] Pausa iniziale: executed={executed}, response={response}")
+            if not executed:
+                raise RuntimeError(
+                    f"Impossibile mettere in pausa Gazebo. Verifica il servizio '{CONTROL_SERVICE}'."
+                )
+
             self._motor_pub = self.gz.advertise(GZ_TOPICS["motors"], Actuators)
 
             self.gz.subscribe(IMU,          GZ_TOPICS["imu"],   self._on_imu)
@@ -86,34 +108,50 @@ class SensorBridge:
             self.gz.subscribe(FluidPressure,GZ_TOPICS["baro"],  self._on_baro)
             self.gz.subscribe(Magnetometer, GZ_TOPICS["mag"],   self._on_mag)
             self.gz.subscribe(LaserScan,    GZ_TOPICS["lidar"], self._on_lidar)
+            self.gz.subscribe(Clock, GZ_TOPICS["clock"], self._on_clock)
             print("[Gazebo] Subscriptions attive.")
+
+            self.step_req = WorldControl()
+            #self.step_req.pause = True
+            #self.step_req.multi_step = 1
+            self.step_req.step = True
 
     # ══════════════════════════════════════════════════════════════
     #  GAZEBO → MAVLink
     # ══════════════════════════════════════════════════════════════
 
+
+    def _on_clock(self, msg: Clock):
+        self._sim_time_us = msg.sim.sec * 1_000_000 + msg.sim.nsec // 1000
+
     def _on_imu(self, msg: IMU):
         """Aggrega IMU; HIL_SENSOR viene inviato qui fuso con baro+mag."""
-        self._imu = msg
+        with self._sensor_lock:
+            self._imu = msg
         self._send_hil_sensor()
 
     def _on_baro(self, msg: FluidPressure):
-        self._baro = msg
+        with self._sensor_lock:
+            self._baro = msg
         # Il baro è più lento (50 Hz) — non triggera HIL_SENSOR da solo
 
     def _on_mag(self, msg: Magnetometer):
-        self._mag = msg
+        with self._sensor_lock:
+            self._mag = msg
 
     def _send_hil_sensor(self):
         """
         Costruisce e invia HIL_SENSOR fuso da IMU + baro + mag.
         Chiamato ad ogni tick IMU (~250 Hz).
         """
-        if self._imu is None:
-            return
+        with self._sensor_lock:
+            if self._imu is None:
+                return
 
-        t_us = int(time.time() * 1e6)
-        imu  = self._imu
+            t_us = self._sim_time_us
+            imu  = self._imu
+            baro = self._baro
+            mag = self._mag
 
         # — Accelerometro & giroscopio —
         ax = imu.linear_acceleration.x
@@ -124,18 +162,18 @@ class SensorBridge:
         gz = imu.angular_velocity.z
 
         # — Magnetometro (default simulato se il plugin non è presente) —
-        if self._mag is not None:
+        if mag is not None:
             # Gazebo pubblica in Tesla → converti in Gauss (1 T = 10000 G)
-            mx = self._mag.field_tesla.x * 1e4
-            my = self._mag.field_tesla.y * 1e4
-            mz = self._mag.field_tesla.z * 1e4
+            mx = mag.field_tesla.x * 1e4
+            my = mag.field_tesla.y * 1e4
+            mz = mag.field_tesla.z * 1e4
         else:
             # Campo magnetico terrestre simulato (nord Italia ~45°N)
             mx, my, mz = 0.21, 0.01, -0.44
 
         # — Barometro —
-        if self._baro is not None:
-            abs_pressure_pa = self._baro.pressure          # Pa
+        if baro is not None:
+            abs_pressure_pa = baro.pressure          # Pa
             #temperature     = self._baro.temperature - 273.15  # °C
             temperature = 0
         else:
@@ -237,6 +275,20 @@ class SensorBridge:
     # ══════════════════════════════════════════════════════════════
     #  MAVLink → GAZEBO  (attuatori)
     # ══════════════════════════════════════════════════════════════
+    def _step_worker(self):
+        while self._running:
+            try:
+                self._step_queue.get(timeout=1.0)
+            except queue.Empty:
+                continue
+            try:
+                # Prova prima con argomenti posizionali, poi con nominati
+                result = self.gz.request(
+                    CONTROL_SERVICE, self.step_req, WorldControl, Boolean, 5000
+                )
+                print(f"[DEBUG] step result: {result}")
+            except Exception as e:
+                print(f"[ERROR] step worker: {e}")
 
     def _mavlink_rx_loop(self):
         while self._running:
@@ -249,7 +301,21 @@ class SensorBridge:
             t = msg.get_type()
 
             if t == "HIL_ACTUATOR_CONTROLS":
+                print("HIL_ACTUATOR_CONTROLS Rivecuto")
                 self._send_motor_speeds(msg)
+                self._step_queue.put(True)
+                #try:
+                #    executed, response = self.gz.request(CONTROL_SERVICE, self.step_req, WorldControl, Boolean, timeout= 5000)
+                #    print(f"[DEBUG] executed={executed}, response.data={getattr(response, 'data', 'N/A')}")
+                #    if not executed:
+                #        print("[ERROR] Timeout della richiesta RPC verso Gazebo.")
+                #    elif not response.data:
+                #        # response.data è il valore booleano restituito da Gazebo
+                #        print("[ERROR] Gazebo ha rifiutato lo step di simulazione.")
+                #    else:
+                #        pass # Step eseguito con successo!
+                #except Exception as e:
+                #    print(f"[ERROR] Timeout o errore nella richiesta di step: {e}")
 
             elif t == "HEARTBEAT":
                 self.mav.mav.heartbeat_send(
