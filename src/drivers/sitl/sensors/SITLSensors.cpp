@@ -5,8 +5,7 @@
 LOG_INSTANCE_POOL_DEFINE(sitl_sensors_driver, 1)
 
 
-SITLSensors::SITLSensors() :
-	sim_socket_(CONFIG_AUTOPILOT_PORT, "127.0.0.1", CONFIG_SIM_PORT),
+SITLSensors::SITLSensors():
 	ITask(taskConf)
 {
 	init_logging(sitl_sensors_driver_log_instance_get(0));
@@ -17,6 +16,12 @@ SITLSensors::~SITLSensors() = default;
 
 bool SITLSensors::init()
 {
+	if(sim_socket_.init(CONFIG_AUTOPILOT_PORT, "127.0.0.1", CONFIG_SIM_PORT)){
+		log_inf("Socket inizializzato correttamente!");
+	}else{
+		log_wrn("Errore nell'inizializzazione del socket !");
+	}
+
 	log_inf("SITL-Sensors initialized!");
 	mavlink_message_t msg;
 	mavlink_msg_heartbeat_pack(
