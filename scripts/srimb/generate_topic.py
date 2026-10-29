@@ -65,6 +65,7 @@ def generate_metadata(struct_name, queue_len, topic_name):
     
     lines.append("")
     lines.append(f"struct {struct_name}Metadata {{")
+    lines.append(f"    using DataType = {struct_name}Data;")
     lines.append(f"    static constexpr const char* TOPIC_NAME = \"{srimb_name}\";")
     lines.append(f"    static constexpr size_t TOPIC_SIZE = sizeof({struct_name}Data);")
     lines.append(f"    static constexpr uint32_t TOPIC_HASH = 0x{topic_hash};")
@@ -133,9 +134,9 @@ def main():
         data_types_lines.append(f'#include "{struct_name}.h"')
 
         if queue_len:
-            aliases.append(f'using {struct_name}Topic = SRIMBQueueTopic<{struct_name}Data, {struct_name}Metadata::QUEUE_LENGTH>;')
+            aliases.append(f'using {struct_name}Topic = SRIMBQueueTopic<{struct_name}Metadata>;')
         else:
-            aliases.append(f'using {struct_name}Topic = SRIMBTopic<{struct_name}Data>;')
+            aliases.append(f'using {struct_name}Topic = SRIMBTopic<{struct_name}Metadata>;')
 
 
         header = generate_header(struct_name, fields)

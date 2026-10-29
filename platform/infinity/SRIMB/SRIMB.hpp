@@ -38,7 +38,7 @@ inline SRIMBTopicBase *SRIMBTopicManager::getOrCreateTopic(uint8_t instance_id)
 {
 	std::lock_guard<std::mutex> lock(mutex_);
 
-	std::string lookup_key = std::string(TopicMetadata::TOPIC_NAME) + "_" + std::to_string(instance_id);
+	std::string lookup_key = std::string(TopicType::TOPIC_NAME) + "_" + std::to_string(instance_id);
 
     auto it = topics_.find(lookup_key);
     if (it != topics_.end()) {

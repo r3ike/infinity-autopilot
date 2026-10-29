@@ -20,16 +20,17 @@ struct WorkItemCallback
     uint8_t updates_count{0};
 };
 
+template <typename TopicType>
 class SRIMBSub
 {
-private:
-    uint64_t last_generation_{0};
 
-    bool missed_ {false}; // flag to warn about a missed message in the queue topic
-
-	SRIMBTopicBase* topic_{nullptr};	
 public:
-    SRIMBSub(){}
+	using DataType = TopicType::DataType;
+
+    explicit SRIMBSub(SRIMBTopicBase* base_topic) 
+        // Conversione sicura da base a derivata concreta
+        : typed_topic_(static_cast<TopicType*>(base_topic)) {}
+
     ~SRIMBSub() = default;
     
     void set_last_generation(uint64_t gen) {last_generation_ = gen;}
@@ -38,23 +39,28 @@ public:
     void set_missed(bool missed) {missed_ = missed;}
     bool get_missed() {return missed_;}
 
-	void init(SRIMBTopicBase* topic){
-		topic_ = topic;
-	}
+	void publish(const DataType& msg_data){
+		return topic_ ? topic_->publish(msg_data) : false;
+	};
 
-	void publish(T& msg_data){
+    bool poll(DataType& out){
 		
+		return topic_->poll(this, out);
 	};
-    bool poll(T& out){
 
-	};
     bool updated() {
-
+		return topic_->updated(this);
 	};
 
-    bool registerCallback(SRIMBSub& sub) = 0;
-    bool unregisterCallback(SRIMBSub& sub) = 0;
+    bool registerCallback() = 0;
+    bool unregisterCallback() = 0;
 
+private:
+    uint64_t last_generation_{0};
+
+    bool missed_ {false}; // flag to warn about a missed message in the queue topic
+
+	TopicType* topic_{nullptr};	
 };
 
 } // namespace srimb

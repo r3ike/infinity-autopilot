@@ -26,11 +26,13 @@ struct WorkItemCallback
 };
     
 
-template<typename T, typename TopicMetadata>
+template<typename TopicMetadata>
 class SRIMBTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
 
 public:
+	using DataType = typename TopicMetadata::DataType
+
 	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
     static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
 
@@ -40,7 +42,7 @@ public:
     ~SRIMBTopic() {};
 
     
-    void publish(T& msg_data) override {
+    void publish(DataType& msg_data) override {
         k_mutex_lock(&mtx_, K_FOREVER);
 
         data_ = msg_data;
@@ -52,7 +54,7 @@ public:
     }
 
     
-    bool poll(SRIMBSub& sub, T& out) override{
+    bool poll(SRIMBSub& sub, DataType& out) override{
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
             k_mutex_unlock(&mtx_);
@@ -82,7 +84,7 @@ public:
 
 private:
 
-    T data_ {};
+    DataType data_ {};
     uint64_t generation_ {0};   // generation id of the msg
 
 };
