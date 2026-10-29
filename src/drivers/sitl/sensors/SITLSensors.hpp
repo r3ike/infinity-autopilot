@@ -2,9 +2,13 @@
 
 #include <cstdint>
 
+#include "HAL_configs.hpp"
 #include "Loggable.hpp"
 #include "udp_socket/UdpSocket.hpp"
 #include "mavlink/common/mavlink.h"
+
+#include "data_types/DataTypes.h"
+#include "srimb_topics/TopicTypes.h"
 
 #include "ITask.hpp"
 
