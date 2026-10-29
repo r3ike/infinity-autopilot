@@ -1,0 +1,10 @@
+# Escludi i sorgenti di Zephyr
+-*/zephyr/*
+# Escludi i moduli esterni
+-*/modules/*
+# Escludi le librerie di terze parti
+-*/lib/mavlink/*
+
+# Aggiungi platform
++*/platform/*
++*/src/*

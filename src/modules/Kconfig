@@ -1,2 +1,2 @@
-source "../src/modules/logger/Kconfig"
-source "../src/modules/imu_manager/Kconfig"
+rsource "logger/Kconfig"
+rsource "imu_manager/Kconfig"
