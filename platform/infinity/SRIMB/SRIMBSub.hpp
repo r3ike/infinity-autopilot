@@ -1,6 +1,9 @@
 #pragma once 
 #include <cstdint>
 
+#include "SRIMBTopicBase.hpp"
+#include "SRIMBTopic.hpp"
+
 namespace srimb
 {
 
@@ -23,6 +26,8 @@ private:
     uint64_t last_generation_{0};
 
     bool missed_ {false}; // flag to warn about a missed message in the queue topic
+
+	SRIMBTopicBase* topic_{nullptr};	
 public:
     SRIMBSub(){}
     ~SRIMBSub() = default;
@@ -32,6 +37,23 @@ public:
     
     void set_missed(bool missed) {missed_ = missed;}
     bool get_missed() {return missed_;}
+
+	void init(SRIMBTopicBase* topic){
+		topic_ = topic;
+	}
+
+	void publish(T& msg_data){
+		
+	};
+    bool poll(T& out){
+
+	};
+    bool updated() {
+
+	};
+
+    bool registerCallback(SRIMBSub& sub) = 0;
+    bool unregisterCallback(SRIMBSub& sub) = 0;
 
 };
 

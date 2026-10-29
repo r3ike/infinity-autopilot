@@ -26,11 +26,14 @@ struct WorkItemCallback
 };
     
 
-template<typename T>
+template<typename T, typename TopicMetadata>
 class SRIMBTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
 
 public:
+	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
+    static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
+
     SRIMBTopic() {
         k_mutex_init(&mtx_);
     };

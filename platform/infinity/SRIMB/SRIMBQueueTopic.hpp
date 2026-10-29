@@ -24,9 +24,13 @@ struct Topic
 
 
     
-template <typename T, uint8_t QUEUE_LEN>
+template <typename T, typename TopicMetadata>
 class SRIMBQueueTopic
 {
+
+	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
+    static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
+    static constexpr uint8_t QUEUE_LEN = TopicMetadata::QUEUE_LENGTH;
  
 public:
     SRIMBQueueTopic():
