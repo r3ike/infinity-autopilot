@@ -14,8 +14,8 @@
 #include "WorkQueue.hpp"
 
 #include "data_types/DataTypes.h"
-
 #include "srimb_topics/TopicTypes.h"
+#include "SRIMB.hpp"
 
 class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>, public Loggable
 {
@@ -24,7 +24,7 @@ public:
 						
 	~Bmi088_acc_driver();
 
-	bool init(uint8_t unique_id, srimb::RawAccTopic& topic, WorkQueue& wq);
+	bool init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
 
 	// Eseguito nella work queue
 	void handler();

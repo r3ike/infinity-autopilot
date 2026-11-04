@@ -22,11 +22,10 @@ struct Topic
 };
 
 
-
-    
-template <typename T, typename TopicMetadata>
-class SRIMBQueueTopic
+template <typename TopicMetadata>
+class SRIMBQueueTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
+	using DataType = TopicMetadata::DataType;
 
 	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
     static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
@@ -41,7 +40,7 @@ public:
 
     ~SRIMBQueueTopic() = default;
 
-    void publish(T& msg_data){
+    void publish(DataType& msg_data){
         k_mutex_lock(&mtx_, K_FOREVER);
 
         msg_queue_.push({
@@ -67,7 +66,7 @@ public:
         return has_new;
     }
 
-    bool poll(SRIMBSub& sub, T& out){
+    bool poll(SRIMBSub& sub, DataType& out){
         k_mutex_lock(&mtx_, K_FOREVER);
 
         if (sub.get_last_generation() == generation_)
@@ -88,7 +87,7 @@ public:
 
         uint32_t idx = (tail_idx + offset) % QUEUE_LEN;
 
-        Topic<T> msg;
+        Topic<DataType> msg;
         msg_queue_.get(idx, msg);
 
         out = msg.data;
@@ -104,7 +103,7 @@ public:
 private:
     struct k_mutex mtx_{};
 
-    RingBuffer<Topic<T>> msg_queue_;
+    RingBuffer<Topic<DataType>> msg_queue_;
 
     uint64_t generation_ {0};
     uint64_t oldest_generation_ {0};

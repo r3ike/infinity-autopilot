@@ -1,6 +1,7 @@
 #pragma once 
 #include <cstdint>
-
+#include "WorkItemBase.hpp"
+#include "WorkQueue.hpp"
 #include "SRIMBTopicBase.hpp"
 #include "SRIMBTopic.hpp"
 
@@ -52,8 +53,18 @@ public:
 		return topic_->updated(this);
 	};
 
-    bool registerCallback() = 0;
-    bool unregisterCallback() = 0;
+    bool registerCallback(WorkItemBase& wi){
+		return topic_->registerWorkItemCb(this, wi);
+	};
+
+	bool registerCallback(WorkItemBase& wi, WorkQueue& wq){
+		return topic_->registerWorkItemCb(this, wi, wq);
+	};
+
+	// TODO: da finire
+    bool unregisterCallback(){
+		return topic_->unregisterWorkItemCb();
+	};
 
 private:
     uint64_t last_generation_{0};

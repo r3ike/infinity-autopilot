@@ -2,13 +2,6 @@
 
 #include <memory>
 #include <array>
-
-#include <zephyr/kernel.h>
-#include <zephyr/autoconf.h>
-#include <zephyr/sys/util.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/gpio.h>
 #include <cstdint>  
 
 #include "WorkQueue.hpp"
@@ -19,7 +12,14 @@
 
 #include "data_types/DataTypes.h"
 
-#include "srimb_topics/TopicTypes.h"
+#include "SRIMB.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/autoconf.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 
 
 
@@ -57,7 +57,7 @@ public:
 
 	void set_id(uint8_t id){id_ = id;}
 	
-	virtual bool init(uint8_t unique_id, srimb::RawAccTopic& acc_topic, srimb::RawGyroTopic& gyro_topic, WorkQueue& wq) = 0;
+	virtual bool init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) = 0;
 };
 
 class HAL_GPS {
@@ -113,8 +113,7 @@ public:
 	~HAL();
 
 	void init(
-		srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
-		srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
+		srimb::SRIMBTopicManager& topicManager,
 		WorkQueue& fast_sensors_wq
 	);
 

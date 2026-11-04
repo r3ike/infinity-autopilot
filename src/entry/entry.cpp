@@ -10,9 +10,7 @@ LOG_MODULE_REGISTER(uav_main, LOG_LEVEL_INF);
 #include "HAL.hpp"
 #include "HAL_configs.hpp"
 
-#include "data_types/DataTypes.h"
-
-#include "srimb_topics/TopicTypes.h"
+#include "SRIMB.hpp"
 
 #ifdef CONFIG_LOGGER_ENABLED
 //#include "Logger.hpp"
@@ -44,8 +42,6 @@ static WorkQueue fast_sensors_wq;
  *              Topic instances
  ---------------------------------------------*/
 
-static srimb::RawAccTopic raw_acc_topic[IMU_INSTANCES];
-static srimb::RawGyroTopic raw_gyro_topic[IMU_INSTANCES];
 
 //static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
@@ -68,6 +64,12 @@ int main()
     LOG_INF("----------------------------------------------------------");
     LOG_INF("Author: Riccardo Pogliacomi");
     LOG_INF("Version: 0.5");
+
+	srimb::SRIMBTopicManager topicManager;
+
+	
+
+
     //tasks_scheduler.addTask(&moduleTest1, stack_test1, Test1::taskConf.stack_size);
 //
     //bool allOk = tasks_scheduler.initAllTasks();

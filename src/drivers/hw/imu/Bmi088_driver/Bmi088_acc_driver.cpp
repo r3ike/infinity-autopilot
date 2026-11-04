@@ -20,7 +20,7 @@ Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t instance_id, con
 
 Bmi088_acc_driver::~Bmi088_acc_driver(){}
 
-bool Bmi088_acc_driver::init(uint8_t unique_id, srimb::RawAccTopic& topic, WorkQueue& wq) {
+bool Bmi088_acc_driver::init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) {
 	id_ = unique_id;
 	raw_acc_topic_ = &topic;
 	fast_sensors_wq_ = &wq;

@@ -13,9 +13,7 @@
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
 #include "HAL.hpp"
-#include "data_types/DataTypes.h"
-
-#include "srimb_topics/TopicTypes.h"
+#include "SRIMB.hpp"
 
 #include "Bmi088_acc_driver.hpp"
 #include "Bmi088_gyro_driver.hpp"
@@ -33,11 +31,11 @@ public:
 
 	~Bmi088_driver() = default;
 
-	bool init(uint8_t unique_id, srimb::RawAccTopic& acc_topic, srimb::RawGyroTopic& gyro_topic, WorkQueue& wq) override {
+	bool init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) override {
 		set_id(unique_id);
 
-		bool gyro_status = gyro_driver_.init(unique_id, gyro_topic, wq);
-		bool acc_status = acc_driver_.init(unique_id, acc_topic, wq);
+		bool gyro_status = gyro_driver_.init(unique_id, topicManager, wq);
+		bool acc_status = acc_driver_.init(unique_id, topicManager, wq);
 
 		return (gyro_status && acc_status);
 	};

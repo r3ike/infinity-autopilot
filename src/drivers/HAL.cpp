@@ -36,8 +36,7 @@ HAL::HAL()
 HAL::~HAL(){}
 
 void HAL::init(
-	srimb::RawAccTopic (&raw_acc_topic)[IMU_INSTANCES],
-	srimb::RawGyroTopic (&raw_gyro_topic)[IMU_INSTANCES],
+	srimb::SRIMBTopicManager& topicManager,
 	WorkQueue& fast_sensors_wq
 )
 {
@@ -46,7 +45,7 @@ void HAL::init(
 	// Imu init
 	for (size_t i = 0; i < IMU_INSTANCES; i++)
 	{
-		states.imu_state[i] = _imu_instances.at(i).get()->init(i, raw_acc_topic[i], raw_gyro_topic[i], fast_sensors_wq);
+		states.imu_state[i] = _imu_instances.at(i).get()->init(i, topicManager, fast_sensors_wq);
 	}
 
 }

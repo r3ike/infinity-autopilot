@@ -19,13 +19,6 @@
 namespace srimb
 {
 
-struct WorkItemCallback
-{
-    WorkItemBase* work_item {nullptr},
-    WorkQueue* work_queue {nullptr}
-};
-    
-
 template<typename TopicMetadata>
 class SRIMBTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
@@ -42,7 +35,7 @@ public:
     ~SRIMBTopic() {};
 
     
-    void publish(DataType& msg_data) override {
+    void publish(DataType& msg_data) {
         k_mutex_lock(&mtx_, K_FOREVER);
 
         data_ = msg_data;
@@ -54,7 +47,7 @@ public:
     }
 
     
-    bool poll(SRIMBSub& sub, DataType& out) override{
+    bool poll(SRIMBSub& sub, DataType& out) {
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
             k_mutex_unlock(&mtx_);
