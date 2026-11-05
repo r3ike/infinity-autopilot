@@ -28,11 +28,16 @@ class SRIMBSub
 public:
 	using DataType = TopicType::DataType;
 
+	SRIMBSub(){};
     explicit SRIMBSub(SRIMBTopicBase* base_topic) 
         // Conversione sicura da base a derivata concreta
         : typed_topic_(static_cast<TopicType*>(base_topic)) {}
 
     ~SRIMBSub() = default;
+
+	void setTopic(SRIMBTopicBase* base_topic){
+		topic_ = static_cast<TopicType*>(base_topic);
+	};
     
     void set_last_generation(uint64_t gen) {last_generation_ = gen;}
     uint64_t get_last_generation() {return last_generation_;}
@@ -43,19 +48,19 @@ public:
 	
     bool poll(DataType& out){
 		
-		return topic_->poll(this, out);
+		return topic_->poll(*this, out);
 	};
 
     bool updated() {
-		return topic_->updated(this);
+		return topic_->updated(*this);
 	};
 
     bool registerCallback(WorkItemBase& wi){
-		return topic_->registerWorkItemCb(this, wi);
+		return topic_->registerWorkItemCb(*this, wi);
 	};
 
 	bool registerCallback(WorkItemBase& wi, WorkQueue& wq){
-		return topic_->registerWorkItemCb(this, wi, wq);
+		return topic_->registerWorkItemCb(*this, wi, wq);
 	};
 
 	// TODO: da finire

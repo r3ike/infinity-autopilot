@@ -1,20 +1,23 @@
 #pragma once
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/autoconf.h>
-#include <cstdint>
 
+#include <cstdint>
 #include "HAL_configs.hpp"
 #include "Loggable.hpp"
 
 #include "WorkQueue.hpp"
 #include "WorkItem.hpp"
 #include "data_types/DataTypes.h"
-
 #include "srimb_topics/TopicTypes.h"
+
+#include "SRIMB.hpp"
+#include "SRIMBPub.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/autoconf.h>
 
 class Bmi088_gyro_driver : public WorkItemBase<Bmi088_gyro_driver>, public Loggable
 {
@@ -23,14 +26,14 @@ public:
 	
 	~Bmi088_gyro_driver();
 
-	bool init (uint8_t unique_id, srimb::RawGyroTopic& topic, WorkQueue& wq);
+	bool init (uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
 
 	// Eseguito nella work queue
 	void handler();
 
 private:
 	WorkQueue* fast_sensors_wq_;
-	srimb::RawGyroTopic* raw_gyro_topic_;
+	srimb::SRIMBPub<RawGyroTopic> raw_gyro_topic_pub_;
 
 	uint8_t unique_id_;
 	uint8_t instance_id_;

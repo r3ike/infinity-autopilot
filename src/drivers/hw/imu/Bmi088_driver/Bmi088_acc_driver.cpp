@@ -22,7 +22,7 @@ Bmi088_acc_driver::~Bmi088_acc_driver(){}
 
 bool Bmi088_acc_driver::init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) {
 	id_ = unique_id;
-	raw_acc_topic_ = &topic;
+	raw_acc_topic_pub_.setTopic(topicManager.getOrCreateTopic<RawAccTopic>(unique_id));
 	fast_sensors_wq_ = &wq;
 
 
@@ -64,5 +64,5 @@ void Bmi088_acc_driver::handler() {
 		.z = sensor_value_to_float(&accel[2])
 	};
 
-	raw_acc_topic_->publish(data);
+	raw_acc_topic_pub_->publish(data);
 }

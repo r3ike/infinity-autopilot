@@ -1,10 +1,4 @@
 #pragma once
-
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/autoconf.h>
 #include <cstdint>
 
 #include "HAL_configs.hpp"
@@ -16,6 +10,13 @@
 #include "data_types/DataTypes.h"
 #include "srimb_topics/TopicTypes.h"
 #include "SRIMB.hpp"
+#include "SRIMBPub.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/autoconf.h>
 
 class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>, public Loggable
 {
@@ -31,7 +32,7 @@ public:
 
 private:
 	WorkQueue* fast_sensors_wq_ {};
-	srimb::RawAccTopic* raw_acc_topic_ {};
+	srimb::SRIMBPub<RawAccTopic> raw_acc_topic_pub_;
 
 	uint8_t unique_id_;
 	uint8_t instance_id_;

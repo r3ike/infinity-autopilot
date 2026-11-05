@@ -20,9 +20,9 @@ Bmi088_gyro_driver::Bmi088_gyro_driver(const char* model,uint8_t instance_id, co
 
 Bmi088_gyro_driver::~Bmi088_gyro_driver(){}
 
-bool Bmi088_gyro_driver::init(uint8_t unique_id, srimb::RawGyroTopic& topic, WorkQueue& wq){
+bool Bmi088_gyro_driver::init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq){
 	unique_id_ = unique_id;
-	raw_gyro_topic_ = &topic;
+	raw_gyro_topic_pub_.setTopic(topicManager.getOrCreateTopic<RawGyroTopic>(unique_id));
 	fast_sensors_wq_ = &wq;
 
 	if (!device_is_ready(gyro_dev_)) {
@@ -65,6 +65,6 @@ void Bmi088_gyro_driver::handler() {
 
 		.temperature = sensor_value_to_float(&temp_value)
 	};
-	raw_gyro_topic_->publish(data);
+	raw_gyro_topic_pub_->publish(data);
 }
 
