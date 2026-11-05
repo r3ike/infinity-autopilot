@@ -40,10 +40,7 @@ public:
     void set_missed(bool missed) {missed_ = missed;}
     bool get_missed() {return missed_;}
 
-	void publish(const DataType& msg_data){
-		return topic_ ? topic_->publish(msg_data) : false;
-	};
-
+	
     bool poll(DataType& out){
 		
 		return topic_->poll(this, out);
