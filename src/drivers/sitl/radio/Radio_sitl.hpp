@@ -1,11 +1,5 @@
 #pragma once
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/logging/log.h>
-#include <zephyr/autoconf.h>
-
 #include <cstring>
 #include <unistd.h>       
 #include <sys/socket.h>
@@ -13,6 +7,14 @@
 #include <arpa/inet.h>
 
 #include "HAL.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/autoconf.h>
+
+
 
 class Radio_sitl : public IHAL_Radio
 {

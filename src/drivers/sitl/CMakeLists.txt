@@ -1,7 +1,7 @@
 # Interfaccia per i driver sitl
 
 if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
-    add_subdirectory(radio)
+    
     
     add_library(drivers_sitl INTERFACE)      #Target aggregatore
     
@@ -10,7 +10,13 @@ if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
 
     # Aggiungiamo le interfacce delle singole famiglie di driver all'interfaccia principale dei driver hardware
     if(CONFIG_RADIO_SITL_DRIVER_ENABLED)
+		add_subdirectory(radio)
         list(APPEND DRIVERS_SITL_LINK_LIB Radio_sitl_drivers)
+    endif()
+
+	if(CONFIG_SENSORS_SITL_DRIVER_ENABLED)
+		add_subdirectory(sensors)
+        list(APPEND DRIVERS_SITL_LINK_LIB Sensors_sitl_drivers)
     endif()
     #list(APPEND DRIVERS_SITL_LINK_LIB Gnss_sitl_drivers)
 

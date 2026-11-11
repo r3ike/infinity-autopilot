@@ -1,9 +1,27 @@
 // param.hpp
 #pragma once
+// 1. FORZA il caricamento dei moduli interni di libstdc++ (GCC 15) PRIMA di Zephyr
+#include <memory>
+#include <string>
+#include <vector>
+#include <utility>
 #include <cstdio>
+#include <cstdint>
+#include <cstring>
+
+// 2. Protezione tramite pragma per salvaguardare la macro __unused se Zephyr è già stato caricato altrove
+#pragma push_macro("__unused")
+#undef __unused
+
+// 3. Header locali
+#include "param_defs.hpp"
+
+// 4. Ripristiniamo la macro per Zephyr
+#pragma pop_macro("__unused")
+
 #include <zephyr/kernel.h>
 #include <zephyr/settings/settings.h>
-#include "param_defs.hpp"
+
 
 namespace infinity::params {
 
@@ -102,4 +120,4 @@ using ParamInt   = Param<int32_t>;
 using ParamFloat = Param<float>;
 using ParamBool  = Param<bool>;
 
-} // namespace autopilot::params
+} // namespace infinity::params

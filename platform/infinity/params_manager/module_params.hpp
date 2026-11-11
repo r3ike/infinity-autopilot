@@ -1,7 +1,8 @@
 // module_params.hpp
 #pragma once
-#include "param_manager.hpp"
 #include <vector>
+#include "param_manager.hpp"
+
 
 namespace infinity::params {
 

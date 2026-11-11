@@ -39,4 +39,4 @@
         return (idx < ARRAY_SIZE(_module##_log_pool))                          \
                    ? _module##_log_pool[idx].log                               \
                    : NULL;                                                     \
-    }
+    }																			

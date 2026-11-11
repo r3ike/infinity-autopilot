@@ -1,7 +1,7 @@
 #pragma once
 
-#include <zephyr/kernel.h>
 #include <cstdint>
+#include <zephyr/kernel.h>
 
 namespace infinity_autopilot::scheduler
 {

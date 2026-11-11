@@ -2,8 +2,8 @@
 
 #include "ringbuffer/RingBuffer.hpp"
 #include <array>
-#include <zephyr/kernel.h>
 #include <cstdint>
+#include <zephyr/kernel.h>
 
 #include "SRIMBSub.hpp"
 #include "SRIMBTopicBase.hpp"

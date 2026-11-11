@@ -53,10 +53,10 @@
 
 #else
 
-#define IMU_INSTANCES 1
-#define GPS_INSTANCES 1
-#define LIDAR_INSTANCES 1
-#define BARO_INSTANCES 1
-#define MAG_INSTANCES 1
+#define IMU_INSTANCES 0
+#define GPS_INSTANCES 0
+#define LIDAR_INSTANCES 0
+#define BARO_INSTANCES 0
+#define MAG_INSTANCES 0
 
 #endif

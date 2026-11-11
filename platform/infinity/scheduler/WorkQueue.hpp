@@ -1,7 +1,7 @@
 
 #pragma once
-#include <zephyr/kernel.h>
 #include <utility>
+#include <zephyr/kernel.h>
 
 class WorkQueue {
 public:

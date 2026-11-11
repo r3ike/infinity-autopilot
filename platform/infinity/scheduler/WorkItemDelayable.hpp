@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include <zephyr/kernel.h>
 #include "WorkQueue.hpp"
+#include <zephyr/kernel.h>
 
 template<typename Derived>
 class WorkItemDelayable
