@@ -1,6 +1,5 @@
 #pragma once
 
-#include <zephyr/kernel.h>
 #include <cstddef>
 #include <cstdint>
 #include "imu_preprocessor/ImuPreprocessor.hpp"
@@ -12,7 +11,7 @@
 
 #include "HAL_configs.hpp"
 
-
+#include <zephyr/kernel.h>
 
 /**
  * Questa classe si occupa di gestire le IMU, in particolare è il modulo addetto a pubblicare il topic ImuData e 

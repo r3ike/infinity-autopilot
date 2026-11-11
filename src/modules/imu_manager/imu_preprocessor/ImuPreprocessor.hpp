@@ -1,18 +1,19 @@
 #pragma once
 
-#include <zephyr/kernel.h>
-#include <zephyr/logging/log.h>
 #include <cstdint>
 
 #include "Loggable.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMBTopic"
+#include "SRIMBTopic.hpp"
 #include "SRIMBQueueTopic.hpp"
 
 #include "data_types/DataTypes.h"
 
 #include "srimb_topics/TopicTypes.h"
+
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
 
 /**
  * Classe che si occupa di effettuare il preprocessing dei sample delle imu:

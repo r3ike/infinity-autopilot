@@ -25,13 +25,16 @@ struct Topic
 template <typename TopicMetadata>
 class SRIMBQueueTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
-	using DataType = TopicMetadata::DataType;
+public:
+	using DataType = typename TopicMetadata::DataType;
+	
+	using Self = SRIMBQueueTopic<TopicMetadata>;
+	using SubType = SRIMBSub<Self>;
 
 	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
     static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
     static constexpr uint8_t QUEUE_LEN = TopicMetadata::QUEUE_LENGTH;
- 
-public:
+
     SRIMBQueueTopic():
         msg_queue_(QUEUE_LEN)
     {
@@ -40,33 +43,30 @@ public:
 
     ~SRIMBQueueTopic() = default;
 
-    void publish(DataType& msg_data){
+    void publish(const DataType& msg_data){
         k_mutex_lock(&mtx_, K_FOREVER);
 
-        msg_queue_.push({
-            .data = msg_data,
-            .generation = ++generation_
-        });
+        msg_queue_.push(Topic<DataType>{msg_data, ++generation_});
 
         //update oldest generation
         uint32_t tail_idx =  msg_queue_.get_tail_idx();
-        Topic<T> msg;
+        Topic<DataType> msg;
         msg_queue_.get(tail_idx, msg);
         oldest_generation_ = msg.generation;
 
 
-        submitWorkitems();     // aggiungere il logging (level dbg) del numero di workitem inviati
         k_mutex_unlock(&mtx_);
+        submitWorkitems();     // aggiungere il logging (level dbg) del numero di workitem inviati
     }
 
-    bool updated(SRIMBSub& sub){
+    bool updated(SubType& sub){
         k_mutex_lock(&mtx_, K_FOREVER);
         bool has_new = sub.get_last_generation() < generation_;
         k_mutex_unlock(&mtx_);
         return has_new;
     }
 
-    bool poll(SRIMBSub& sub, DataType& out){
+    bool poll(SubType& sub, DataType& out){
         k_mutex_lock(&mtx_, K_FOREVER);
 
         if (sub.get_last_generation() == generation_)

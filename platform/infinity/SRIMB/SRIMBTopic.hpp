@@ -24,7 +24,10 @@ class SRIMBTopic : public SRIMBWorkItemScheduling, public SRIMBTopicBase
 {
 
 public:
-	using DataType = typename TopicMetadata::DataType
+	using DataType = typename TopicMetadata::DataType;
+
+	using Self = SRIMBTopic<TopicMetadata>;
+	using SubType = SRIMBSub<Self>;
 
 	static constexpr const char* NAME = TopicMetadata::TOPIC_NAME;
     static constexpr uint32_t HASH = TopicMetadata::TOPIC_HASH;
@@ -35,7 +38,7 @@ public:
     ~SRIMBTopic() {};
 
     
-    void publish(DataType& msg_data) {
+    void publish(const DataType& msg_data) {
         k_mutex_lock(&mtx_, K_FOREVER);
 
         data_ = msg_data;
@@ -47,7 +50,7 @@ public:
     }
 
     
-    bool poll(SRIMBSub& sub, DataType& out) {
+    bool poll(SubType& sub, DataType& out) {
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
             k_mutex_unlock(&mtx_);
@@ -62,7 +65,7 @@ public:
         return true;
     }
 
-    bool updated(SRIMBSub& sub) override{
+    bool updated(SubType& sub){
         k_mutex_lock(&mtx_, K_FOREVER);
         if(sub.get_last_generation() == generation_){
             k_mutex_unlock(&mtx_);
@@ -76,7 +79,7 @@ public:
 
 
 private:
-
+	struct k_mutex mtx_{};
     DataType data_ {};
     uint64_t generation_ {0};   // generation id of the msg
 

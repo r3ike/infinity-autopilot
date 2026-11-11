@@ -5,7 +5,7 @@ namespace srimb
 class SRIMBTopicBase
 {
 public:
-    ~SRIMBTopicBase() = default;
+    virtual ~SRIMBTopicBase() = default;
 };
     
 } // namespace srimb

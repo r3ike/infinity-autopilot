@@ -3,35 +3,24 @@
 #include "WorkItemBase.hpp"
 #include "WorkQueue.hpp"
 #include "SRIMBTopicBase.hpp"
-#include "SRIMBTopic.hpp"
 
 namespace srimb
 {
 
-    /**
-     * TODO:
-     *  - aggiungere subscriber name
-     */
 
-struct WorkItemCallback
-{
-    WorkItemBase* work_item {nullptr};
-    WorkQueue* work_queue {nullptr};
-    uint8_t required_updates{1};        // numero di update richiesti per il submit del workitem
-    uint8_t updates_count{0};
-};
 
 template <typename TopicType>
 class SRIMBSub
 {
 
 public:
-	using DataType = TopicType::DataType;
+	using DataType = typename TopicType::DataType;
+	using Self = SRIMBSub<TopicType>;
 
 	SRIMBSub(){};
     explicit SRIMBSub(SRIMBTopicBase* base_topic) 
         // Conversione sicura da base a derivata concreta
-        : typed_topic_(static_cast<TopicType*>(base_topic)) {}
+        : topic_(static_cast<TopicType*>(base_topic)) {}
 
     ~SRIMBSub() = default;
 
@@ -47,25 +36,24 @@ public:
 
 	
     bool poll(DataType& out){
-		
-		return topic_->poll(*this, out);
-	};
+		return topic_ ? topic_->poll(*this, out) : false;
+	}
 
-    bool updated() {
-		return topic_->updated(*this);
-	};
+	bool updated(){
+		return topic_ ? topic_->updated(*this) : false;
+	}
 
     bool registerCallback(WorkItemBase& wi){
-		return topic_->registerWorkItemCb(*this, wi);
+		return topic_->registerWorkItemCb<Self>(*this, wi);
 	};
 
 	bool registerCallback(WorkItemBase& wi, WorkQueue& wq){
-		return topic_->registerWorkItemCb(*this, wi, wq);
+		return topic_->registerWorkItemCb<Self>(*this, wi, wq);
 	};
 
 	// TODO: da finire
     bool unregisterCallback(){
-		return topic_->unregisterWorkItemCb();
+		return topic_->unregisterWorkItemCb<Self>();
 	};
 
 private:
