@@ -55,7 +55,7 @@ static WorkQueue fast_sensors_wq;
  *              Task instances
  ---------------------------------------------*/
 
-static ImuManager<IMU_INSTANCES> imu_manager(raw_acc_topic, raw_gyro_topic);
+
 //static Test1 moduleTest1(imu_topic);
 //static Test2 moduleTest2(imu_topic);
 
@@ -74,6 +74,10 @@ int main()
     LOG_INF("----------------------------------------------------------");
     LOG_INF("Author: Riccardo Pogliacomi");
     LOG_INF("Version: 0.5");
+
+	srimb::SRIMBTopicManager topicManager;
+	ImuManager<IMU_INSTANCES> imu_manager(topicManager);
+
     tasks_scheduler.addTask(&sitl_sensors, stack_sitl_sensors, SITLSensors::taskConf.stack_size);
 
     bool allOk = tasks_scheduler.initAllTasks();
@@ -86,7 +90,7 @@ int main()
 
     fast_sensors_wq.start(stack_fast_sensors_wq, 4096, 3);
 
-    hal.init(raw_acc_topic, raw_gyro_topic, fast_sensors_wq);
+    hal.init(topicManager, fast_sensors_wq);
 
     
     tasks_scheduler.start();

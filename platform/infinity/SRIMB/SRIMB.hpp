@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <mutex>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -40,7 +39,7 @@ inline SRIMBTopicBase *SRIMBTopicManager::getOrCreateTopic(uint8_t instance_id)
 {
 	k_mutex_lock(&mtx_, K_FOREVER);
 
-	std::string lookup_key = std::string(TopicType::TOPIC_NAME) + "_" + std::to_string(instance_id);
+	std::string lookup_key = std::string(TopicType::NAME) + "_" + std::to_string(instance_id);
 
     auto it = topics_.find(lookup_key);
     if (it != topics_.end()) {

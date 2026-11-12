@@ -22,11 +22,11 @@
 class Bmi088_gyro_driver : public WorkItemBase<Bmi088_gyro_driver>, public Loggable
 {
 public:
-	Bmi088_gyro_driver(const char* model,uint8_t instance_id, const struct device *gyro_dev);
+	Bmi088_gyro_driver(const char* model, uint8_t id, const struct device *gyro_dev);
 	
 	~Bmi088_gyro_driver();
 
-	bool init (uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
+	bool init (uint8_t instance_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
 
 	// Eseguito nella work queue
 	void handler();
@@ -35,7 +35,7 @@ private:
 	WorkQueue* fast_sensors_wq_;
 	srimb::SRIMBPub<RawGyroTopic> raw_gyro_topic_pub_;
 
-	uint8_t unique_id_;
+	uint8_t id_;
 	uint8_t instance_id_;
 	const char* model_;
 

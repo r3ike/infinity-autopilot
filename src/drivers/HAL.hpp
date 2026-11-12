@@ -58,7 +58,7 @@ public:
 
 	void set_id(uint8_t id){id_ = id;}
 	
-	virtual bool init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) = 0;
+	virtual bool init(uint8_t instance_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) = 0;
 };
 
 class HAL_GPS {

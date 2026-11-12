@@ -5,11 +5,10 @@
 #include "Loggable.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMBTopic.hpp"
-#include "SRIMBQueueTopic.hpp"
+#include "SRIMB.hpp"
+#include "SRIMBSub.hpp"
 
 #include "data_types/DataTypes.h"
-
 #include "srimb_topics/TopicTypes.h"
 
 #include <zephyr/kernel.h>
@@ -25,11 +24,11 @@ class ImuPreprocessor : public WorkItem<ImuPreprocessor>, public Loggable
 {
 
 public:
-    ImuPreprocessor(srimb::RawGyroTopic &raw_gyro_topic, srimb::RawAccTopic &raw_acc_topic):
-        raw_gyro_topic_(raw_gyro_topic),
-        raw_acc_topic_(raw_acc_topic)
+    ImuPreprocessor(uint8_t instance_id, srimb::SRIMBTopicManager& topicManager):
+        gyro_sub_(topicManager.getOrCreateTopic<srimb::RawGyroTopic>(instance_id)),
+        acc_sub_(topicManager.getOrCreateTopic<srimb::RawAccTopic>(instance_id))
     {
-        raw_gyro_topic_.register_work_item(this);
+        gyro_sub_.registerCallback(*this);
     };
     
     ~ImuPreprocessor() = default;
@@ -40,10 +39,7 @@ public:
 
 
 private:
-    srimb::RawGyroTopic& raw_gyro_topic_;
-    srimb::RawAccTopic& raw_acc_topic_;
-
-    srimb::SRIMBSub gyro_sub_;
-    srimb::SRIMBSub acc_sub_;
+    srimb::SRIMBSub<srimb::RawGyroTopic> gyro_sub_;
+    srimb::SRIMBSub<srimb::RawAccTopic> acc_sub_;
 };
 

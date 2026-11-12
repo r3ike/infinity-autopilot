@@ -43,9 +43,9 @@ void HAL::init(
 	HALState states;
 
 	// Imu init
-	for (size_t i = 0; i < IMU_INSTANCES; i++)
+	for (size_t inst_id = 0; inst_id < IMU_INSTANCES; inst_id++)
 	{
-		states.imu_state[i] = _imu_instances.at(i).get()->init(i, topicManager, fast_sensors_wq);
+		states.imu_state[inst_id] = _imu_instances.at(inst_id).get()->init(inst_id, topicManager, fast_sensors_wq);
 	}
 
 }

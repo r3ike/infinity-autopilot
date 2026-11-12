@@ -4,10 +4,9 @@
 // Definisco il pool per questo modulo
 LOG_INSTANCE_POOL_DEFINE(imu_bmi088_gyro, NUM_BMI088_INSTANCES)
 
-Bmi088_gyro_driver::Bmi088_gyro_driver(const char* model,uint8_t instance_id, const struct device *gyro_dev):
+Bmi088_gyro_driver::Bmi088_gyro_driver(const char* model,uint8_t id, const struct device *gyro_dev):
 	model_(model), 
-	instance_id_(instance_id),
-	id_(0xFF),
+	id_(id),
 	gyro_dev_(gyro_dev)
 {
 	init_logging(imu_bmi088_gyro_log_instance_get(instance_id));
@@ -20,9 +19,9 @@ Bmi088_gyro_driver::Bmi088_gyro_driver(const char* model,uint8_t instance_id, co
 
 Bmi088_gyro_driver::~Bmi088_gyro_driver(){}
 
-bool Bmi088_gyro_driver::init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq){
-	unique_id_ = unique_id;
-	raw_gyro_topic_pub_.setTopic(topicManager.getOrCreateTopic<RawGyroTopic>(unique_id));
+bool Bmi088_gyro_driver::init(uint8_t instance_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq){
+	instance_id_ = instance_id;
+	raw_gyro_topic_pub_.setTopic(topicManager.getOrCreateTopic<srimb::RawGyroTopic>(instance_id));
 	fast_sensors_wq_ = &wq;
 
 	if (!device_is_ready(gyro_dev_)) {
@@ -57,7 +56,7 @@ void Bmi088_gyro_driver::handler() {
 
 	RawGyroData data = {
 		.timestamp = timestamp_us,
-		.id = unique_id_,
+		.id = instance_id_,
 		// aggiunger anche il modello
 		.x = sensor_value_to_float(&gyro[0]),
 		.y = sensor_value_to_float(&gyro[1]),

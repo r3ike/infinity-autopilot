@@ -21,11 +21,11 @@
 class Bmi088_acc_driver : public WorkItemBase<Bmi088_acc_driver>, public Loggable
 {
 public:
-	Bmi088_acc_driver(const char* model, uint8_t instance_id, const struct device *accel_dev);
+	Bmi088_acc_driver(const char* model, uint8_t id, const struct device *accel_dev);
 						
 	~Bmi088_acc_driver();
 
-	bool init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
+	bool init(uint8_t instance_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq);
 
 	// Eseguito nella work queue
 	void handler();
@@ -34,7 +34,7 @@ private:
 	WorkQueue* fast_sensors_wq_ {};
 	srimb::SRIMBPub<RawAccTopic> raw_acc_topic_pub_;
 
-	uint8_t unique_id_;
+	uint8_t id_;
 	uint8_t instance_id_;
 	const char* model_;
 

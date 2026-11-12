@@ -4,13 +4,13 @@
 // Definisco il pool per questo modulo
 LOG_INSTANCE_POOL_DEFINE(imu_bmi088_acc, NUM_BMI088_INSTANCES)
 
-Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t instance_id, const struct device *accel_dev):
+Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t id, const struct device *accel_dev):
 	model_(model), 
 	instance_id_(instance_id),
-	unique_id_(0xFF),
+	id_(id),
 	accel_dev_(accel_dev)
 {
-	init_logging(imu_bmi088_acc_log_instance_get(instance_id));
+	init_logging(imu_bmi088_acc_log_instance_get(id));
 
 	trig_accel_ = {
 		.type = SENSOR_TRIG_DATA_READY,
@@ -20,9 +20,9 @@ Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t instance_id, con
 
 Bmi088_acc_driver::~Bmi088_acc_driver(){}
 
-bool Bmi088_acc_driver::init(uint8_t unique_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) {
-	id_ = unique_id;
-	raw_acc_topic_pub_.setTopic(topicManager.getOrCreateTopic<RawAccTopic>(unique_id));
+bool Bmi088_acc_driver::init(uint8_t instance_id, srimb::SRIMBTopicManager& topicManager, WorkQueue& wq) {
+	instance_id_ = instance_id;
+	raw_acc_topic_pub_.setTopic(topicManager.getOrCreateTopic<srimb::RawAccTopic>(instance_id));
 	fast_sensors_wq_ = &wq;
 
 
@@ -57,7 +57,7 @@ void Bmi088_acc_driver::handler() {
 
 	RawAccData data = {
 		.timestamp = timestamp_us,
-		.id = unique_id_,
+		.id = instance_id_,
 		// aggiunger anche il modello
 		.x = sensor_value_to_float(&accel[0]),
 		.y = sensor_value_to_float(&accel[1]),

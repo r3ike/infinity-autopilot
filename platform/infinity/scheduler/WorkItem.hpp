@@ -1,11 +1,11 @@
 #pragma once
 #include "WorkQueue.hpp"
-#include <zephyr/kernel.h>
-
 #include "WorkItemBase.hpp"
 
-template<typename Derived> : public WorkItemBase
-class WorkItem {
+#include <zephyr/kernel.h>
+
+template<typename Derived> 
+class WorkItem : public WorkItemBase{
 public:
     WorkItemBase() {
         k_work_init(&work_, &WorkItem::trampoline);

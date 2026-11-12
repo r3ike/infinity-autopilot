@@ -1,13 +1,11 @@
 #pragma once 
 #include <cstdint>
-#include "WorkItemBase.hpp"
 #include "WorkQueue.hpp"
+#include "WorkItemBase.hpp"
 #include "SRIMBTopicBase.hpp"
 
 namespace srimb
 {
-
-
 
 template <typename TopicType>
 class SRIMBSub
@@ -44,16 +42,16 @@ public:
 	}
 
     bool registerCallback(WorkItemBase& wi){
-		return topic_->registerWorkItemCb<Self>(*this, wi);
+		return topic_->template registerWorkItemCb<Self>(*this, wi);
 	};
 
 	bool registerCallback(WorkItemBase& wi, WorkQueue& wq){
-		return topic_->registerWorkItemCb<Self>(*this, wi, wq);
+		return topic_->template registerWorkItemCb<Self>(*this, wi, wq);
 	};
 
 	// TODO: da finire
     bool unregisterCallback(){
-		return topic_->unregisterWorkItemCb<Self>();
+		return topic_->template unregisterWorkItemCb<Self>();
 	};
 
 private:
