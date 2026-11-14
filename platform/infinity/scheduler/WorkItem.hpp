@@ -1,8 +1,9 @@
 #pragma once
-#include "WorkQueue.hpp"
-#include "WorkItemBase.hpp"
 
 #include <zephyr/kernel.h>
+
+#include "WorkQueue.hpp"
+#include "WorkItemBase.hpp"
 
 template<typename Derived> 
 class WorkItem : public WorkItemBase{

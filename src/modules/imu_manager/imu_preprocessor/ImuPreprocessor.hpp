@@ -2,17 +2,19 @@
 
 #include <cstdint>
 
+#include "SRIMB.hpp"
+#include "SRIMBSub.hpp"
+
 #include "Loggable.hpp"
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
-#include "SRIMB.hpp"
-#include "SRIMBSub.hpp"
 
 #include "data_types/DataTypes.h"
 #include "srimb_topics/TopicTypes.h"
 
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+
 
 /**
  * Classe che si occupa di effettuare il preprocessing dei sample delle imu:

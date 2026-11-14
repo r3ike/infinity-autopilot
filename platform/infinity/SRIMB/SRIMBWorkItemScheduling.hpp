@@ -1,11 +1,11 @@
 #pragma once
 #include <cstdint>
 
+#include <zephyr/kernel.h>
+
 #include "SRIMBSub.hpp"
 #include "WorkItemBase.hpp"
 #include "WorkQueue.hpp"
-
-#include <zephyr/kernel.h>
 /**
  * Classe che viene estesa di SRIMBTopic e SRIMBQueueTopic per permettere
  * la gestione delle callback tramite workitem

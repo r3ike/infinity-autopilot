@@ -1,13 +1,14 @@
 #pragma once
 
-#include "ringbuffer/RingBuffer.hpp"
 #include <array>
 #include <cstdint>
+
 #include <zephyr/kernel.h>
 
 #include "SRIMBSub.hpp"
 #include "SRIMBTopicBase.hpp"
 #include "SRIMBWorkItemScheduling.hpp"
+#include "ringbuffer/RingBuffer.hpp"
 
 #define MAX_WORK_ITEM 32
 

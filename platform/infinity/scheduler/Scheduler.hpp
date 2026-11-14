@@ -1,9 +1,10 @@
 #pragma once
 
 #include <array>
-#include "ITask.hpp"
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+
+#include "ITask.hpp"
 
 
 namespace infinity_autopilot::scheduler

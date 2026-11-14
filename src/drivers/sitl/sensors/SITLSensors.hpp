@@ -2,21 +2,21 @@
 
 #include <cstdint>
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/logging/log.h>
-#include <zephyr/autoconf.h>
-
-#include "HAL_configs.hpp"
-#include "Loggable.hpp"
 #include "udp_socket/UdpSocket.hpp"
 #include "mavlink/common/mavlink.h"
+#include "Loggable.hpp"
 
 #include "data_types/DataTypes.h"
 #include "srimb_topics/TopicTypes.h"
 
 #include "ITask.hpp"
+#include "HAL_configs.hpp"
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/autoconf.h>
 
 
 

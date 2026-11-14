@@ -6,10 +6,11 @@
 #include <vector>
 #include <string>   // TODO: cercare di togliere allocazione dinamnica
 
+#include <zephyr/kernel.h>
+
 #include "SRIMBTopicBase.hpp"
 #include "SRIMBSub.hpp"
 
-#include <zephyr/kernel.h>
 
 namespace srimb
 {
