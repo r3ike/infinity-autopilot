@@ -2,6 +2,12 @@
 
 #include <cstdint>
 
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/autoconf.h>
+
 #include "HAL_configs.hpp"
 #include "Loggable.hpp"
 #include "udp_socket/UdpSocket.hpp"
@@ -12,11 +18,7 @@
 
 #include "ITask.hpp"
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/logging/log.h>
-#include <zephyr/autoconf.h>
+
 
 using namespace infinity_autopilot;
 

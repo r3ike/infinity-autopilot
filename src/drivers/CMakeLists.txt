@@ -2,11 +2,9 @@ add_library(hal STATIC HAL.cpp)
 
 target_include_directories(hal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(hal PUBLIC zephyr_interface
+target_link_libraries(hal PUBLIC 
 								 utils 
-								 stdc++ 
-								 SRIMB 
-								 scheduler
+								 infinity_platform
 								)
 
 if(CONFIG_TARGET_TEENSY41 OR ${TARGET_PLATFORM} STREQUAL "TEENSY41")

@@ -7,7 +7,7 @@
 template<typename Derived> 
 class WorkItem : public WorkItemBase{
 public:
-    WorkItemBase() {
+    WorkItem() {
         k_work_init(&work_, &WorkItem::trampoline);
     }
 
