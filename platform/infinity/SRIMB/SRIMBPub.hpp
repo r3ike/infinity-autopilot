@@ -1,13 +1,15 @@
 #pragma once
 #include "SRIMBTopicBase.hpp"
 
+namespace srimb
+{
 template <typename TopicType>
 class SRIMBPub
 {
 public:
 	using DataType = typename TopicType::DataType;
 
-	SRIMBPub(){};
+	SRIMBPub() = default;
 	explicit SRIMBPub(SRIMBTopicBase* base_topic): topic_(static_cast<TopicType*>(base_topic)) {};
 
 	~SRIMBPub() = default;
@@ -17,12 +19,20 @@ public:
 	};
 
 	bool publish(const DataType& msg_data){
-		return topic_ ? topic_->publish(msg_data) : false;
+		if (!topic_) {
+            return false;
+        }
+        topic_->publish(msg_data);   // publish() ritorna void
+        return true;
 	};
 
 
 private:
 	TopicType* topic_{nullptr};	
 };
+} // namespace srimb
+
+
+
 
 
