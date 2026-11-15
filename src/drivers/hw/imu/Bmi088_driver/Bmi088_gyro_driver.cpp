@@ -9,7 +9,6 @@ Bmi088_gyro_driver::Bmi088_gyro_driver(const char* model,uint8_t id, const struc
 	id_(id),
 	gyro_dev_(gyro_dev)
 {
-	init_logging(imu_bmi088_gyro_log_instance_get(instance_id));
 
 	trig_gyro_ = {
 		.type = SENSOR_TRIG_DATA_READY,
@@ -23,6 +22,8 @@ bool Bmi088_gyro_driver::init(uint8_t instance_id, srimb::SRIMBTopicManager& top
 	instance_id_ = instance_id;
 	raw_gyro_topic_pub_.setTopic(topicManager.getOrCreateTopic<srimb::RawGyroTopic>(instance_id));
 	fast_sensors_wq_ = &wq;
+
+	init_logging(imu_bmi088_gyro_log_instance_get(instance_id));
 
 	if (!device_is_ready(gyro_dev_)) {
 		log_err("Gyro device not ready!");

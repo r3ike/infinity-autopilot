@@ -116,7 +116,7 @@ HAL_MAG *HAL::get_mag_instance(uint8_t idx)
 
 bool HAL::register_baro(std::unique_ptr<HAL_BARO> baro_instance)
 {
-	if (_mag_count >= BARO_INSTANCES) return false;
+	if (_baro_count >= BARO_INSTANCES) return false;
 	
 	_baro_instances[_baro_count++] = std::move(baro_instance);
 	

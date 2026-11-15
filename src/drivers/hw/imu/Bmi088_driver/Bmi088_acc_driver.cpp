@@ -6,11 +6,10 @@ LOG_INSTANCE_POOL_DEFINE(imu_bmi088_acc, NUM_BMI088_INSTANCES)
 
 Bmi088_acc_driver::Bmi088_acc_driver(const char* model, uint8_t id, const struct device *accel_dev):
 	model_(model), 
-	instance_id_(instance_id),
 	id_(id),
 	accel_dev_(accel_dev)
 {
-	init_logging(imu_bmi088_acc_log_instance_get(id));
+	
 
 	trig_accel_ = {
 		.type = SENSOR_TRIG_DATA_READY,
@@ -25,6 +24,7 @@ bool Bmi088_acc_driver::init(uint8_t instance_id, srimb::SRIMBTopicManager& topi
 	raw_acc_topic_pub_.setTopic(topicManager.getOrCreateTopic<srimb::RawAccTopic>(instance_id));
 	fast_sensors_wq_ = &wq;
 
+	init_logging(imu_bmi088_acc_log_instance_get(instance_id));
 
 	if (!device_is_ready(accel_dev_)) {
 		log_err("Accel device not ready!");
