@@ -2,6 +2,7 @@
 #pragma once
 #include <memory>
 
+
 class HAL;
 namespace srimb { class SRIMBTopicManager; }
 class WorkQueue;

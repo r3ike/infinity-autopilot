@@ -1,38 +1,23 @@
+// hal/registration/hal_driver_registration.hpp
 #pragma once
+#include <zephyr/sys/iterable_sections.h>
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/autoconf.h>
+class DeviceRegistry;
+struct HALContext;
 
-/**
- * Macro che controlla se ci sono nodi con compat == ad un compatible di una imu
- * e in caso positivo lancia la macro di registrazione specifica
- */
-#define REGISTER_IMU_IF_COMPATIBLE(compat, driver_class)        \
-	COND_CODE_1(DT_HAS_COMPAT(compat),                          \
-			(DT_INST_FOREACH_STATUS_OKAY(                       \
-				REGISTER_##driver_class##_INST                  \
-			)), ())                                             \
+// Il "record" che ogni driver deposita nella sezione
+struct HalDriverRegistrar {
+    // Nome del compatible (solo per debug/log, opzionale)
+    const char* compatible;
 
+    // Funzione che registra le istanze di quel driver nel registry
+    void (*register_fn)(DeviceRegistry& registry, HALContext& ctx);
+};
 
-/**
- * ----------------------------------------------------
- * Macro specifiche per la registrazione dei singoli 
- * modelli di imu
- * ----------------------------------------------------
- */
-
-
-#define REGISTER_BMI088_INST(inst)                                                                                             \
-	do{                                                                                                                         \
-	   const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
-	   const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \
-	   register_imu(std::make_unique<Bmi088_driver>("bmi088",inst, accel_device, gyro_device));               \
-	}while(0)                                                                                                                   \
-
-
-#define REGISTER_ALL_IMUS()                                                                 \
-	REGISTER_IMU_IF_COMPATIBLE(infinity_autopilot_bmi088_imu, BMI088)                       \
-
+// Macro che ogni file driver usa UNA VOLTA per auto-registrarsi
+#define HAL_REGISTER_ADAPTER(compat_str, fn_ptr) \
+    STRUCT_SECTION_ITERABLE(hal_driver_registrar, \
+        _hal_registrar_##fn_ptr) = { \
+            .compatible = (compat_str), \
+            .register_fn = (fn_ptr), \
+        }
