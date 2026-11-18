@@ -16,7 +16,7 @@ struct HalDriverRegistrar {
 
 // Macro che ogni file driver usa UNA VOLTA per auto-registrarsi
 #define HAL_REGISTER_ADAPTER(compat_str, fn_ptr) \
-    STRUCT_SECTION_ITERABLE(hal_driver_registrar, \
+    STRUCT_SECTION_ITERABLE(HalDriverRegistrar, \
         _hal_registrar_##fn_ptr) = { \
             .compatible = (compat_str), \
             .register_fn = (fn_ptr), \

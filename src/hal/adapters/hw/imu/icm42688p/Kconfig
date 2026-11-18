@@ -1,0 +1,21 @@
+menuconfig ICM42688P_DRIVER_ENABLED
+    bool "Supporto ICM42688P driver"
+
+if ICM42688P_DRIVER_ENABLED
+
+
+
+menu "ICM42688P LPF settings"
+
+config ICM42688P_ACCEL_LPF
+    int "Accelerometer LPF cutoff frequency (Hz)"
+    range 0 1000
+    default 80
+
+config ICM42688P_GYRO_LPF
+    int "Gyroscope LPF cutoff frequency (Hz)"
+    range 0 1000
+    default 200
+
+endmenu
+endif # ENABLE_ICM42688P_DRIVER

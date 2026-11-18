@@ -20,7 +20,7 @@ enum class DeviceState : uint8_t {
 class IDevice
 {
 public:
- 	static constexpr size_t MAX_STR_LEN = 64;
+ 	static constexpr size_t MAX_STR_LEN = CONFIG_DEVICE_NAME_MAX_LEN;
 	virtual ~IDevice() = default;
 
 	std::string_view name() const {
@@ -31,7 +31,7 @@ public:
 	DeviceState state() const {return state_;}
 	bool is_ready() const {return state_ == DeviceState::Ready;}
 
-	virtual bool init(HALContext& ctx) = 0;
+	virtual bool init(uint8_t instance_id, HALContext& ctx) = 0;
 
 
 protected:

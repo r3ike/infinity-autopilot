@@ -1,0 +1,26 @@
+menuconfig BMI088_DRIVER_ENABLED
+	bool "Supporto BMI088 driver"
+	default y
+
+
+
+if BMI088_DRIVER_ENABLED
+
+
+menu "BMI088 LPF settings"
+
+config BMI088_ACCEL_LPF
+	int "Accelerometer LPF cutoff frequency (Hz)"
+	range 0 1000
+	default 80
+
+config BMI088_GYRO_LPF
+	int "Gyroscope LPF cutoff frequency (Hz)"
+	range 0 1000
+	default 200
+
+endmenu
+
+
+
+endif # ENABLE_BMI088

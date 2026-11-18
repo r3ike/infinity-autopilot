@@ -1,0 +1,4 @@
+if TARGET_TEENSY41
+rsource "imu/Kconfig"
+rsource "gnss/Kconfig"
+endif
