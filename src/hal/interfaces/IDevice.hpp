@@ -47,7 +47,7 @@ protected:
 		instance_id_ = instance_id;
 	}
 
-	bool mark_state(const DeviceState new_state) {
+	bool mark_device_state(const DeviceState new_state) {
 		if (!is_transition_allowed(state_, new_state))
 		{
 			return false;

@@ -2,17 +2,38 @@
 #include "registration/device_registration.hpp"
 #include "registry/DeviceRegistry.hpp"
 
-Bmi088Adapter::Bmi088Adapter(std::string_view model, const struct device *accel_dev, const struct device *gyro_dev) : 
-	model_name_(model),
-	bmi088_gyro_()
-{
+#include "log_instance_pool.hpp"
 
+LOG_INSTANCE_POOL_DEFINE(imu_bmi088_device, NUM_BMI088_INSTANCES);
+
+Bmi088Adapter::Bmi088Adapter(std::string_view device_name, const struct device *accel_dev, const struct device *gyro_dev) : 
+	device_name_(device_name),
+	bmi088_gyro_("bmi088_gyro_device", gyro_dev),
+	bmi088_acc_("bmi088_accel_device", accel_dev)
+{
+	mark_device_state(DeviceState::Uninitialized);
 }
 
 bool Bmi088Adapter::init(uint8_t instance_id, HalContext &ctx)
 {
-	assign_identity(instance_id, model_name_);
-    return false;
+	mark_device_state(DeviceState::Initializing);
+	assign_identity(instance_id, device_name_);
+
+	bool isGyroOk = bmi088_gyro_.init(instance_id, ctx);
+	bool isAccOk = bmi088_acc_.init(instance_id, ctx);
+
+	if ((!isGyroOk && bmi088_gyro_.state() == DeviceState::Failed) || (!isAccOk && bmi088_acc_.state() == DeviceState::Failed))
+	{
+		mark_device_state(DeviceState::Failed);
+		return false;
+	}
+	
+	if (isAccOk && isGyroOk && bmi088_gyro_.state() == DeviceState::Ready && bmi088_acc_.state() == DeviceState::Ready)
+	{
+		mark_device_state(DeviceState::Ready);
+	}
+
+    return true;
 }
 
 
@@ -20,16 +41,16 @@ bool Bmi088Adapter::init(uint8_t instance_id, HalContext &ctx)
 /**
  * ADAPTER SELF-REGISTRATION
  */
+#define REGISTER_BMI088_INST(inst)                                                                                             \
+do{                                                                                                                         \
+   const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
+   const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \
+   registry->register_imu(std::make_unique<Bmi088Adapter>("bmi088", accel_device, gyro_device));               \
+}while(0)  
+
 static void register_bmi088(DeviceRegistry& registry, HALContext& ctx) {
 
-    #define REGISTER_BMI088_INST(inst)                                                                                             \
-	do{                                                                                                                         \
-	   const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
-	   const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \
-	   registry->register_imu();               \
-	}while(0)    
-
-    DT_INST_FOREACH_STATUS_OKAY(REGISTER_BMI088_INST(infinity_autopilot_bmi088_imu));
+    DT_INST_FOREACH_STATUS_OKAY(REGISTER_BMI088_INST);
 }
 
 HAL_REGISTER_ADAPTER("infinity_autopilot_bmi088_imu", register_bmi088);
