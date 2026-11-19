@@ -33,3 +33,5 @@ endif()
 target_sources(hal PRIVATE
     ${registry_sources}
 )
+
+target_link_libraries(hal PRIVATE infinity_platform)
