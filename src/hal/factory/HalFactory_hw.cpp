@@ -8,7 +8,7 @@ std::unique_ptr<HAL> make_hal_for_target(srimb::SRIMBTopicManager& tm, WorkQueue
 	auto registry = std::make_unique<DeviceRegistry>();
 
 	// Scorre TUTTI i record depositati nella sezione
-    STRUCT_SECTION_FOREACH(hal_driver_registrar, reg) {
+    STRUCT_SECTION_FOREACH(HalDriverRegistrar, reg) {
         reg->register_fn(*registry, ctx);   // ogni driver si registra da solo
     }
 

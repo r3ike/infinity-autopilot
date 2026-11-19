@@ -19,7 +19,7 @@ config TARGET_TEENSY41
 endchoice
 
 menu "Drivers Configuration"
-rsource "src/drivers/Kconfig"
+rsource "src/hal/Kconfig"
 endmenu
 
 menu "Modules Configuration"

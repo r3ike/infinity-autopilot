@@ -72,5 +72,5 @@ void Bmi088Gyro::handler() {
 
 		.temperature = sensor_value_to_float(&temp_value)
 	};
-	raw_gyro_topic_pub_->publish(data);
+	raw_gyro_topic_pub_.publish(data);
 }

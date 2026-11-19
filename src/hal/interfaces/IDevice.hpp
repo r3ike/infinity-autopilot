@@ -7,7 +7,7 @@
  * Base comune per tutte le interfacce dei vari dispostivi ()
  */
 
-class HALContext;
+class HalContext;
 
 enum class DeviceState : uint8_t {
     Uninitialized,
@@ -26,12 +26,12 @@ public:
 	std::string_view name() const {
 		return name_.empty() ? std::string_view{"<uninitialized>"} : name_;
 	}
-	uint8_t id() const {return id_;} 
+	uint8_t id() const {return instance_id_;} 
 
 	DeviceState state() const {return state_;}
 	bool is_ready() const {return state_ == DeviceState::Ready;}
 
-	virtual bool init(uint8_t instance_id, HALContext& ctx) = 0;
+	virtual bool init(uint8_t instance_id, HalContext& ctx) = 0;
 
 
 protected:

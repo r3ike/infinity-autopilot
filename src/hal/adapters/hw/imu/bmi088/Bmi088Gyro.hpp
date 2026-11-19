@@ -11,6 +11,7 @@
 #include "SRIMB.hpp"
 #include "SRIMBPub.hpp"
 
+#include "factory/HalContext.hpp"
 #include "interfaces/IDevice.hpp"
 
 #include <zephyr/kernel.h>
@@ -19,7 +20,7 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/autoconf.h>
 
-class Bmi088Gyro : public WorkItemBase<Bmi088Gyro>,public IDevice ,public Loggable
+class Bmi088Gyro : public WorkItem<Bmi088Gyro>,public IDevice ,public Loggable
 {
 public:
 	Bmi088Gyro(std::string_view device_name, const struct device *gyro_dev);
@@ -32,7 +33,7 @@ public:
 
 private:
 	WorkQueue* fast_sensors_wq_;
-	srimb::SRIMBPub<RawGyroTopic> raw_gyro_topic_pub_;
+	srimb::SRIMBPub<srimb::RawGyroTopic> raw_gyro_topic_pub_;
 
 	std::string_view device_name_;
 	uint8_t instance_id_;

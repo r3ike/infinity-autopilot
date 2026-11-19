@@ -41,12 +41,12 @@ if(CONFIG_TARGET_SITL OR ${TARGET_PLATFORM} STREQUAL "SITL")
 add_subdirectory(platform/posix)
 endif()
 
-add_subdirectory(src/utils)
-add_subdirectory(src/modules)
-add_subdirectory(src/drivers)
+#add_subdirectory(src/utils)
+#add_subdirectory(src/modules)
+add_subdirectory(src/hal)
 
 # Aggiungi entry point
-add_subdirectory(src/entry)
+#add_subdirectory(src/entry)
 
 target_sources(app PRIVATE ${PARAM_DEFS_CPP})
 zephyr_include_directories(${CMAKE_BINARY_DIR}/generated)

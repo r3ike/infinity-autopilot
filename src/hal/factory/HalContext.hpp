@@ -1,6 +1,6 @@
 #pragma once
 
-namespace srimb {class SRIMBTopicManager};
+namespace srimb {class SRIMBTopicManager;}
 class WorkQueue;
 
 struct HalContext

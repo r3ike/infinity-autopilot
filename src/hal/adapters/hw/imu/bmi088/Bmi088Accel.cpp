@@ -67,5 +67,5 @@ void Bmi088Accel::handler()
 		.z = sensor_value_to_float(&accel[2])
 	};
 
-	raw_acc_topic_pub_->publish(data);
+	raw_acc_topic_pub_.publish(data);
 }

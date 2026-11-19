@@ -3,6 +3,7 @@
 #include "registry/DeviceRegistry.hpp"
 
 #include "log_instance_pool.hpp"
+#include "Bmi088_config.hpp"
 
 LOG_INSTANCE_POOL_DEFINE(imu_bmi088_device, NUM_BMI088_INSTANCES);
 
@@ -45,7 +46,7 @@ bool Bmi088Adapter::init(uint8_t instance_id, HalContext &ctx)
 do{                                                                                                                         \
    const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
    const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \
-   registry->register_imu(std::make_unique<Bmi088Adapter>("bmi088", accel_device, gyro_device));               \
+   registr.>register_imu(std::make_unique<Bmi088Adapter>("bmi088", accel_device, gyro_device));               \
 }while(0)  
 
 static void register_bmi088(DeviceRegistry& registry, HALContext& ctx) {
