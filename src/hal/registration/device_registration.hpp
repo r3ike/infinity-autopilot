@@ -3,7 +3,7 @@
 #include <zephyr/sys/iterable_sections.h>
 
 class DeviceRegistry;
-struct HALContext;
+struct HalContext;
 
 // Il "record" che ogni driver deposita nella sezione
 struct HalDriverRegistrar {
@@ -11,7 +11,7 @@ struct HalDriverRegistrar {
     const char* compatible;
 
     // Funzione che registra le istanze di quel driver nel registry
-    void (*register_fn)(DeviceRegistry& registry, HALContext& ctx);
+    void (*register_fn)(DeviceRegistry& registry);
 };
 
 // Macro che ogni file driver usa UNA VOLTA per auto-registrarsi

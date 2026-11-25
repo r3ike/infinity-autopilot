@@ -3,7 +3,7 @@
 #include "registry/DeviceRegistry.hpp"
 
 
-std::unique_ptr<HAL> make_hal_for_target(srimb::SRIMBTopicManager& tm, WorkQueue& wq) {
+std::unique_ptr<DeviceRegistry> make_hal_for_target() {
 	auto reg = std::make_unique<DeviceRegistry>();
 
 	return reg;

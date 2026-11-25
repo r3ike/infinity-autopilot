@@ -42,18 +42,20 @@ bool Bmi088Adapter::init(uint8_t instance_id, HalContext &ctx)
 /**
  * ADAPTER SELF-REGISTRATION
  */
+#ifdef CONFIG_BMI088_DRIVER_ENABLED
+
 #define REGISTER_BMI088_INST(inst)                                                                                             \
 do{                                                                                                                         \
    const struct device *accel_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), accel));                                 \
    const struct device *gyro_device = DEVICE_DT_GET(DT_PHANDLE(DT_DRV_INST(inst), gyro));                                   \
-   registr.>register_imu(std::make_unique<Bmi088Adapter>("bmi088", accel_device, gyro_device));               \
+   registry.>register_imu(std::make_unique<Bmi088Adapter>("bmi088", accel_device, gyro_device));               \
 }while(0)  
 
-static void register_bmi088(DeviceRegistry& registry, HALContext& ctx) {
+static void register_bmi088(DeviceRegistry& registry) {
 
     DT_INST_FOREACH_STATUS_OKAY(REGISTER_BMI088_INST);
 }
 
 HAL_REGISTER_ADAPTER("infinity_autopilot_bmi088_imu", register_bmi088);
 
-
+#endif

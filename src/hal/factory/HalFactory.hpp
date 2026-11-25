@@ -2,9 +2,6 @@
 #pragma once
 #include <memory>
 
+class DeviceRegistry;
 
-class HAL;
-namespace srimb { class SRIMBTopicManager; }
-class WorkQueue;
-
-std::unique_ptr<HAL> make_hal_for_target(srimb::SRIMBTopicManager& tm, WorkQueue& wq);
+std::unique_ptr<DeviceRegistry> make_hal_for_target();
