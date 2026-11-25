@@ -37,6 +37,29 @@ bool Bmi088Adapter::init(uint8_t instance_id, HalContext &ctx)
     return true;
 }
 
+bool Bmi088Adapter::start() {
+    if (!is_ready()) return false;
+
+    if (!bmi088_gyro_.start()) {
+        mark_device_state(DeviceState::Failed);
+        return false;
+    }
+    if (!bmi088_acc_.start()) {
+        bmi088_gyro_.stop();                 // rollback: non lasciare il gyro acceso
+        mark_device_state(DeviceState::Failed);
+        return false;
+    }
+    mark_device_state(DeviceState::Started);
+    return true;
+}
+
+void Bmi088Adapter::stop() {
+    if (!is_started()) return;
+    bmi088_acc_.stop();
+    bmi088_gyro_.stop();
+    mark_device_state(DeviceState::Ready);
+}
+
 
 
 /**

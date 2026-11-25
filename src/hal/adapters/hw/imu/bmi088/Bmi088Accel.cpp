@@ -18,7 +18,6 @@ Bmi088Accel::Bmi088Accel(std::string_view device_name, const device *accel_dev) 
 bool Bmi088Accel::init(uint8_t instance_id, HalContext &ctx)
 {
 	mark_device_state(DeviceState::Initializing);
-    instance_id_ = instance_id;
 	assign_identity(instance_id, device_name_);
 	init_logging(imu_bmi088_acc_log_instance_get(instance_id));
 
@@ -33,15 +32,39 @@ bool Bmi088Accel::init(uint8_t instance_id, HalContext &ctx)
 
 	log_inf("Accel ready.");    // capire se metterli dbg
 
-	if(sensor_trigger_set(accel_dev_, &trig_accel_, accel_isr_handler) < 0){
+	mark_device_state(DeviceState::Ready);
+	return true; 
+}
+
+bool Bmi088Accel::start()
+{
+	if(!is_ready() || is_started()){return false;}
+
+    if(sensor_trigger_set(accel_dev_, &trig_accel_, accel_isr_handler) < 0){
 		log_err("Impossibile impostare il trigger acc!");
 		mark_device_state(DeviceState::Failed);
 		return false;
 	}
 
-	log_inf("Accel's trigger configured."); // capire se metterli dbg
+	log_inf("Accelerometer ISR setted!");
+	log_inf("Accelerometer started!");
+	mark_device_state(DeviceState::Started);
+	return true;
+
+}
+
+bool Bmi088Accel::stop()
+{
+	if(!is_started()){return false;}
+
+	if(sensor_trigger_set(accel_dev_, &trig_accel_, NULL) < 0){
+		log_err("Error in the stop process");
+		return false;
+	}
+
+	log_inf("Accelerometer stopped!");
 	mark_device_state(DeviceState::Ready);
-	return true; 
+    return true;
 }
 
 void Bmi088Accel::handler()
@@ -60,7 +83,7 @@ void Bmi088Accel::handler()
 
 	RawAccData data = {
 		.timestamp = timestamp_us,
-		.id = instance_id_,
+		.id = id(),
 		// aggiunger anche il modello
 		.x = sensor_value_to_float(&accel[0]),
 		.y = sensor_value_to_float(&accel[1]),

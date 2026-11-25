@@ -12,7 +12,7 @@
 #include "SRIMBPub.hpp"
 
 #include "factory/HalContext.hpp"
-#include "interfaces/IDevice.hpp"
+#include "interfaces/IStreamingDevice.hpp"
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
@@ -20,13 +20,16 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/autoconf.h>
 
-class Bmi088Gyro : public WorkItem<Bmi088Gyro>,public IDevice ,public Loggable
+class Bmi088Gyro : public WorkItem<Bmi088Gyro>,public IStreamingDevice ,public Loggable
 {
 public:
 	Bmi088Gyro(std::string_view device_name, const struct device *gyro_dev);
 	~Bmi088Gyro() = default;
 
 	bool init (uint8_t instance_id, HalContext& ctx) override;
+
+	bool start() override;
+	bool stop() override;
 
 	// Executed in the workqueue
 	void handler();
@@ -36,7 +39,6 @@ private:
 	srimb::SRIMBPub<srimb::RawGyroTopic> raw_gyro_topic_pub_;
 
 	std::string_view device_name_;
-	uint8_t instance_id_;
 	uint32_t failed_fetch_count_{0};	// Number of failed fetch from the sensor
 
 	const struct device *gyro_dev_;

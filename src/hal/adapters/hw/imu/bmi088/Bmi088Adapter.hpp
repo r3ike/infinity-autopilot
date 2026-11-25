@@ -33,6 +33,8 @@ public:
 	~Bmi088Adapter() = default;
 
 	bool init(uint8_t instance_id, HalContext& ctx) override;
+	bool start() override;
+	bool stop() override;
 private:
 	std::string_view device_name_;
 	Bmi088Gyro bmi088_gyro_;

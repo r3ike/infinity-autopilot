@@ -20,7 +20,6 @@ Bmi088Gyro::Bmi088Gyro(std::string_view device_name, const struct device *gyro_d
 bool Bmi088Gyro::init(uint8_t instance_id, HalContext& ctx)
 {
 	mark_device_state(DeviceState::Initializing);
-    instance_id_ = instance_id;
 	assign_identity(instance_id, device_name_);
 	init_logging(imu_bmi088_gyro_log_instance_get(instance_id));
 
@@ -36,15 +35,39 @@ bool Bmi088Gyro::init(uint8_t instance_id, HalContext& ctx)
 
 	log_inf("Gyro ready.");
 	
-	if(sensor_trigger_set(gyro_dev_, &trig_gyro_, gyro_isr_handler) < 0){
+	mark_device_state(DeviceState::Ready);
+	return true; 
+}
+
+bool Bmi088Gyro::start()
+{
+	if(!is_ready() || is_started()){return false;}
+
+    if(sensor_trigger_set(gyro_dev_, &trig_gyro_, gyro_isr_handler) < 0){
 		log_err("Impossibile impostare il trigger gyro!");
 		mark_device_state(DeviceState::Failed);
 		return false;
 	}
 
-	log_inf("Gyro's trigger configured."); // capire se metterli dbg
+	log_inf("Accelerometer ISR setted!");
+	log_inf("Accelerometer started!");
+	mark_device_state(DeviceState::Started);
+	return true;
+
+}
+
+bool Bmi088Gyro::stop()
+{
+	if(!is_started()){return false;}
+
+	if(sensor_trigger_set(gyro_dev_, &trig_gyro_, NULL) < 0){
+		log_err("Error in the stop process");
+		return false;
+	}
+
+	log_inf("Gyro stopped!");
 	mark_device_state(DeviceState::Ready);
-	return true; 
+    return true;
 }
 
 void Bmi088Gyro::handler() {
@@ -64,7 +87,7 @@ void Bmi088Gyro::handler() {
 
 	RawGyroData data = {
 		.timestamp = timestamp_us,
-		.id = instance_id_,
+		.id = id(),
 		// aggiunger anche il modello
 		.x = sensor_value_to_float(&gyro[0]),
 		.y = sensor_value_to_float(&gyro[1]),
