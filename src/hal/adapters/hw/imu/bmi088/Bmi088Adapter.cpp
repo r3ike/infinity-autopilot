@@ -53,11 +53,13 @@ bool Bmi088Adapter::start() {
     return true;
 }
 
-void Bmi088Adapter::stop() {
-    if (!is_started()) return;
+bool Bmi088Adapter::stop() {
+    if (!is_started()) return false;
     bmi088_acc_.stop();
     bmi088_gyro_.stop();
     mark_device_state(DeviceState::Ready);
+
+	return true;
 }
 
 

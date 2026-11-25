@@ -1,4 +1,10 @@
 #pragma once
+#include <cstdint>
+#include <string_view>
+
+#include <zephyr/kernel.h>
+
+
 
 /**
  * CLASS: IComponent
@@ -36,12 +42,12 @@ public:
 
 protected:
 	void assign_identity(uint8_t instance_id, std::string_view model){
-		int ret = snprintk(name_buf_, MAX_STR_LEN, "%.*s_%u",
+		int ret = snprintk(name_buf_, CONFIG_DEVICE_NAME_MAX_LEN, "%.*s_%u",
                            static_cast<int>(model.size()), model.data(),
                            static_cast<unsigned>(instance_id));
 
-        if (ret < 0 || ret >= static_cast<int>(MAX_STR_LEN)) {
-            name_buf_[MAX_STR_LEN - 1] = '\0';
+        if (ret < 0 || ret >= static_cast<int>(CONFIG_DEVICE_NAME_MAX_LEN)) {
+            name_buf_[CONFIG_DEVICE_NAME_MAX_LEN - 1] = '\0';
         }
         name_ = name_buf_; 
 		instance_id_ = instance_id;
