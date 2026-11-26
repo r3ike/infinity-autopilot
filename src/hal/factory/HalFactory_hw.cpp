@@ -4,8 +4,8 @@
 #include "registration/device_registration.hpp"
 #include "registry/DeviceRegistry.hpp"
 
-std::unique_ptr<DeviceRegistry> make_hal_for_target(){
-	auto registry = std::make_unique<DeviceRegistry>();
+std::unique_ptr<DeviceRegistry> make_hal_for_target(HalContext ctx){
+	auto registry = std::make_unique<DeviceRegistry>(ctx);
 
 	// Scorre TUTTI i record depositati nella sezione
     STRUCT_SECTION_FOREACH(HalDriverRegistrar, reg) {

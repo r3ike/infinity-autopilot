@@ -18,6 +18,11 @@ config MAX_IMU_DEVICE
 	range 0 8
 	default 4
 
+config MAX_GNSS_DEVICE
+	int "Max number of gnss device"
+	range 0 4
+	default 2
+
 config DEVICE_NAME_MAX_LEN
 	int "Max length of the device name"
 	range 0 128

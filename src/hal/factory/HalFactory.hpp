@@ -3,5 +3,6 @@
 #include <memory>
 
 class DeviceRegistry;
+class HalContext;
 
-std::unique_ptr<DeviceRegistry> make_hal_for_target();
+std::unique_ptr<DeviceRegistry> make_hal_for_target(HalContext ctx);

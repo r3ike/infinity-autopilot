@@ -2,10 +2,10 @@
 #include "registration/device_registration.hpp"
 #include "registry/DeviceRegistry.hpp"
 
-#include "log_instance_pool.hpp"
 #include "Bmi088_config.hpp"
 
-LOG_INSTANCE_POOL_DEFINE(imu_bmi088_device, NUM_BMI088_INSTANCES);
+//#include "log_instance_pool.hpp"
+//LOG_INSTANCE_POOL_DEFINE(imu_bmi088_device, NUM_BMI088_INSTANCES);
 
 Bmi088Adapter::Bmi088Adapter(std::string_view device_name, const struct device *accel_dev, const struct device *gyro_dev) : 
 	device_name_(device_name),

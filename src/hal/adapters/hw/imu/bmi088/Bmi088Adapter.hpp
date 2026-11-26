@@ -15,7 +15,7 @@
 #include "WorkItem.hpp"
 #include "WorkQueue.hpp"
 #include "SRIMB.hpp"
-#include "Loggable.hpp"
+//#include "Loggable.hpp"
 
 #include "factory/HalContext.hpp"
 #include "interfaces/IImu.hpp"
@@ -25,7 +25,7 @@
 
 
 
-class Bmi088Adapter : public IImu, public Loggable
+class Bmi088Adapter : public IImu
 {
 
 public:

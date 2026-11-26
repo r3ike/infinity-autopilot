@@ -1,7 +1,8 @@
 
 
-#include "HAL.hpp"
-#include "HAL_configs.hpp"
+#include "registry/DeviceRegistry.hpp"
+#include "factory/HalContext.hpp"
+#include "factory/HalFactory.hpp"
 
 #include "SRIMB.hpp"
 
@@ -44,12 +45,6 @@ K_THREAD_STACK_DEFINE(stack_fast_sensors_wq,  4096);
 
 static WorkQueue fast_sensors_wq;
 
-/**---------------------------------------------
- *              Topic instances
- ---------------------------------------------*/
-
-
-//static srimb::SRIMBTopic<ImuData> imus_topic[IMU_INSTANCES];
 
 /**---------------------------------------------
  *              Task instances
@@ -63,8 +58,6 @@ static WorkQueue fast_sensors_wq;
 static SITLSensors sitl_sensors;
 #endif
 
-static HAL hal;
-static Scheduler tasks_scheduler;
 
 int main()
 {   
@@ -76,24 +69,29 @@ int main()
     LOG_INF("Version: 0.5");
 
 	srimb::SRIMBTopicManager topicManager;
-	ImuManager<IMU_INSTANCES> imu_manager(topicManager);
 
-    tasks_scheduler.addTask(&sitl_sensors, stack_sitl_sensors, SITLSensors::taskConf.stack_size);
+	HalContext hal_ctx = {
+		.topicManager = topicManager;
+		.fast_sensors_wq = fast_sensors_wq;
+	};
 
-    bool allOk = tasks_scheduler.initAllTasks();
-    if (!allOk)
-    {
-        LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
-    }
+	auto device_registry = make_hal_for_target(hal_ctx);
 
-    LOG_INF("imu count: %d", IMU_INSTANCES);
+	//ImuManager<IMU_INSTANCES> imu_manager(topicManager);
+
+    //tasks_scheduler.addTask(&sitl_sensors, stack_sitl_sensors, SITLSensors::taskConf.stack_size);
+
+    //bool allOk = tasks_scheduler.initAllTasks();
+    //if (!allOk)
+    //{
+    //    LOG_WRN("Alcuni task non inizializzati — procedendo comunque");
+    //}
+
+    //LOG_INF("imu count: %d", IMU_INSTANCES);
 
     fast_sensors_wq.start(stack_fast_sensors_wq, 4096, 3);
 
-    hal.init(topicManager, fast_sensors_wq);
-
-    
-    tasks_scheduler.start();
+    //tasks_scheduler.start();
     
     while (1) {
         k_sleep(K_SECONDS(1));
