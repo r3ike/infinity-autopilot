@@ -15,5 +15,5 @@ list(APPEND LINK_LIB params_manager)
 add_subdirectory(SRIMB)
 list(APPEND LINK_LIB SRIMB)
 
-target_include_directories(infinity_platform INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+#target_include_directories(infinity_platform INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(infinity_platform INTERFACE ${LINK_LIB} zephyr_interface stdc++)

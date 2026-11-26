@@ -1,7 +1,8 @@
 #include "DeviceRegistry.hpp"
 #include "log_instance_pool.hpp"
 
-LOG_INSTANCE_POOL_DEFINE(device_registry, 1)
+#define X 1
+LOG_INSTANCE_POOL_DEFINE(device_registry, X)
 
 
 DeviceRegistry::DeviceRegistry(HalContext& ctx)  : ctx_(ctx)
